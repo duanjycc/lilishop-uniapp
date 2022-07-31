@@ -61,7 +61,7 @@
       </div>
 
       <!-- 帐号密码登录 -->
-      <div v-show="enableUserPwdBox">
+<!--      <div v-show="enableUserPwdBox">
         <u-input
           :custom-style="inputStyle"
           :placeholder-style="placeholderStyle"
@@ -80,15 +80,15 @@
           type="password"
         />
 
-<!--       <div
+       <div
           :class="!enableUserBtnColor ? 'disable' : 'fetch'"
           @click="passwordLogin"
           class="btn"
         >
           帐号密码登录
-        </div> -->
+        </div>
       </div>
-
+ -->
       <div class="flex" v-show="current != 1">
         <u-checkbox-group :icon-size="24" width="45rpx">
           <u-checkbox
