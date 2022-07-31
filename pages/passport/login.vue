@@ -80,13 +80,13 @@
           type="password"
         />
 
-        <div
+<!--       <div
           :class="!enableUserBtnColor ? 'disable' : 'fetch'"
           @click="passwordLogin"
           class="btn"
         >
           帐号密码登录
-        </div>
+        </div> -->
       </div>
 
       <div class="flex" v-show="current != 1">
@@ -106,14 +106,14 @@
             </span>
         </div>
       </div>
-
+<!-- 
       <div
         v-if="current != 1"
         class="user-password-tips"
         @click="enableUserPwdBox = !enableUserPwdBox"
       >
         {{ !enableUserPwdBox ? "帐号密码" : "手机号" }}登录
-      </div>
+      </div> -->
 
       <!-- 循环出当前可使用的第三方登录模式 -->
      <!-- <div class="flex login-list">
