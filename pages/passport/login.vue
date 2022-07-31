@@ -374,6 +374,7 @@ export default {
             return;
             // 执行登录
           } else {
+
             // 向后端请求验证码
             uni.showLoading({});
             let res = await sendMobile(this.mobile);
@@ -389,14 +390,11 @@ export default {
                 icon: "none",
               });
               this.flage = false;
-              this.$refs.verification.getCode();
             }
           }
         } else {
           !this.enableUserPwdBox ? this.$u.toast("请倒计时结束后再发送") : "";
         }
-      } else {
-        this.$refs.verification.hide();
       }
     },
   },
@@ -756,7 +754,10 @@ export default {
         uni.hideLoading();
       }
       if (!this.flage) {
-        this.$refs.verification.error(); //发送
+	  	// this.flage = true;
+        // this.$refs.verification.error(); //发送\
+		this.current = 1;
+		this.$refs.uCode.start();
 
         return false;
       }
