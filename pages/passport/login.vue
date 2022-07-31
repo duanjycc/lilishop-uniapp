@@ -142,13 +142,13 @@
           />
         </div>
       </div>
-<!--      <myVerification
+      <myVerification
         v-if="codeFlag"
         @send="verification"
         class="verification"
         ref="verification"
         business="LOGIN"
-      /> -->
+      />
     </div>
     <view v-else>
       <wechatH5Login />
@@ -655,9 +655,8 @@ export default {
       this.$u.toast("验证码已发送");
       this.flage = false;
       this.codeFlag = false;
-     // this.$refs.verification.hide();
-	  
-	  this.$refs.verifyCode.api();
+
+      this.$refs.verification.hide();
     },
     /**点击验证码*/
     codeChange(text) {
@@ -667,6 +666,7 @@ export default {
     end() {
       this.codeColor = this.lightColor;
       this.codeFlag = true;
+      console.log(this.codeColor);
     },
 
     passwordLogin() {
@@ -755,7 +755,11 @@ export default {
         }
         uni.hideLoading();
       }
-      this.start();
+      if (!this.flage) {
+        this.$refs.verification.error(); //发送
+
+        return false;
+      }
     },
   },
 };
