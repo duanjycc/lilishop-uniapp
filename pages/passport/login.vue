@@ -116,7 +116,7 @@
       </div>
 
       <!-- 循环出当前可使用的第三方登录模式 -->
-      <div class="flex login-list">
+     <!-- <div class="flex login-list">
         <div
           v-if="item.code"
           :style="{ background: item.color }"
@@ -141,7 +141,7 @@
             height="80"
           />
         </div>
-      </div>
+      </div> -->
       <myVerification
         v-if="codeFlag"
         @send="verification"

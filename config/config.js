@@ -1,5 +1,5 @@
-const name = "lilishop"; //全局商城name
-const schemeName = 'lilishop' //唤醒app需要的schemeName
+const name = "lilishopssssss"; //全局商城name
+const schemeName = 'lilishopssssssssssss' //唤醒app需要的schemeName
 export default {
   name: name,
   schemeLink: `${schemeName}://`, //唤起app地址
