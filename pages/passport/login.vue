@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div v-if="!wechatLogin">
+    <div>
       <u-navbar :is-back="showBack" :border-bottom="false"></u-navbar>
       <div>
         <div class="title">{{ loginTitleWay[current].title }}</div>
@@ -150,9 +150,9 @@
         business="LOGIN"
       />
     </div>
-    <view v-else>
+<!--    <view v-else>
       <wechatH5Login />
-    </view>
+    </view> -->
   </div>
 </template>
 
@@ -166,12 +166,13 @@ import verifyCode from "@/components/verify-code/verify-code";
 import { getUserInfo } from "@/api/members";
 import { whetherNavigate } from "@/utils/Foundation"; //登录跳转
 import storage from "@/utils/storage.js"; //缓存
-import wechatH5Login from "./wechatH5Login.vue";
+// import wechatH5Login from "./wechatH5Login.vue";
 import { webConnect } from "@/api/connect.js";
 import { md5 } from "@/utils/md5.js";
 
 export default {
-  components: { myVerification, verifyCode, wechatH5Login },
+  //components: { myVerification, verifyCode, wechatH5Login },
+  components: { myVerification, verifyCode },
 
   data() {
     return {
@@ -757,13 +758,16 @@ export default {
 	  	// this.flage = true;
         // this.$refs.verification.error(); //发送\
 		this.current = 1;
+		
 		this.$refs.uCode.start();
-
         return false;
       }
     },
   },
+  
+  
 };
+
 </script>
 <style>
 page {
