@@ -1,21 +1,36 @@
 <template>
-	<view class="content">
-		<view class="make-box">
-			<div class="div-box">
-				<div class="div-box-text">
-					<view>通证</view>
-					<view class="div-box-view">{{ pointData.totalPoint || 2323233.23232 }}</view>
-				</div>
-				<div class="div-box-text">
-					<view>积分</view>
-					<view class="div-box-view">{{ pointData.point || 0 }}</view>
-				</div>
-			</div>
+	<view class="container pb-120">
+		<view class="mine-header">
+			<view>
+				<view>通证</view>
+				<view class="uni-top-2">{{ pointData.totalPoint || 2323233.23232 }}</view>
+			</view>
+			<view>
+				<view>积分</view>
+				<view class="uni-top-2">{{ pointData.point || 0 }}</view>
+			</view>
 		</view>
 		
-		<view>
-			
+		<view class="card-area">
+			<view class="card-title">
+				做单记录
+			</view>
+			<view class="card-body">
+				<view v-for="(i, index) in 10" :key="i">
+					<view class="split-line-1 mt-20" v-if="index > 0"></view>
+					<view class="fs-36 d-flex justify-content-space-between" :class="index>0 ? 'mt-20' : ''">
+						<view>张三大杀四方</view>
+						<view>2000元</view>
+					</view>
+					<view class="fs-26 d-flex justify-content-space-between">
+						<view>2021-11-11</view>
+						<view>17721212211</view>
+					</view>
+				</view>
+			</view>
 		</view>
+		
+		<image src="/static/add.png" mode="" class="add-icon"></image>
 	</view>
 </template>
 
@@ -86,31 +101,18 @@
 </script>
 
 <style lang="scss" scoped>
-	.content {
-		background: #f9f9f9;
-	}
-	.div-box{
-		display: flex;
-		position: relative;;
-	}
-	.div-box-text{
-		width: 300rpx;
-		text-align: center;
-	}
-	.div-box-view{
-		margin-top: 20rpx;
-	}
-	.make-box {
-		background-color: $main-color;
-		height: 250rpx;
-		background: linear-gradient(134deg, #28d094 2%, #1abc9c 98%);
-		border-radius: 20rpx 20rpx 20rpx 20rpx;
-		margin: 20rpx 20rpx 0;
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		color: #ffffff;
+@import "../mine-base.scss";
+	.container {
+		width: 100%;
+		
+		.add-icon {
+			position: fixed;
+			bottom: 40rpx;
+			right: 20rpx;
+			width: 80rpx;
+			height: 80rpx;
+			background-color: rgba($color: #ffffff, $alpha: 0.8);
+			border-radius: 50%;
+		}
 	}
 </style>
