@@ -1,0 +1,85 @@
+
+.uni-top-1 {
+	margin-top: 5rpx;
+}
+
+.uni-top-2 {
+	margin-top: 10rpx;
+}
+
+.uni-top-3 {
+	margin-top: 15rpx;
+}
+
+.uni-top-4 {
+	margin-top: 20rpx;
+}
+
+@for $i from 20 through 140 {
+	.fs-#{$i} {
+		font-size: #{$i}rpx;
+	}
+	.mt-#{$i} {
+		margin-top: #{$i}rpx;
+	}
+	.mb-#{$i} {
+		margin-bottom: #{$i}rpx;
+	}
+	.pb-#{$i} {
+		padding-bottom: #{$i}rpx;
+	}
+	.pt-#{$i} {
+		padding-top: #{$i}rpx;
+	}
+}
+
+.split-line-1 {
+	width: 100%;
+	height: 1rpx;
+	background-color: $border-color-light;
+}
+
+.card-area {
+	margin: 20rpx 20rpx 0 20rpx;
+	border-radius: 20rpx;
+	background: #FFFFFF;
+	box-shadow: 0px 4rpx 8rpx 0px rgba(0, 0, 0, 0.16);
+	
+	.card-title {
+		padding-left: 30rpx;
+		font-size: 32rpx;
+		font-family: PingFangSC-Semibold, PingFang SC;
+		font-weight: 600;
+		color: #000000;
+		line-height: 96rpx;
+		border-bottom: 1rpx $border-color-light solid;
+	}
+	
+	.card-body {
+		padding: 20rpx 30rpx;
+	}
+}
+
+.d-flex {
+		display: flex;
+	}
+	
+	.align-items-center {
+		align-items: center;
+	}
+	
+	.justify-content-space-between {
+		justify-content: space-between;
+	}
+	
+	.justify-content-center {
+		justify-content: center;
+	}
+	
+	.flex-wrap {
+		flex-wrap: wrap;
+	}
+	
+	.flex-wrap-initial {
+		flex-wrap: initial;
+	}
