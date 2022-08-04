@@ -310,8 +310,12 @@
 					"style": {
 						"navigationBarTitleText": "每日做单"
 					}
-				},
-				 {
+				},{
+					"path": "make/makeForm",
+					"style": {
+						"navigationBarTitleText": "每日做单"
+					}
+				}, {
 					"path": "msgTips/main",
 					"style": {
 						"navigationBarTitleText": "消息中心"

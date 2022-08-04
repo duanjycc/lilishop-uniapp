@@ -18,11 +18,11 @@
 			<view class="card-body">
 				<view v-for="(i, index) in 10" :key="i">
 					<view class="split-line-1 mt-20" v-if="index > 0"></view>
-					<view class="fs-36 d-flex justify-content-space-between" :class="index>0 ? 'mt-20' : ''">
+					<view class="fs-30 d-flex justify-content-space-between" :class="index>0 ? 'mt-20' : ''">
 						<view>张三大杀四方</view>
 						<view>2000元</view>
 					</view>
-					<view class="fs-26 d-flex justify-content-space-between">
+					<view class="mt-20 font-light d-flex justify-content-space-between">
 						<view>2021-11-11</view>
 						<view>17721212211</view>
 					</view>
@@ -30,7 +30,7 @@
 			</view>
 		</view>
 		
-		<image src="/static/add.png" mode="" class="add-icon"></image>
+		<image src="/static/add.png" mode="" class="add-icon" @click="handleAdd"></image>
 	</view>
 </template>
 
@@ -87,6 +87,12 @@
 			//     }
 			//   });
 			// },
+			
+			handleAdd() {
+				uni.navigateTo({
+					url:'makeForm?makeId=1'
+				})
+			},
 
 			/**
 			 * 获得累计积分使用
