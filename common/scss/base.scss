@@ -39,11 +39,13 @@
 	background-color: $border-color-light;
 }
 
-.card-area {
-	margin: 20rpx 20rpx 0 20rpx;
-	border-radius: 20rpx;
-	background: #FFFFFF;
+.box-shadow-d {
 	box-shadow: 0px 4rpx 8rpx 0px rgba(0, 0, 0, 0.16);
+}
+
+.card-area {
+	margin: 20rpx 0 0 0;
+	background: #FFFFFF;
 	
 	.card-title {
 		padding-left: 30rpx;
@@ -61,30 +63,42 @@
 }
 
 .d-flex {
-		display: flex;
-	}
-	
-	.align-items-center {
-		align-items: center;
-	}
-	
-	.justify-content-space-between {
-		justify-content: space-between;
-	}
-	
-	.justify-content-center {
-		justify-content: center;
-	}
-	
-	.flex-wrap {
-		flex-wrap: wrap;
-	}
-	
-	.flex-wrap-initial {
-		flex-wrap: initial;
-	}
-	
-	
-	.font-light {
-		color: $font-color-light;
-	}
+	display: flex;
+}
+
+.align-items-center {
+	align-items: center;
+}
+
+.justify-content-space-between {
+	justify-content: space-between;
+}
+
+.justify-content-center {
+	justify-content: center;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
+.flex-wrap-initial {
+	flex-wrap: initial;
+}
+
+
+.font-light {
+	color: $font-color-light;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.font-weight-700 {
+	font-weight: 700;
+}
+
+.font-weight-500 {
+	font-weight: 500;
+}
