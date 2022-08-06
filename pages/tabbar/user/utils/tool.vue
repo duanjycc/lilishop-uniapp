@@ -14,7 +14,7 @@
 		    <image src="/static/mine/couponcenter.png" mode=""></image>
 		    <view>商户做单</view>
 		  </view>
-         <view class="interact-item" @click="navigateTo('/pages/mine/point/myPoint')">
+         <view class="interact-item" @click="navigateTo('/pages/mine/transferInto/transferInto')">
             <image src="/static/mine/mypoint.png" mode=""></image>
             <view>转入</view>
           </view>

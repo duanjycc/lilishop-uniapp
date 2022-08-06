@@ -346,7 +346,16 @@
 					}
 				}
 
-			]
+			    ,{
+                    "path" : "transferInto/transferInto",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "转入",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 
 		},
 

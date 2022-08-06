@@ -150,7 +150,7 @@
 			right: 0;
 			height: 120rpx;
 			line-height: 120rpx;
-			background: #ff4a48;
+			background: linear-gradient(91deg, $light-color 1%, $aider-light-color 99%);
 			font-size: 20px;
 			font-family: PingFangSC-Regular, PingFang SC;
 			font-weight: 400;
