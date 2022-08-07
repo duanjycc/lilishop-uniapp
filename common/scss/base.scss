@@ -15,7 +15,7 @@
 	margin-top: 20rpx;
 }
 
-@for $i from 10 through 140 {
+@for $i from 1 through 140 {
 	.fs-#{$i} {
 		font-size: #{$i}rpx;
 	}
@@ -30,6 +30,20 @@
 	}
 	.pt-#{$i} {
 		padding-top: #{$i}rpx;
+	}
+}
+
+.break-all {
+        word-break: break-all;
+    }
+
+@for $i from 5 through 30 {
+	.ml-#{$i} {
+		margin-left: #{$i}rpx;
+	}
+	
+	.mr-#{$i} {
+		margin-right: #{$i}rpx;
 	}
 }
 
@@ -48,7 +62,7 @@
 	background: #FFFFFF;
 	
 	.card-title {
-		padding-left: 30rpx;
+		padding: 0 30rpx;
 		font-size: 32rpx;
 		font-family: PingFangSC-Semibold, PingFang SC;
 		font-weight: 600;

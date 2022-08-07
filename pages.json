@@ -374,6 +374,13 @@
 						"navigationBarTitleText": "邀请区域",
 						"enablePullDownRefresh": false
 					}
+				},
+				{
+					"path" : "transfer/transferLogs",
+					"style" : {
+						"navigationBarTitleText": "转入转出明细",
+						"enablePullDownRefresh": false
+					}
 				}
             ]
 
