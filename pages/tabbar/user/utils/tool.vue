@@ -43,7 +43,7 @@
             <image src="/static/mine/setting.png" mode=""></image>
             <view>设置</view>
           </view>
-         <view class="interact-item" @click="distribution">
+         <view class="interact-item" @click="navigateTo('/pages/mine/invitations/InvitationList')">
             <image src="/static/mine/distribution.png" mode=""></image>
             <view>绑定邀请人</view>
           </view>

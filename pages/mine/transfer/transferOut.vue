@@ -17,7 +17,7 @@
 						<view class="title">接收地址</view>
 						<view class="t-info">
 							<input v-model="val1" class="it" type="text" placeholder="请输入接收账户"  placeholder-style="font-size:34rpx;color:#C7C7C7;"/>
-							<image class="scan" src="../../../static/icons/scan.png" mode="" @click="scan"></image>
+						<image class="scan" src="../../../static/icons/scan.png" mode="" @click="scan"></image>
 						</view>
 					</view>
 					<view class="item">
@@ -295,6 +295,7 @@ export default {
 		
 		.t-info {
 			display: flex;
+			align-items: center;
 
 			.it {
 				border-bottom: 1px solid #d1d1d1;

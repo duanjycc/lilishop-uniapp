@@ -358,6 +358,14 @@
 						"navigationBarTitleText": "转出",
 						"enablePullDownRefresh": false
 					}
+                },
+				{
+                    "path" : "invitations/InvitationList",
+                    "style" : {
+						"navigationBarTitleText": "绑定邀请人",
+						"enablePullDownRefresh": false
+					}
+                
                 }
             ]
 
