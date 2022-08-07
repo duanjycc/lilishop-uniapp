@@ -92,14 +92,16 @@
 					"style": {
 						"navigationBarTitleText": "签到"
 					}
-				}, {
+				}, 
+				{
 					"path": "myTracks",
 					"style": {
 						"navigationBarTitleText": "我的足迹",
 						"enablePullDownRefresh": true,
 						"navigationStyle": "custom"
 					}
-				}, {
+				}, 
+				{
 					"path": "myCollect",
 					"style": {
 						"navigationBarTitleText": "收藏",
@@ -197,15 +199,14 @@
 
 					}
 				},
-			
-			{
-				"path": "deposit/info",
-				"style": {
-					"navigationBarTitleText": "预存款详情"
+				{
+					"path": "deposit/info",
+					"style": {
+						"navigationBarTitleText": "预存款详情"
 
-				}
-			},
-				 {
+					}
+				},
+				{
 					"path": "address/address",
 					"style": {
 						"enablePullDownRefresh": true,
@@ -230,7 +231,6 @@
 						"navigationBarTitleText": "功能介绍"
 					}
 				},
-
 				{
 					"path": "set/securityCenter/fingerLogin",
 					"style": {
@@ -252,8 +252,6 @@
 						}
 					}
 				},
-
-
 				{
 					"path": "set/feedBack",
 					"style": {
@@ -266,7 +264,6 @@
 						"navigationBarTitleText": "安全中心"
 					}
 				},
-
 				{
 					"path": "set/editionIntro",
 					"style": {
@@ -295,27 +292,32 @@
 							}
 						}
 					}
-				}, {
+				}, 
+				{
 					"path": "help/tips",
 					"style": {
 						"navigationBarTitleText": ""
 					}
-				}, {
+				}, 
+				{
 					"path": "point/myPoint",
 					"style": {
 						"navigationBarTitleText": "我的积分"
 					}
-				}, {
+				}, 
+				{
 					"path": "make/myMake",
 					"style": {
 						"navigationBarTitleText": "每日做单"
 					}
-				},{
+				},
+				{
 					"path": "make/makeForm",
 					"style": {
 						"navigationBarTitleText": "每日做单"
 					}
-				}, {
+				}, 
+				{
 					"path": "msgTips/main",
 					"style": {
 						"navigationBarTitleText": "消息中心"
@@ -346,27 +348,33 @@
 					}
 				},
 				{
-                    "path" : "transfer/transferInto",
-                    "style" : {
+					"path" : "transfer/transferInto",
+					"style" : {
 						"navigationBarTitleText": "转入",
 						"enablePullDownRefresh": false
 					}
-                },
+				},
 				{
-                    "path" : "transfer/transferOut",
-                    "style" : {
+					"path" : "transfer/transferOut",
+					"style" : {
 						"navigationBarTitleText": "转出",
 						"enablePullDownRefresh": false
 					}
-                },
+				},
 				{
-                    "path" : "invitations/InvitationList",
-                    "style" : {
+					"path" : "invitations/InvitationList",
+					"style" : {
 						"navigationBarTitleText": "绑定邀请人",
 						"enablePullDownRefresh": false
 					}
-                
-                }
+				},
+				{
+					"path" : "invitations/InvitationArea",
+					"style" : {
+						"navigationBarTitleText": "邀请区域",
+						"enablePullDownRefresh": false
+					}
+				}
             ]
 
 		},

@@ -47,7 +47,7 @@
             <image src="/static/mine/distribution.png" mode=""></image>
             <view>绑定邀请人</view>
           </view>
-          <view class="interact-item" @click="navigateTo('/pages/promotion/bargain/log')">
+          <view class="interact-item" @click="navigateTo('/pages/mine/invitations/InvitationArea')">
             <image src="/static/mine/kanjia.png" mode=""></image>
             <view>我邀请的区域</view>
           </view>
