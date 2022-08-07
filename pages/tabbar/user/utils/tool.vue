@@ -14,19 +14,11 @@
 		    <image src="/static/mine/couponcenter.png" mode=""></image>
 		    <view>商户做单</view>
 		  </view>
-         <view class="interact-item" @click="navigateTo('/pages/mine/transferInto/transferInto')">
+         <view class="interact-item" @click="navigateTo('/pages/mine/transfer/transferInto')">
             <image src="/static/mine/mypoint.png" mode=""></image>
             <view>转入</view>
           </view>
-<!--          <view class="interact-item" @click="navigateTo('/pages/cart/coupon/myCoupon')">
-            <image src="/static/mine/mycoupon.png" mode=""></image>
-            <view>SSD卷明细</view>
-          </view> -->
-  <!--        <view class="interact-item" @click="navigateTo('/pages/mine/myCollect')">
-            <image src="/static/mine/myfavorite.png" mode=""></image>
-            <view>转入</view>
-          </view> -->
-         <view class="interact-item" @click="navigateTo('/pages/mine/myTracks')">
+         <view class="interact-item" @click="navigateTo('/pages/mine/transfer/transferOut')">
             <image src="/static/mine/myhistory.png" mode=""></image>
             <view>转出</view>
           </view>
@@ -43,10 +35,6 @@
             <image src="/static/mine/feedback.png" mode=""></image>
             <view>意见反馈</view>
           </view>
-<!--          <view class="interact-item" @click="navigateTo('/pages/cart/coupon/couponCenter')">
-            <image src="/static/mine/couponcenter.png" mode=""></image>
-            <view>领券中心</view>
-          </view> -->
           <view class="interact-item" @click="navigateTo('/pages/mine/address/addressManage')">
             <image src="/static/mine/myaddress.png" mode=""></image>
             <view>地址管理</view>

@@ -106,9 +106,8 @@
 				if (this.form.password.length < 6) {
 					this.form.password += val;
 				}
-
 				if (this.form.password.length >= 6) {
-					this.finish();//封装的结束函数，我是在后续还有请求接口和判断等
+					this.finish();
 				}
 			},
 			finish() {

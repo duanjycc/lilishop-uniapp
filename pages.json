@@ -344,16 +344,20 @@
 					"style": {
 						"navigationBarTitleText": "订单跟踪"
 					}
-				}
-
-			    ,{
-                    "path" : "transferInto/transferInto",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "转入",
-                    "enablePullDownRefresh": false
-                }
-                
+				},
+				{
+                    "path" : "transfer/transferInto",
+                    "style" : {
+						"navigationBarTitleText": "转入",
+						"enablePullDownRefresh": false
+					}
+                },
+				{
+                    "path" : "transfer/transferOut",
+                    "style" : {
+						"navigationBarTitleText": "转出",
+						"enablePullDownRefresh": false
+					}
                 }
             ]
 

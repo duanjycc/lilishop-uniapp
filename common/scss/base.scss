@@ -15,7 +15,7 @@
 	margin-top: 20rpx;
 }
 
-@for $i from 20 through 140 {
+@for $i from 10 through 140 {
 	.fs-#{$i} {
 		font-size: #{$i}rpx;
 	}
