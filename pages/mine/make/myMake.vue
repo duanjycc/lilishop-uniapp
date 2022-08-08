@@ -3,11 +3,11 @@
 		<view class="mine-header">
 			<view>
 				<view>通证</view>
-				<view class="uni-top-2">{{ pointData.totalPoint || 2323233.23232 }}</view>
+				<view class="uni-top-2">{{ userInfo.ssd || 0 }}</view>
 			</view>
 			<view>
 				<view>积分</view>
-				<view class="uni-top-2">{{ pointData.point || 0 }}</view>
+				<view class="uni-top-2">{{ userInfo.point || 0 }}</view>
 			</view>
 		</view>
 		
@@ -40,6 +40,7 @@
 
 <script>
 	import { getPointsData, getMemberPointSum } from "@/api/members.js";
+	import { queryMakeAccount } from "@/api/mine-make.js";
 	export default {
 		data() {
 			return {
@@ -48,45 +49,41 @@
 				count: {
 					loadStatus: "more",
 				},
-				pointList: [], //积分数据集合
+				list: [], //积分数据集合
 				params: {
 					pageNumber: 1,
 					pageSize: 10,
 				},
+				userInfo: null,
 				pointData: {}, //累计获取 未输入 集合
 			};
 		},
-
 		onLoad() {
 			this.initPointData();
 			this.getList();
 		},
-
-		/**
-		 * 触底加载
-		 */
+		onShow() {
+			this.userInfo = this.$options.filters.isLogin();
+		},
 		onReachBottom() {
 			this.params.pageNumber++;
 			this.getList();
 		},
 		methods: {
-			/**
-			 * 获取积分数据
-			 */
 			getList() {
 				let params = this.params;
 				uni.showLoading({
 					title: "加载中",
 				});
-				getPointsData(params).then((res) => {
+				queryMakeAccount(params).then((res) => {
 					uni.hideLoading();
 					if (res.data.success) {
 						let data = res.data.result.records;
 						if (data.length < 10) {
 							this.$set(this.count, "loadStatus", "noMore");
-							this.pointList.push(...data);
+							this.list.push(...data);
 						} else {
-							this.pointList.push(...data);
+							this.list.push(...data);
 							if (data.length < 10) this.$set(this.count, "loadStatus", "noMore");
 						}
 					}

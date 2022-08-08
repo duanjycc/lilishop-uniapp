@@ -1,10 +1,32 @@
 /**
- * 店铺相关API
+ * 做单相关api
  */
 
 import {http, Method} from '@/utils/request.js';
 
+/**
+ * 做单列表
+ * @param params
+ */
+export function queryMakeAccount(params) {
+  return http.request({
+    url: '/make/account/queryMakeAccount',
+    method: Method.GET,
+    params,
+  });
+}
 
+/**
+ * 做单
+ * @param params
+ */
+export function makeAccount(params) {
+  return http.request({
+    url: '/make/account/makeAccount',
+    method: Method.GET,
+    params,
+  });
+}
 
 
 /**
@@ -13,47 +35,9 @@ import {http, Method} from '@/utils/request.js';
  */
 export function getStoreList(params) {
   return http.request({
-    url: '/store',
+    url: '/store/store',
     method: Method.GET,
     params,
   });
 }
-
-/**
- * 获取店铺基本信息
- * @param storeId
- */
- export function getStoreBaseInfo(storeId) {
-  return http.request({
-    url: `/store/store/get/detail/${storeId}`,
-    method: Method.GET,
-    loading: false,
-  });
-}
-
-/**
- * 获取店铺分类
- * @param id
- */
- export function getStoreCategory(id) {
-  return http.request({
-    url: `/store/store/label/get/${id}`,
-    method: Method.GET,
-  });
-}
-
-
-/**
- * 营业执照
- * @param id
- */
- export function getLicencePhoto(id) {
-  return http.request({
-    url: `/store/store/get/licencePhoto/${id}`,
-    method: Method.GET,
-  });
-}
-
-
-
 

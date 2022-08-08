@@ -6,6 +6,9 @@
 const dev = {
  common: "http://wang.wantbibi.com/common-api",
  buyer: "http://wang.wantbibi.com/buyer-api",
+ 
+  // common: "http://e6801ae.r2.cpolar.cn",
+  // buyer: "http://15aeb36b.r2.cpolar.cn",
 };
 // 生产环境
 const prod = {

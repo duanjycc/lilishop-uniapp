@@ -9,12 +9,13 @@
         <image :src="userInfo.face || '/static/missing-face.png'"></image>
       </view>
       <view class="head-2" v-if="userInfo.id">
+        <view class="user-name">{{ userInfo.username }}</view>
         <view class="user-name">{{ userInfo.nickName }}</view>
       </view>
       <view class="head-2" v-else>
         <view class="user-name">登录/注册</view>
       </view>
-      <u-icon style="display: flex;align-items: flex-start;" name="arrow-right"></u-icon>
+      <u-icon name="arrow-right"></u-icon>
     </view>
     <!-- 积分，优惠券，关注， -->
     <div class="pointBox box">
@@ -161,9 +162,10 @@ body {
 }
 
 .user {
+	
   .header {
     max-width: 100%;
-    padding: calc(50rpx + var(--status-bar-height)) 30rpx 0 6%;
+    padding: 0 30rpx 0 6%;
     height: calc(var(--status-bar-height) + 360rpx);
     background-size: cover;
     border-bottom-left-radius: 30rpx;
@@ -174,43 +176,29 @@ body {
     color: #ffffff;
     display: flex;
     justify-content: space-between;
+	align-items: center;
+	
     .head-1 {
       text-align: center;
       width: 152rpx;
       position: relative;
       display: flex;
       align-items: center;
+	  
       image {
         width: 152rpx;
         height: 144rpx;
         border-radius: 50%;
-        margin-bottom: 30rpx;
         border: 3px solid #fff;
       }
-      .edti-head {
-        position: absolute;
-        width: 40rpx;
-        height: 40rpx;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.3);
-        top: 100rpx;
-        right: 0;
-        image {
-          width: 100%;
-          height: 100%;
-        }
-      }
+	  
     }
     .head-2 {
       flex: 1;
       margin-left: 30rpx;
-      margin-top: 100rpx;
-      line-height: 1;
+      line-height: 1.5;
     }
-    /deep/ .u-icon,
-    .u-icon {
-      margin-top: 106rpx;
-    }
+	
   }
   .pointBox {
     width: 94%;

@@ -7,8 +7,8 @@
 			</view>
 			<view class="form-group">
 				<view class="form-label">店铺</view>
-				<picker @change="bindPickerShopChange" :value="shopIndex" :range="shopNames">
-					<view class="form-text">{{ shopNames[shopIndex] }}</view>
+				<picker @change="bindPickerStoreChange" :value="storeIndex" :range="storeNames">
+					<view class="form-text">{{ storeNames[storeIndex] }}</view>
 				</picker>
 				<view class="arrow-right"></view>
 			</view>
@@ -21,13 +21,13 @@
 			</view>
 			<view class="form-group">
 				<view class="form-label">让利金额</view>
-				<input class="form-text" type="text" v-model="form.discountPrice" placeholder="金额"/>
+				<input class="form-text" disabled type="text" v-model="form.discountPrice" placeholder="金额"/>
 			</view>
 			<view class="form-group">
 				<view class="form-label">手机号码</view>
 				<input class="form-text" type="text" v-model="form.tel" placeholder="输入会员手机号"/>
 			</view>
-			<view class="desc fs-28 mt-20">￥100.00/SSD</view>
+			<view class="desc fs-28 mt-20">{{ userInfo.ssd }}/SSD</view>
 		</view>
 		
 		<view class="tip-info fs-28 mt-100">本次做单大约需要0(SSD)</view>
@@ -44,74 +44,103 @@
 				<text class="fs-48 font-weight-500" style="margin-right: 10rpx;">10</text>
 				<text>SSD</text>
 			</view>
-			<u-message-input class="mt-30" mode="box" :maxlength="6" :dot-fill="true" v-model="form.password" :disabled-keyboard="true" @finish="finish"></u-message-input>
+			<u-message-input class="mt-30" mode="box" :maxlength="6" :dot-fill="true" v-model="password" :disabled-keyboard="true" @finish="finish"></u-message-input>
 		</u-keyboard>
 	</view>
 </template>
 
 <script>
-	// import { getPointsData } from "@/api/members.js";
-	// import { getMemberPointSum } from "@/api/members.js";
+	import { md5 } from '@/utils/md5.js'
+	import { queryMakeAccount, getStoreList } from "@/api/mine-make.js";
 	export default {
 		data() {
 			return {
+				userInfo: null,
 				discountIndex: 0,
-				discountRatios: [1,2,3,4],
-				discountRatioDescs: ['1成','2成','3成','4成'],
-				shopIndex: 0,
-				shops: [1,2,3,4],
-				shopNames: ['店1','店2','店3','店4'],
+				discountRatios: [1,2,3,4,3,4,5,6,7,8,9,10],
+				discountRatioDescs: ['1%','2%','3%','4%','5%','6%','7%','8%','9%','10%'],
+				storeIndex: 0,
+				storeIds: [],
+				storeNames: [],
 				form: {
-					price: 120,
-					shopId: 0,
-					discountRatio: "3折",
-					discountPrice: 200,
+					price: 0,
+					storeId: 0,
+					discountRatio: 1,
+					discountPrice: 0,
 					cellphone: 13311111111,
-					password: ''
+					password: null
 				},
+				password: '',
 				showKeyboard: false,
 			};
 		},
 		watch: {
-			discountIndex(oldVal, newVal) {
-				this.form.discountRatio = this.discountRatios[newVal];
+			storeIndex(oldVal, newVal) {
+				this.form.discountRatio = this.storeIds[newVal];
 			},
-			shopIndex(oldVal, newVal) {
-				this.form.discountRatio = this.shops[newVal];
+			form: {
+				handler(newObj, oldObj) {
+					this.form.discountPrice = this.form.price * this.form.discountRatio / 100;
+				},
+				immediate: true,
+				deep: true
 			}
 		},
 		onLoad() {
 		},
-		onReachBottom() {
-			this.params.pageNumber++;
-			this.getList();
+		onShow() {
+			this.init();
 		},
 		onBackspace(e) {
-			if (this.form.password.length > 0) {
-				this.form.password = this.form.password.substring(0, this.form.password.length - 1);
+			if (this.password.length > 0) {
+				this.password = this.password.substring(0, this.password.length - 1);
 			}
 		},
 		methods: {
+			async init() {
+				let self = this;
+				this.userInfo = this.$options.filters.isLogin();
+				let res = await getStoreList();
+				if (res.data.success) {
+					let data = res.data.result;
+					let storeIds = [];
+					let storeNames = [];
+					data.records.forEach(item => {
+						storeIds.push(item.id);
+						storeNames.push(item.id)
+					})
+					self.storeIds = storeNames;
+					self.storeNames = storeNames;
+				}
+				self.form.discountPrice = self.form.price * self.form.discountRatio / 100;
+			},
 			handleSubmit() {
 				this.showKeyboard = true;
-				this.form.password='';
+				this.password='';
 			},
 			bindPickerChange(e) {
 				this.discountIndex = e.target.value
+				this.form.discountRatio = this.discountRatios[this.discountIndex];
 			},
-			bindPickerShopChange(e) {
-				this.shopIndex = e.target.value
+			bindPickerStoreChange(e) {
+				this.storeIndex = e.target.value
 			},
 			onChange(val) {
-				if (this.form.password.length < 6) {
-					this.form.password += val;
+				if (this.password.length < 6) {
+					this.password += val;
 				}
-				if (this.form.password.length >= 6) {
+				if (this.password.length >= 6) {
 					this.finish();
 				}
 			},
 			finish() {
 				this.showKeyboard = false;
+				this.form.password = md5(this.password);
+				console.log(this.form);
+				// let res = await queryMakeAccount(this.form);
+				// if (res.data.success) {
+					
+				// }
 			},
 			handleClose() {
 				this.showKeyboard = false;

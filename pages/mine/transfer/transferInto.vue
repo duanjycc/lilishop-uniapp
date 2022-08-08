@@ -25,7 +25,6 @@
 <script>
 const NAME = 'pay';
 import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue';
-// import {myPublic,getUserInfo} from '@/api/user'
 export default {
 	name: NAME,
 	props: {},
@@ -41,11 +40,11 @@ export default {
 				orderTimeCount: {}
 			},
 			cid: '',
-			val: 'ddddfsfsdfsdfsdfsd',
+			val: '',
 			size: 450,
 			result: '',
 			loadMake: true,
-			text: 'ddddfsfsdfsdfsdfsd',
+			text: '',
 			isShow: false,
 		};
 	},
@@ -54,18 +53,12 @@ export default {
 	},
 	methods: {
 		init(){
-			var self = this;
-			// uni.showLoading({
-			// 	title: '正在生成二维码'
-			// })
-			// getUserInfo().then(res=>{
-				self.isShow = true
-			// 	self.val = res.data.tokenAddress;
-			// 	self.text = res.data.tokenAddress;
-			// 	uni.hideLoading();
-			// },err=>{
-			// 	console.log(err);
-			// })
+			this.userInfo = this.$options.filters.isLogin();
+			if(this.userInfo) {
+				this.text = this.userInfo.blockAddress;
+				this.val = this.userInfo.blockAddress;
+				this.isShow = true
+			}
 		},
 		qrR(e) { },	
 		copy() {
