@@ -3,31 +3,32 @@
 		<view class="header">
 			<view>
 				<view>邀请人数</view>
-				<view class="uni-top-2">10</view>
+				<view class="uni-top-2">{{ total }}</view>
 			</view>
-			<view v-if="inviter">
+			<view v-if="isBind">
 				<view>谁邀请我</view>
 				<view class="uni-top-2">{{ inviter }}</view>
 			</view>
 			<view v-else class="bind" @click="handleBind">绑定邀请人</view>
 		</view>
 		
-		<view  class="content">
+		<view class="content">
 			<view class="card-area">
 				<view class="card-title">
 					邀请记录
 				</view>
 				<view class="card-body" style="padding-top: 0;padding-bottom: 0;">
-					<view v-for="(i, index) in 15" :key="i">
+					<view v-for="(item, index) in list" :key="index">
 						<view class="split-line-1" v-if="index > 0"></view>
 						<view class="item fs-30 d-flex justify-content-space-between">
-							<view class="title">1330000001</view>
-							<view>2020-11-11</view>
+							<view class="title">{{ item.username }}</view>
+							<view>{{ item.createTime }}</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
+		<view class="text-center">{{ loadStatus }}</view>
 		
 		<uni-popup ref="popupCellphone" type="center" :maskClick="true">
 			<view class="popup">
@@ -48,7 +49,7 @@
 </template>
 
 <script>
-	import { queryInvitation, queryMyInvitee } from "@/api/mine-invitation.js";
+	import { queryInvitation, queryMyInvitee, checkInvitee } from "@/api/mine-invitation.js";
 	import uniPopup from '@/components/uni-popup/uni-popup.vue';
 	export default {
 		components: {
@@ -56,7 +57,6 @@
 		},
 		data() {
 			return {
-				loadStatus: "more",
 				list: [], 
 				params: {
 					pageNumber: 1,
@@ -64,20 +64,21 @@
 				},
 				inviter: '',
 				tel: '',
+				isBind: false,
+				loadStatus: "加载更多",
+				pages: 1,
+				total: 0
 			};
 		},
-
 		onLoad() {
-			this.initPointData();
+			this.initData();
 			this.getList();
 		},
-
-		/**
-		 * 触底加载
-		 */
 		onReachBottom() {
-			this.params.pageNumber++;
-			this.getList();
+			if(this.pages > this.params.pageNumber) {
+				this.params.pageNumber++;
+				this.getList();
+			}
 		},
 		methods: {
 			handleBind() {
@@ -90,6 +91,7 @@
 				});
 			},
 			getList() {
+				let self = this;
 				let params = this.params;
 				uni.showLoading({
 					title: "加载中",
@@ -97,35 +99,58 @@
 				queryInvitation(params).then((res) => {
 					uni.hideLoading();
 					if (res.data.success) {
+						self.pages = res.data.result.pages;
+						self.total = res.data.result.total;
 						let data = res.data.result.records;
-						if (data.length < 10) {
-							this.$set(this.count, "loadStatus", "noMore");
-							this.list.push(...data);
+						if (data.length < self.params.pageSize) {
+							self.loadStatus = "没有更多";
+							self.list.push(...data);
 						} else {
-							this.list.push(...data);
-							if (data.length < 10) this.$set(this.count, "loadStatus", "noMore");
+							self.list.push(...data);
+							self.loadStatus = "加载更多";
 						}
 					}
 				});
 			},
-			
 			handleAdd() {
 				uni.navigateTo({
 					url:'makeForm?makeId=1'
 				})
 			},
-			
-			initPointData() {
+			initData() {
 				let self = this;
-				queryMyInvitee().then((res) => {
+				checkInvitee().then((res) => {
 					if (res.data.success) {
-						console.log(res.data.result)
-						// self.invitee = res.data.result
+						self.isBind = res.data.result;
+						if(self.isBind) {
+							queryMyInvitee().then((res1) => {
+								if (res1.data.success) {
+									console.log(res1.data.result)
+									// self.invitee = res.data.result
+								}
+							});
+						}
 					}
-				});
+				})
+				
 			},
 			handleSubmit() {
-				console.log(111);
+				let self = this;
+				if(!!!self.tel) {
+					uni.showToast({
+						title: '消费金额不能为空',
+						icon: 'none',
+						duration: 2000
+					});
+				} else {
+					checkInvitee({
+						'tel': self.tel
+					}).then((res) => {
+						if (res.data.success) {
+							self.initData();
+						}
+					})
+				}
 			}
 		},
 	};
@@ -164,8 +189,9 @@
 		}
 		
 		.content {
-			margin-top: 268rpx;
-			padding-bottom: 180rpx;
+			padding-top: 268rpx;
+			margin-bottom: 60rpx;
+			background-color: #ffffff;
 			
 			.title {
 				font-weight: 900;

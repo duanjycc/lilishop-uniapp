@@ -46,11 +46,10 @@ export function queryMyInvitee(params) {
  * 查询是否绑定邀请人
  * @param params
  */
-export function checkInvitee(params) {
+export function checkInvitee() {
 	return http.request({
 		url: '/my/invitation/checkInvitee',
-		method: Method.GET,
-		params,
+		method: Method.GET
 	});
 }
 

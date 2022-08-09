@@ -44,21 +44,19 @@
 				},
 				inviter: '',
 				tel: '',
-				area: '西湖1区',
-				parentArea: '西湖区',
 				loadStatus: "加载更多",
+				pages: 1
 			};
 		},
 		onLoad() {
 			this.userInfo = this.$options.filters.isLogin();
 			this.getList();
 		},
-		/**
-		 * 触底加载
-		 */
 		onReachBottom() {
-			this.params.pageNumber++;
-			this.getList();
+			if(this.pages > this.params.pageNumber) {
+				this.params.pageNumber++;
+				this.getList();
+			}
 		},
 		methods: {
 			handleBind() {
@@ -79,32 +77,19 @@
 				queryInvitationRegion(params, self.userInfo.member.myRegionId).then((res) => {
 					uni.hideLoading();
 					if (res.data.success) {
+						self.pages = res.data.result.pages;
 						let data = res.data.result.records;
 						if (data.length < self.params.pageSize) {
 							self.loadStatus = "没有更多";
 							self.list.push(...data);
 						} else {
 							self.list.push(...data);
-							if (data.length < 10)  self.loadStatus = "加载更多";
+							self.loadStatus = "加载更多";
 						}
 					}
 				});
-			},
-			
-			handleAdd() {
-				uni.navigateTo({
-					url:'makeForm?makeId=1'
-				})
-			},
-			
-			initPointData() {
-				// getMemberPointSum().then((res) => {
-				// 	this.pointData = res.data.result;
-				// });
-			},
-			handleSubmit() {
-				console.log(111);
 			}
+			
 		},
 	};
 </script>
@@ -144,7 +129,8 @@
 		
 		.content {
 			padding-top: 268rpx;
-			padding-bottom: 60rpx;
+			margin-bottom: 60rpx;
+			background-color: #ffffff;
 			
 			.title {
 				font-weight: 900;

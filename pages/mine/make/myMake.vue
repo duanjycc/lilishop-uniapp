@@ -17,20 +17,21 @@
 					做单记录
 				</view>
 				<view class="card-body">
-					<view v-for="(i, index) in 15" :key="i">
+					<view v-for="(item, index) in list" :key="index">
 						<view class="split-line-1 mt-20" v-if="index > 0"></view>
 						<view class="fs-30 d-flex justify-content-space-between" :class="index>0 ? 'mt-20' : ''">
-							<view class="title">张三大杀四方{{ i }}</view>
-							<view>2000</view>
+							<view class="title">{{ item.merName }}</view>
+							<view>{{ item.monetary }}</view>
 						</view>
 						<view class="mt-20 font-light d-flex justify-content-space-between">
-							<view>2021-11-11</view>
-							<view>17721212211</view>
+							<view>{{ item.createTime }}</view>
+							<view>{{ item.username }}</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
+		<view class="text-center loadStatus">{{ loadStatus }}</view>
 		
 		<view class="btn-bottom"  @click="handleAdd">
 			做单
@@ -44,31 +45,30 @@
 	export default {
 		data() {
 			return {
-				loadStatus: "more",
-				pageNumber: 1,
-				count: {
-					loadStatus: "more",
-				},
 				list: [], //积分数据集合
 				params: {
 					pageNumber: 1,
-					pageSize: 10,
+					pageSize: 5,
 				},
 				userInfo: null,
-				pointData: {}, //累计获取 未输入 集合
+				loadStatus: "加载更多",
+				pages: 1,
+				total: 0
 			};
 		},
 		onShow() {
 			this.userInfo = this.$options.filters.isLogin();
-			this.initPointData();
 			this.getList();
 		},
 		onReachBottom() {
-			this.params.pageNumber++;
-			this.getList();
+			if(this.pages > this.params.pageNumber) {
+				this.params.pageNumber++;
+				this.getList();
+			}
 		},
 		methods: {
 			getList() {
+				let self = this;
 				let params = this.params;
 				uni.showLoading({
 					title: "加载中",
@@ -76,13 +76,14 @@
 				queryMakeAccount(params).then((res) => {
 					uni.hideLoading();
 					if (res.data.success) {
+						self.pages = res.data.result.pages;
 						let data = res.data.result.records;
-						if (data.length < 10) {
-							this.$set(this.count, "loadStatus", "noMore");
-							this.list.push(...data);
+						if (data.length < self.params.pageSize) {
+							self.loadStatus = "没有更多";
+							self.list.push(...data);
 						} else {
-							this.list.push(...data);
-							if (data.length < 10) this.$set(this.count, "loadStatus", "noMore");
+							self.list.push(...data);
+							self.loadStatus = "加载更多";
 						}
 					}
 				});
@@ -92,15 +93,6 @@
 				uni.navigateTo({
 					url:'makeForm?makeId=1'
 				})
-			},
-
-			/**
-			 * 获得累计积分使用
-			 */
-			initPointData() {
-				// getMemberPointSum().then((res) => {
-				// 	this.pointData = res.data.result;
-				// });
 			},
 		},
 	};
@@ -130,8 +122,9 @@
 		}
 		
 		.mine-content {
-			margin-top: 268rpx;
-			padding-bottom: 180rpx;
+			padding-top: 268rpx;
+			margin-bottom: 60rpx;
+			background-color: #ffffff;
 			
 			.title {
 				font-weight: 900;
@@ -151,6 +144,10 @@
 			font-weight: 400;
 			color: #FFFFFF;
 			text-align: center;
+		}
+		
+		.loadStatus {
+			padding-bottom: 180rpx;
 		}
 	}
 </style>
