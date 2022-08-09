@@ -16,14 +16,14 @@
 					<view class="item">
 						<view class="title">接收地址</view>
 						<view class="t-info">
-							<input v-model="val1" class="it" type="text" placeholder="请输入接收账户"  placeholder-style="font-size:34rpx;color:#C7C7C7;"/>
+							<input v-model="acceptAddress" class="it" type="text" placeholder="请输入接收账户"  placeholder-style="font-size:34rpx;color:#C7C7C7;"/>
 						<image class="scan" src="../../../static/icons/scan.png" mode="" @click="scan"></image>
 						</view>
 					</view>
 					<view class="item">
 						<view class="title">验证码</view>
-						<view class="t-info captcha">
-							<input type="text" placeholder="填写验证码" class="it" v-model="captcha" placeholder-style="font-size:34rpx;color:#C7C7C7;"/>
+						<view class="t-info verificationCode">
+							<input type="text" placeholder="填写验证码" class="it" v-model="verificationCode" placeholder-style="font-size:34rpx;color:#C7C7C7;"/>
 						</view>
 					 
 						<button class="code" @click="code">{{ verificationText }}</button>
@@ -31,12 +31,12 @@
 					<view class="item">
 						<view class="title">转出数量</view>
 						<view class="t-info">
-							<input class="it" type="number" v-model="count" />
+							<input class="it" type="number" v-model="transferCount" />
 							<text class="all" @click="handle_all()">转出全部</text>
 						</view>
 						<view class="td">
-							<text>手续费 {{commssion}} SSD</text>
-							<text>手续费 {{commssion}} SSD</text>
+							<text>手续费 <text class="fs-32 font-weight-500 ml-10 mr-10"> {{ serviceCharge }} </text> SSD</text>
+							<text>实际扣除 <text class="fs-32 font-weight-500 ml-10 mr-10"> {{ actualPrice }} </text> SSD</text>
 						</view>
 					</view>
 				</view>
@@ -47,188 +47,289 @@
 			<view class="detailed text-center fs-24 mt-20" @click="handleDetail">查看转入转出明细</view>
 		</view>
 		
-		<u-keyboard class="passwrod-panel" @change="onChange" ref="uKeyboard" v-model="showKeyboard" @backspace="onBackspace" mode="number" :dot-enabled="false" :tooltip="false" default="">
+		<u-keyboard class="password-panel" @change="onChange" ref="uKeyboard" v-model="showKeyboard" @backspace="onBackspace" mode="number" :dot-enabled="false" :tooltip="false" default="">
 			<view class="mt-40 mb-40 text-center" style="text-align: center;">
-				请输入密码
+				{{ keyboardTitle }}
 			</view>
 			<view class="close" @click="handleClose">
 				<image src="../../../static/icons/close.png" mode=""></image>
 			</view>
-			<view class="mt-30 text-center fs-28">本次转出</view>
-			<view class="mt-15 text-center">
-				<text class="fs-48 font-weight-500" style="margin-right: 10rpx;">{{limit || '0'}}</text>
-				<text>SSD</text>
+			
+			<view v-if="keyboardLevel == 0">
+				<view class="mt-30 text-center fs-28">本次转出</view>
+				<view class="mt-15 text-center">
+					<text class="fs-48 font-weight-500" style="margin-right: 10rpx;">{{limit || '0'}}</text>
+					<text>SSD</text>
+				</view>
 			</view>
-			<u-message-input class="mt-30" mode="box" :maxlength="6" :dot-fill="true" v-model="password" :disabled-keyboard="true" @finish="finish"></u-message-input>
+			<u-message-input class="mt-30" mode="box" :maxlength="6" :dot-fill="true" v-model="secondPassword" :disabled-keyboard="true" @finish="finish"></u-message-input>
 		</u-keyboard>
 		
 	</view>
 </template>
 
 <script>
+	import { md5 } from '@/utils/md5.js';
+	import { transferAccounts } from "@/api/mine-transfer.js";
+	import { queryConfigureByType } from "@/api/mine-common.js";
+	import { sendMobile, checkPassword, paymentPassword } from "@/api/login";
 	
-export default {
-	name: 'donating',
-	data() {
-		return {
-			captcha: "",
-			val1: '',
-			// val2: '',
-			limit: '',
-			count: 0,
-			secondPassword: '',
-			frozen: '',
-			commssion:"",
-			verificationText: '获取验证码',
-			countdown: -1,
-			addressCode: '',
-			showKeyboard: false,
-			password: ''
-		};
-	},
-	mounted() {
-		this.commNum()
-	},
-	watch: {
-		countdown(newVal, oldVal) {
-			if(newVal == -1) {
-				this.verificationText = '获取验证码';
+	export default {
+		name: 'donating',
+		data() {
+			return {
+				userInfo: null,
+				verificationCode: "",
+				acceptAddress: '',
+				limit: '',
+				transferCount: 0,
+				secondPassword: '',
+				frozen: '',
+				verificationText: '获取验证码',
+				countdown: -1,
+				addressCode: '',
+				showKeyboard: false,
+				keyboardTitle: '请输入密码',
+				keyboardLevel: 0,
+				password1: null,
+				password2: null,
+				serviceCharge: 0,
+			};
+		},
+		onShow() {
+			this.userInfo = this.$options.filters.isLogin();
+			if(this.userInfo) {
+				this.limit = this.userInfo.ssd - this.userInfo.frozenSSD;
+				this.frozen = this.userInfo.frozenSSD;
 			}
-			else if(newVal > 0) {
-				this.verificationText = '剩余 '+ newVal +'s';
+		},
+		computed: {
+			actualPrice() {
+				return parseFloat(this.serviceCharge) + parseFloat(this.transferCount);
 			}
-			else {
-				this.verificationText = '重新获取';
-			}
+		},
+		watch: {
+			countdown(newVal, oldVal) {
+				if(newVal == -1) {
+					this.verificationText = '获取验证码';
+				}
+				else if(newVal > 0) {
+					this.verificationText = '剩余 '+ newVal +'s';
+				}
+				else {
+					this.verificationText = '重新获取';
+				}
+			},
+			keyboardLevel(newVal, oldVal) {
+				if(newVal == 0) {
+					this.keyboardTitle = "请输入密码"
+				}
+				else if(newVal == 1) {
+					this.keyboardTitle = "设置密码"
+				}
+				else if(newVal == 2) {
+					this.keyboardTitle = "确认密码"
+				}
+			},
+			acceptAddress(newVal, oldVal) {
+				this.getServiceCharge();
+			},
+		},
+		methods:{
+			getServiceCharge() {
+				let self = this;
+				let acceptAddress = this.acceptAddress;
+				if(acceptAddress != null) {
+					queryConfigureByType({
+						'type': 'serviceCharge',
+						'acceptAddress': acceptAddress
+					}).then((res) => {
+						if (res.data.success) {
+							self.serviceCharge = res.data.result;
+						} 
+					})
+				}
+			},
+			async code() {
+				uni.showLoading({});
+				let res = await sendMobile(this.userInfo.username);
+				uni.hideLoading();
+				if (!res.data.success) {
+					uni.showToast({
+						title: res.data.message,
+						duration: 2000,
+						icon: "none",
+					});
+				}
+				
+				this.countdown = 60;
+				this.getCountdown();
+			},
+			getCountdown() {
+				let self = this;
+				setTimeout(() => {
+					if(self.countdown > 0) {
+						self.countdown--;
+						self.getCountdown();
+					}
+				}, 1000)
+			},
+			scan() {
+				//#ifdef H5
+					// 向后端请求验证码
+				//#endif
+				
+				// uni.scanCode({
+				// 	success: (res) => {
+				// 		this.addressCode = res.result
+				// 	}
+				// })
+			},
+			getInputVerification(val) {
+				var self = this;
+				if(val.length == 6) {
+					self.secondPassword = val
+				}
+			},
+			getInputVerification(val) {
+				var self = this;
+				
+				if(val.length == 6) {
+					self.secondPassword = val
+				}
+				console.log(val);
+			},
+			handle_all() {
+				this.transferCount = this.limit;
+			},
+			checkStatus() {
+				var self = this;
+				if (!self.acceptAddress) {
+					uni.showToast({
+						title: '接受账户不能为空',
+						icon: 'none',
+						duration: 2000
+					});
+					return false
+				}
+				else if (!self.acceptAddress) {
+					uni.showToast({
+						title: '通行证不能为空',
+						icon: 'none',
+						duration: 2000
+					});
+					return false
+				} else if (0 > +self.transferCount) {
+					uni.showToast({
+						title: '数量需要大于0',
+						icon: 'none',
+						duration: 2000
+					});
+					return false
+				} else if( +self.transferCount > +self.limit ) {
+					uni.showToast({
+						title: '输入数量不超过可捐数量',
+						icon: 'none',
+						duration: 2000
+					});
+					return false
+				} else {
+					return true
+				}
+			},
+			handleDetail() {
+				console.log('跳转转入转出明细');
+			},
+			onChange(val) {
+				if (this.secondPassword.length < 6) {
+					this.secondPassword += val;
+				}
+				if (this.secondPassword.length >= 6) {
+					this.finish();
+				}
+			},
+			finish() {
+				let self = this;
+				let password = self.secondPassword;
+				if(self.keyboardLevel == 1) {
+					self.password1 = password;
+					self.keyboardLevel = 2;
+					self.secondPassword='';
+				}
+				else if(self.keyboardLevel == 2) {
+					self.password2 = password;
+					if(self.password1 == self.password2) {
+						
+						uni.showLoading({
+							title: "正在设置密码",
+						});
+						paymentPassword({
+							'paymentPassword': self.password2
+						}).then((res) => {
+							uni.hideLoading();
+							if (res.data.success) { 
+								self.keyboardLevel = 0;
+							} 
+							
+							self.showKeyboard = false;
+						});
+						
+					} else {
+						uni.showToast({
+							title: '两次密码输入不一样，重新输入',
+							icon: 'none',
+							duration: 3000
+						});
+						self.keyboardLevel == 1;
+						self.password1 = '';
+						self.password2 = '';
+					}
+					self.secondPassword = '';
+				}
+				else {
+					self.showKeyboard = false;
+					uni.showLoading({
+						title: "正在转出",
+					});
+					transferAccounts({
+						'acceptAddress': self.acceptAddress,
+						'secondPassword': md5(self.secondPassword),
+						'transferCount': self.transferCount,
+						'verificationCode': self.verificationCode
+					}).then((res) => {
+						uni.hideLoading();
+						if (res.data.success) { }
+					});
+				}
+				
+			},
+			handleClose() {
+				this.showKeyboard = false;
+			},
+			handleSubmit() {
+				let self = this;
+				if(self.checkStatus()) {
+					uni.showLoading({
+						title: "加载中...",
+					});
+					checkPassword().then((res) => {
+						uni.hideLoading();
+						if (res.data.success) { 
+							if(res.data.result) {
+								self.keyboardLevel = 0;
+							} else {
+								self.keyboardLevel = 1;
+							}
+							self.showKeyboard = true;
+							self.secondPassword='';
+						}
+					});
+				}
+				
+			},
+			
 		}
-	},
-	methods:{
-		async code() {
-			// tranferVerify()
-			// 	.then(res => {
-			// 	uni.showToast({
-			// 		title: res.msg,
-			// 		icon: "none",
-			// 		duration: 2000
-			// 	});
-			// 	that.sendCode();
-		 //    })
-			// .catch(res => {
-			// 	uni.showToast({
-			// 		title: res.msg,
-			// 		icon: "none",
-			// 		duration: 2000
-			// 	});
-			// });
-			this.countdown = 10;
-			this.getCountdown();
-		},
-		getCountdown() {
-			let self = this;
-			setTimeout(() => {
-				if(self.countdown > 0) {
-					self.countdown--;
-					self.getCountdown();
-				}
-			}, 1000)
-		},
-		scan() {
-			console.log(111);
-			uni.scanCode({
-				success: (res) => {
-					this.addressCode = res.result
-				}
-			})
-		},
-		getInputVerification(val) {
-			var that = this;
-			if(val.length == 6) {
-				that.secondPassword = val
-			}
-		    console.log(val);
-		},
-		ok() {
-			
-		},
-		getInputVerification(val) {
-			var that = this;
-			
-			if(val.length == 6) {
-				that.secondPassword = val
-			}
-		    console.log(val);
-		},
-		handle_all() {
-			this.count = this.limit;
-		},
-	    //	手续费
-		commNum(){
-			// commission().then(res =>{
-			// 	this.commssion =res.data
-			// },err=> {
-			// 	console.log(err)
-			// })
-		},
-		checkStatus(){
-			var that = this;
-			
-			if (!that.val1) {
-				uni.showToast({
-					title: '接受账户不能为空',
-					icon: 'none',
-					duration: 2000
-				});
-				return false
-			}
-			else if (!that.val1) {
-				uni.showToast({
-					title: '通行证不能为空',
-					icon: 'none',
-					duration: 2000
-				});
-				return false
-			} else if (0 > +that.count) {
-				uni.showToast({
-					title: '数量需要大于0',
-					icon: 'none',
-					duration: 2000
-				});
-				return false
-			} else if( +that.count > +that.limit ) {
-				uni.showToast({
-					title: '输入数量不超过可捐数量',
-					icon: 'none',
-					duration: 2000
-				});
-				return false
-			} else {
-				return true
-			}
-		},
-		handleDetail() {
-			console.log('跳转转入转出明细');
-		},
-		onChange(val) {
-			if (this.password.length < 6) {
-				this.password += val;
-			}
-			if (this.password.length >= 6) {
-				this.finish();
-			}
-		},
-		finish() {
-			this.showKeyboard = false;
-		},
-		handleClose() {
-			this.showKeyboard = false;
-		},
-		handleSubmit() {
-			this.showKeyboard = true;
-			this.form.password='';
-		},
-		
-	}
-};
+	};
 </script>
 
 <style lang="scss" scoped>
@@ -280,7 +381,7 @@ export default {
 		.td {
 			display: flex;
 			justify-content: space-between;
-			font-size: 32rpx;
+			font-size: 24rpx;
 			color: #EB5659;
 			padding-bottom: 20rpx;
 			margin-top: 10px;
@@ -308,7 +409,7 @@ export default {
 			}
 		}
 		
-		.captcha{
+		.verificationCode{
 			width: calc(100% - 130px);
 			display: inline-block;
 			margin-right: 5px;
@@ -388,19 +489,6 @@ export default {
 				flex: 1;
 				margin: 0 40rpx;
 			}
-			
-			.ok {
-				font-size: 12px;
-				height: 25px;
-				text-align: center;
-				border-radius: 25rpx;
-				line-height: 25px;
-				background-color: #2291F8;
-				color: #fff;
-				display: inline-block;
-				flex: 1;
-				margin: 0 40rpx;
-			}
 		}
 	}
 	
@@ -435,7 +523,7 @@ export default {
 	font-size: 34rpx;
 }
 
-.passwrod-panel {
+.password-panel {
 	
 	.close {
 		position: absolute;

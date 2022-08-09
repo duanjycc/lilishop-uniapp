@@ -2,8 +2,8 @@
 	<view class="container">
 		<view class="header">
 			<view>
-				<view class="title">{{ area }}</view>
-				<view class="sub-title">（上级区域是 {{ parentArea }}）</view>
+				<view class="title">{{ userInfo.member.myRegion || 暂无 }}</view>
+				<view class="sub-title" v-if="!!userInfo.member.myParentRegion">（上级区域是 {{ userInfo.member.myParentRegion }}）</view>
 			</view>
 		</view>
 		
@@ -13,21 +13,22 @@
 					邀请记录
 				</view>
 				<view class="card-body" style="padding-top: 0;padding-bottom: 0;">
-					<view v-for="(i, index) in 15" :key="i">
+					<view v-for="(item, index) in list" :key="index">
 						<view class="split-line-1" v-if="index > 0"></view>
 						<view class="item fs-30 d-flex justify-content-space-between">
-							<view class="title">西湖区</view>
-							<view>Lv1服务商</view>
+							<view class="title">{{ item.title }}</view>
+							<view>{{ item.createTime }}</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
+		<view class="text-center">{{ loadStatus }}</view>
 	</view>
 </template>
 
 <script>
-	import { getPointsData, getMemberPointSum } from "@/api/members.js";
+	import { queryInvitationRegion } from "@/api/mine-invitation.js";
 	import uniPopup from '@/components/uni-popup/uni-popup.vue';
 	export default {
 		components: {
@@ -35,7 +36,7 @@
 		},
 		data() {
 			return {
-				loadStatus: "more",
+				userInfo: null,
 				list: [], 
 				params: {
 					pageNumber: 1,
@@ -44,15 +45,14 @@
 				inviter: '',
 				tel: '',
 				area: '西湖1区',
-				parentArea: '西湖区'
+				parentArea: '西湖区',
+				loadStatus: "加载更多",
 			};
 		},
-
 		onLoad() {
-			this.initPointData();
+			this.userInfo = this.$options.filters.isLogin();
 			this.getList();
 		},
-
 		/**
 		 * 触底加载
 		 */
@@ -71,20 +71,21 @@
 				});
 			},
 			getList() {
-				let params = this.params;
+				let self = this;
+				let params = self.params;
 				uni.showLoading({
 					title: "加载中",
 				});
-				getPointsData(params).then((res) => {
+				queryInvitationRegion(params, self.userInfo.member.myRegionId).then((res) => {
 					uni.hideLoading();
 					if (res.data.success) {
 						let data = res.data.result.records;
-						if (data.length < 10) {
-							this.$set(this.count, "loadStatus", "noMore");
-							this.pointList.push(...data);
+						if (data.length < self.params.pageSize) {
+							self.loadStatus = "没有更多";
+							self.list.push(...data);
 						} else {
-							this.pointList.push(...data);
-							if (data.length < 10) this.$set(this.count, "loadStatus", "noMore");
+							self.list.push(...data);
+							if (data.length < 10)  self.loadStatus = "加载更多";
 						}
 					}
 				});
@@ -142,8 +143,8 @@
 		}
 		
 		.content {
-			margin-top: 268rpx;
-			padding-bottom: 180rpx;
+			padding-top: 268rpx;
+			padding-bottom: 60rpx;
 			
 			.title {
 				font-weight: 900;

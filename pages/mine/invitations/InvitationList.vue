@@ -48,7 +48,7 @@
 </template>
 
 <script>
-	import { getPointsData, getMemberPointSum } from "@/api/members.js";
+	import { queryInvitation, queryMyInvitee } from "@/api/mine-invitation.js";
 	import uniPopup from '@/components/uni-popup/uni-popup.vue';
 	export default {
 		components: {
@@ -94,15 +94,15 @@
 				uni.showLoading({
 					title: "加载中",
 				});
-				getPointsData(params).then((res) => {
+				queryInvitation(params).then((res) => {
 					uni.hideLoading();
 					if (res.data.success) {
 						let data = res.data.result.records;
 						if (data.length < 10) {
 							this.$set(this.count, "loadStatus", "noMore");
-							this.pointList.push(...data);
+							this.list.push(...data);
 						} else {
-							this.pointList.push(...data);
+							this.list.push(...data);
 							if (data.length < 10) this.$set(this.count, "loadStatus", "noMore");
 						}
 					}
@@ -116,9 +116,13 @@
 			},
 			
 			initPointData() {
-				// getMemberPointSum().then((res) => {
-				// 	this.pointData = res.data.result;
-				// });
+				let self = this;
+				queryMyInvitee().then((res) => {
+					if (res.data.success) {
+						console.log(res.data.result)
+						// self.invitee = res.data.result
+					}
+				});
 			},
 			handleSubmit() {
 				console.log(111);

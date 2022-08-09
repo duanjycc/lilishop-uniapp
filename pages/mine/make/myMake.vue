@@ -58,12 +58,10 @@
 				pointData: {}, //累计获取 未输入 集合
 			};
 		},
-		onLoad() {
-			this.initPointData();
-			this.getList();
-		},
 		onShow() {
 			this.userInfo = this.$options.filters.isLogin();
+			this.initPointData();
+			this.getList();
 		},
 		onReachBottom() {
 			this.params.pageNumber++;

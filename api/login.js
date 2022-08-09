@@ -91,3 +91,26 @@ export function logout () {
     needToken: true,
   })
 }
+
+/**
+ * 检测是否补充支付密码
+ */
+export function checkPassword() {
+  return http.request({
+    url: '/passport/member/check/payment/password',
+    method: "GET",
+  });
+}
+
+
+/**
+ * 补充支付密码
+ * @param  paymentPassword
+ */
+export function paymentPassword(params) {
+  return http.request({
+    url: '/passport/member/setUp/payment/password',
+    method: "GET",
+    params,
+  });
+}

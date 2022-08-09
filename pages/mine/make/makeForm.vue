@@ -3,7 +3,7 @@
 		<view class="content">
 			<view class="form-group">
 				<view class="form-label">消费金额</view>
-				<input class="form-text" type="text" v-model="form.price" placeholder="金额"/>
+				<input class="form-text" type="text" v-model="form.monetary" placeholder="金额"/>
 			</view>
 			<view class="form-group">
 				<view class="form-label">店铺</view>
@@ -14,35 +14,39 @@
 			</view>
 			<view class="form-group">
 				<view class="form-label">让利比例</view>
-				<picker @change="bindPickerChange" :value="discountIndex" :range="discountRatioDescs">
-					<view class="form-text">{{ discountRatioDescs[discountIndex] }}</view>
+				<picker @change="bindPickerChange" :value="surrenderRatioIndex" :range="surrenderRatioDescs">
+					<view class="form-text">{{ surrenderRatioDescs[surrenderRatioIndex] }}</view>
 				</picker>
 				<view class="arrow-right"></view>
 			</view>
 			<view class="form-group">
 				<view class="form-label">让利金额</view>
-				<input class="form-text" disabled type="text" v-model="form.discountPrice" placeholder="金额"/>
+				<input class="form-text" disabled type="text" v-model="form.surrenderPrice" placeholder="金额"/>
 			</view>
 			<view class="form-group">
 				<view class="form-label">手机号码</view>
-				<input class="form-text" type="text" v-model="form.tel" placeholder="输入会员手机号"/>
+				<input class="form-text" type="text" v-model="form.vipPhone" placeholder="输入会员手机号"/>
 			</view>
 			<view class="desc fs-28 mt-20">{{ userInfo.ssd }}/SSD</view>
 		</view>
 		
-		<view class="tip-info fs-28 mt-100">本次做单大约需要0(SSD)</view>
+		<view class="tip-info fs-28 mt-100">本次做单大约需要 {{ ssd }}(SSD)</view>
 		<view class="btn-submit" @click="handleSubmit">确认让利</view>
 		<u-keyboard class="passwrod-panel" @change="onChange" ref="uKeyboard" v-model="showKeyboard" @backspace="onBackspace" mode="number" :dot-enabled="false" :tooltip="false" default="">
 			<view class="mt-40 mb-40 text-center" style="text-align: center;">
-				请输入密码
+				{{ keyboardTitle }}
 			</view>
 			<view class="close" @click="handleClose">
 				<image src="../../../static/icons/close.png" mode=""></image>
 			</view>
-			<view class="mt-30 text-center fs-28">本次做单需要</view>
-			<view class="mt-15 text-center">
-				<text class="fs-48 font-weight-500" style="margin-right: 10rpx;">10</text>
-				<text>SSD</text>
+			<view v-if="keyboardLevel == 0">
+				<view class="mt-30 text-center fs-28">本次做单需要</view>
+				<view class="mt-15 text-center">
+					<text class="fs-48 font-weight-500" style="margin-right: 10rpx;">
+						{{ ssd }}
+					</text>
+					<text>SSD</text>
+				</view>
 			</view>
 			<u-message-input class="mt-30" mode="box" :maxlength="6" :dot-fill="true" v-model="password" :disabled-keyboard="true" @finish="finish"></u-message-input>
 		</u-keyboard>
@@ -51,42 +55,69 @@
 
 <script>
 	import { md5 } from '@/utils/md5.js'
-	import { queryMakeAccount, getStoreList } from "@/api/mine-make.js";
+	import { makeAccount, getStoreList } from "@/api/mine-make.js";
+	import {checkPassword, paymentPassword } from "@/api/login";
+	import { queryConfigureByType } from "@/api/mine-common.js";
 	export default {
 		data() {
 			return {
 				userInfo: null,
-				discountIndex: 0,
-				discountRatios: [1,2,3,4,3,4,5,6,7,8,9,10],
-				discountRatioDescs: ['1%','2%','3%','4%','5%','6%','7%','8%','9%','10%'],
+				surrenderRatioIndex: 0,
+				surrenderRatios: [0.01, 0.02, 0.03, 0.04, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1],
+				surrenderRatioDescs: ['1%','2%','3%','4%','5%','6%','7%','8%','9%','10%'],
 				storeIndex: 0,
 				storeIds: [],
 				storeNames: [],
 				form: {
-					price: 0,
-					storeId: 0,
-					discountRatio: 1,
-					discountPrice: 0,
-					cellphone: 13311111111,
-					password: null
+					monetary: 0,
+					merId: 0,
+					merName: null,
+					surrenderRatio: 0.01,
+					surrenderPrice: 0,
+					vipPhone: 13311111111,
+					password: null,
+					wantPrice: null
 				},
 				password: '',
 				showKeyboard: false,
+				keyboardTitle: '请输入密码',
+				keyboardLevel: 0,
+				password1: null,
+				password2: null,
+				unitPrice: 0,
 			};
+		},
+		computed: {
+			ssd() {
+				if(this.unitPrice > 0) {
+					return parseFloat(this.form.surrenderPrice) / parseFloat(this.unitPrice);
+				}
+				return 0;
+			}
 		},
 		watch: {
 			storeIndex(oldVal, newVal) {
-				this.form.discountRatio = this.storeIds[newVal];
+				this.form.merId = this.storeIds[newVal];
+				this.form.merName = this.storeNames[newVal];
 			},
 			form: {
 				handler(newObj, oldObj) {
-					this.form.discountPrice = this.form.price * this.form.discountRatio / 100;
+					this.form.surrenderPrice = this.form.monetary * this.form.surrenderRatio / 100;
 				},
 				immediate: true,
 				deep: true
-			}
-		},
-		onLoad() {
+			},
+			keyboardLevel(newVal, oldVal) {
+				if(newVal == 0) {
+					this.keyboardTitle = "请输入密码"
+				}
+				else if(newVal == 1) {
+					this.keyboardTitle = "设置密码"
+				}
+				else if(newVal == 2) {
+					this.keyboardTitle = "确认密码"
+				}
+			},
 		},
 		onShow() {
 			this.init();
@@ -107,20 +138,24 @@
 					let storeNames = [];
 					data.records.forEach(item => {
 						storeIds.push(item.id);
-						storeNames.push(item.id)
+						storeNames.push(item.storeName)
 					})
 					self.storeIds = storeNames;
 					self.storeNames = storeNames;
 				}
-				self.form.discountPrice = self.form.price * self.form.discountRatio / 100;
-			},
-			handleSubmit() {
-				this.showKeyboard = true;
-				this.password='';
+				self.form.surrenderPrice = self.form.monetary * self.form.surrenderRatio / 100;
+				
+				queryConfigureByType({
+					'type': 'unitPrice'
+				}).then((res) => {
+					if (res.data.success) {
+						self.unitPrice = res.data.result;
+					} 
+				})
 			},
 			bindPickerChange(e) {
-				this.discountIndex = e.target.value
-				this.form.discountRatio = this.discountRatios[this.discountIndex];
+				this.surrenderRatioIndex = e.target.value
+				this.form.surrenderRatio = this.surrenderRatios[this.surrenderRatioIndex];
 			},
 			bindPickerStoreChange(e) {
 				this.storeIndex = e.target.value
@@ -133,18 +168,107 @@
 					this.finish();
 				}
 			},
+			checkStatus() {
+				var self = this;
+				if (!self.form.monetary) {
+					uni.showToast({
+						title: '消费金额不能为空',
+						icon: 'none',
+						duration: 2000
+					});
+					return false
+				}
+				else if (self.merId > 0) {
+					uni.showToast({
+						title: '店铺不能为空',
+						icon: 'none',
+						duration: 2000
+					});
+					return false
+				} else {
+					return true
+				}
+			},
 			finish() {
-				this.showKeyboard = false;
-				this.form.password = md5(this.password);
-				console.log(this.form);
-				// let res = await queryMakeAccount(this.form);
-				// if (res.data.success) {
-					
-				// }
+				let self = this;
+				let password = self.password;
+				if(self.keyboardLevel == 1) {
+					self.password1 = password;
+					self.keyboardLevel = 2;
+					self.password='';
+				}
+				else if(self.keyboardLevel == 2) {
+					self.password2 = password;
+					if(self.password1 == self.password2) {
+						
+						uni.showLoading({
+							title: "正在设置密码",
+						});
+						paymentPassword({
+							'paymentPassword': self.password2
+						}).then((res) => {
+							uni.hideLoading();
+							if (res.data.success) { 
+								self.keyboardLevel = 0;
+							} 
+							
+							self.showKeyboard = false;
+						});
+						
+					} else {
+						uni.showToast({
+							title: '两次密码输入不一样，重新输入',
+							icon: 'none',
+							duration: 3000
+						});
+						self.keyboardLevel == 1;
+						self.password1 = '';
+						self.password2 = '';
+					}
+					self.password = '';
+				}
+				else {
+					self.showKeyboard = false;
+					self.form.password = md5(self.password);
+					self.form.wantPrice = self.unitPrice;
+					uni.showLoading({
+						title: "正在提交...",
+					});
+					makeAccount(self.form).then((res) => {
+						uni.hideLoading();
+						self.showKeyboard = false;
+						if (res.data.success) { 
+							self.keyboardLevel = 0;
+							uni.navigateBack()
+						} 
+					});
+				}
 			},
 			handleClose() {
 				this.showKeyboard = false;
+			},
+			handleSubmit() {
+				let self = this;
+				if(self.checkStatus()) {
+					uni.showLoading({
+						title: "加载中...",
+					});
+					checkPassword().then((res) => {
+						uni.hideLoading();
+						if (res.data.success) { 
+							if(res.data.result) {
+								self.keyboardLevel = 0;
+							} else {
+								self.keyboardLevel = 1;
+							}
+							self.showKeyboard = true;
+							self.password='';
+						}
+					});
+				}
+				
 			}
+			
 		},
 	};
 </script>

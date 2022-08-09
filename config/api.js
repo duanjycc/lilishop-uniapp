@@ -8,7 +8,7 @@ const dev = {
  buyer: "http://wang.wantbibi.com/buyer-api",
  
   // common: "http://e6801ae.r2.cpolar.cn",
-  // buyer: "http://15aeb36b.r2.cpolar.cn",
+  // buyer: "http://79e72ced.r2.cpolar.cn",
 };
 // 生产环境
 const prod = {
