@@ -11,7 +11,7 @@ import {http, Method} from '@/utils/request.js';
 export function transferInDetails(params) {
   return http.request({
     url: '/my/transfer/in/details',
-    method: Method.GET,
+    method: Method.POST,
     params,
   });
 }
@@ -23,7 +23,7 @@ export function transferInDetails(params) {
 export function transferOutDetails(params) {
   return http.request({
     url: '/my/transfer/out/details',
-    method: Method.GET,
+    method: Method.POST,
     params,
   });
 }

@@ -7,7 +7,7 @@
 			</view>
 			<view v-if="isBind">
 				<view>谁邀请我</view>
-				<view class="uni-top-2">{{ inviter }}</view>
+				<view class="uni-top-2">{{ invitee.username }}</view>
 			</view>
 			<view v-else class="bind" @click="handleBind">绑定邀请人</view>
 		</view>
@@ -28,7 +28,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="text-center">{{ loadStatus }}</view>
+		<view class="text-center font-color-disabled">{{ loadStatus }}</view>
 		
 		<uni-popup ref="popupCellphone" type="center" :maskClick="true">
 			<view class="popup">
@@ -40,7 +40,7 @@
 				</view>
 				<view class="popup-content">
 					<view class="form-label">邀请人手机号码</view>
-					<input class="form-text mt-10" type="text" v-model="tel" placeholder="请输入邀请人手机号码"/>
+					<input class="form-text mt-10" type="text" v-model="mobile" placeholder="请输入邀请人手机号码"/>
 					<view class="btn-submit" @click="handleSubmit">确认</view>
 				</view>
 			</view>
@@ -49,8 +49,10 @@
 </template>
 
 <script>
-	import { queryInvitation, queryMyInvitee, checkInvitee } from "@/api/mine-invitation.js";
+	import { queryInvitation, queryMyInvitee, checkInvitee, bindInvitee } from "@/api/mine-invitation.js";
 	import uniPopup from '@/components/uni-popup/uni-popup.vue';
+	import storage from "@/utils/storage.js"
+	
 	export default {
 		components: {
 			uniPopup
@@ -62,8 +64,8 @@
 					pageNumber: 1,
 					pageSize: 10,
 				},
-				inviter: '',
-				tel: '',
+				invitee: '',
+				mobile: '',
 				isBind: false,
 				loadStatus: "加载更多",
 				pages: 1,
@@ -86,9 +88,6 @@
 			},
 			close() {
 				this.$refs.popupCellphone.close();
-				uni.switchTab({
-					url: '/pages/home/index'
-				});
 			},
 			getList() {
 				let self = this;
@@ -122,32 +121,38 @@
 				checkInvitee().then((res) => {
 					if (res.data.success) {
 						self.isBind = res.data.result;
-						if(self.isBind) {
-							queryMyInvitee().then((res1) => {
-								if (res1.data.success) {
-									console.log(res1.data.result)
-									// self.invitee = res.data.result
-								}
-							});
-						}
+						self.$nextTick(() => {
+							if(!self.isBind) {
+								queryMyInvitee().then((res1) => {
+									if (res1.data.success) {
+										self.invitee = res1.data.result
+									}
+								});
+							}
+						})
 					}
 				})
 				
 			},
 			handleSubmit() {
 				let self = this;
-				if(!!!self.tel) {
+				if(!!!self.mobile) {
 					uni.showToast({
-						title: '消费金额不能为空',
+						title: '邀请用户不能为空',
 						icon: 'none',
 						duration: 2000
 					});
 				} else {
-					checkInvitee({
-						'tel': self.tel
+					bindInvitee({
+						'mobile': self.mobile
 					}).then((res) => {
 						if (res.data.success) {
-							self.initData();
+							self.close();
+							storage.setAccessToken(res.data.result.accessToken);
+							storage.setRefreshToken(res.data.result.refreshToken);
+							self.$nextTick(() => {
+								self.initData();
+							})
 						}
 					})
 				}

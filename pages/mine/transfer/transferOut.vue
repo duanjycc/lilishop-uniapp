@@ -99,8 +99,8 @@
 		onShow() {
 			this.userInfo = this.$options.filters.isLogin();
 			if(this.userInfo) {
-				this.limit = this.userInfo.ssd - this.userInfo.frozenSSD;
-				this.frozen = this.userInfo.frozenSSD;
+				this.limit = this.userInfo.member.ssd - this.userInfo.member.frozenSSD;
+				this.frozen = this.userInfo.member.frozenSSD;
 			}
 		},
 		computed: {
@@ -152,7 +152,7 @@
 			},
 			async code() {
 				uni.showLoading({});
-				let res = await sendMobile(this.userInfo.username);
+				let res = await sendMobile(this.userInfo.member.username);
 				uni.hideLoading();
 				if (!res.data.success) {
 					uni.showToast({
@@ -238,7 +238,9 @@
 				}
 			},
 			handleDetail() {
-				console.log('跳转转入转出明细');
+				uni.navigateTo({
+					url: '/pages/mine/transfer/transferLogs'
+				})
 			},
 			onChange(val) {
 				if (this.secondPassword.length < 6) {

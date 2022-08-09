@@ -23,63 +23,58 @@
 </template>
 
 <script>
-const NAME = 'pay';
-import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue';
-export default {
-	name: NAME,
-	props: {},
-	components: {
-		tkiQrcode
-	},
-	data: function() {
-		return {
-			iShidden: true,
-			orderInfo: {},
-			census: {
-				orderCount: {},
-				orderTimeCount: {}
-			},
-			cid: '',
-			val: '',
-			size: 450,
-			result: '',
-			loadMake: true,
-			text: '',
-			isShow: false,
-		};
-	},
-	created: function() {
-		this.init()
-	},
-	methods: {
-		init(){
-			this.userInfo = this.$options.filters.isLogin();
-			if(this.userInfo) {
-				this.text = this.userInfo.blockAddress;
-				this.val = this.userInfo.blockAddress;
-				this.isShow = true
-			}
+	const NAME = 'pay';
+	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue';
+	export default {
+		name: NAME,
+		props: {},
+		components: {
+			tkiQrcode
 		},
-		qrR(e) { },	
-		copy() {
-			var self = this;
-			uni.setClipboardData({
-				data: self.text,
-				success: function() {
-					console.log('1111');
+		data: function() {
+			return {
+				cid: '',
+				val: '',
+				size: 450,
+				result: '',
+				loadMake: true,
+				text: '',
+				isShow: false,
+			};
+		},
+		created: function() {
+			this.init()
+		},
+		methods: {
+			init(){
+				this.userInfo = this.$options.filters.isLogin();
+				if(this.userInfo && this.userInfo.member) {
+					this.text = this.userInfo.member.blockAddress;
+					this.val = this.userInfo.member.blockAddress;
+					this.isShow = true
 				}
-			});
-			uni.showToast({
-				title: '复制成功',
-				icon: 'none',
-				duration: 2000
-			});
-		},
-		handleDetail() {
-			console.log('跳转转入转出明细');
+			},
+			qrR(e) { },	
+			copy() {
+				var self = this;
+				uni.setClipboardData({
+					data: self.text,
+					success: function() {
+					}
+				});
+				uni.showToast({
+					title: '复制成功',
+					icon: 'none',
+					duration: 2000
+				});
+			},
+			handleDetail() {
+				uni.navigateTo({
+					url: '/pages/mine/transfer/transferLogs'
+				})
+			}
 		}
-	}
-};
+	};
 </script>
 
 <style lang="scss" scoped>

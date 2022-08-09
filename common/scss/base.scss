@@ -34,8 +34,8 @@
 }
 
 .break-all {
-        word-break: break-all;
-    }
+	word-break: break-all;
+}
 
 @for $i from 5 through 30 {
 	.ml-#{$i} {
@@ -115,4 +115,8 @@
 
 .font-weight-500 {
 	font-weight: 500;
+}
+
+.font-color-disabled {
+	color: $font-color-disabled;
 }

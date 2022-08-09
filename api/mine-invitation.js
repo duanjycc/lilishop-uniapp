@@ -44,7 +44,6 @@ export function queryMyInvitee(params) {
 
 /**
  * 查询是否绑定邀请人
- * @param params
  */
 export function checkInvitee() {
 	return http.request({
@@ -52,6 +51,19 @@ export function checkInvitee() {
 		method: Method.GET
 	});
 }
+/**
+ * 绑定邀请人
+ * @param params
+ */
+export function bindInvitee(params) {
+	return http.request({
+		url: '/my/invitation/bind/invitee',
+		method: Method.GET,
+		params,
+	});
+}
+
+
 
 
 

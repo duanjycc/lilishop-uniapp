@@ -10,105 +10,132 @@
 			</view>
 		</view>
 		<view class="items">
-			<view class="card-area ml-20 mr-20" v-for="(item, index) in 15" :key="i">
+			<view class="card-area ml-20 mr-20" v-for="(item, index) in list" :key="index">
 				<view class="card-title d-flex justify-content-space-between align-items-center">
-					<view>2020-11-11</view>
-					<view>
-						<view class="badge badge-into">转入</view>
-						<!-- <view class="badge badge-out">转出</view> -->
+					<view v-if="type == 1">{{ item.intoTime | filterDate }}</view>
+					<view v-else>{{ item.rechargeTime | filterDate }}</view>
+					
+					<view v-if="type == 1">
+						<view class="badge badge-success" v-if="item.rechargeStatus == 0">成功</view>
+						<view v-else class="badge badge-warning">转出中</view>
+					</view>
+					<view v-if="type == 2">
+						<view class="badge badge-success" v-if="item.receiptStatus == 0">成功</view>
+						<view v-else class="badge badge-warning">转出中</view>
 					</view>
 				</view>
 				<view class="card-body break-all">
 					<view class="d-flex">
 						<text class="label">数量：</text>
-						<text class="count-into">10 SSD</text>
+						<text v-if="type == 1">{{ item.arrivalAmount }}</text>
+						<text v-else>{{ item.rechargeAmount }}</text>
 					</view>
 					<view class="d-flex">
 						<text class="label">账户：</text>
-						<text>sdfdssddsdfdsfasewrwefsadsfadsf344t54545345435fedfds</text>
+						<text v-if="type == 1">{{ item.paymentAddress }}</text>
+						<text v-else>{{ item.intoAddress }}</text>
 					</view>
 				</view>
 			</view>
 		</view>
 		
+		<view class="text-center font-color-disabled">{{ loadStatus }}</view>
 	</view>
 </template>
 
 <script>
-	import { getPointsData, getMemberPointSum } from "@/api/members.js";
+	import { transferInDetails, transferOutDetails } from "@/api/mine-transfer.js";
+	
+	function getMonth() {
+		let fdate = new Date()
+		let fyears = fdate.getFullYear()
+		let fmoths = fdate.getMonth()
+		let fdate_sgy = new Date(fyears, fmoths - 1, fdate.getDate())
+		return fdate_sgy;
+	}
+	function dateFormat(dat){
+		//获取年月日，时间
+		var year = dat.getFullYear();
+		var mon = (dat.getMonth()+1) < 10 ? "0"+(dat.getMonth()+1) : dat.getMonth()+1;
+		var data = dat.getDate()  < 10 ? "0"+(dat.getDate()) : dat.getDate();
+		var newDate = year +"-"+ mon +"-"+ data;
+		return newDate;
+	}
 	export default {
+		filters: {
+			filterDate(val) {
+				return dateFormat(new Date(val));
+			}
+		},
 		data() {
 			return {
-				single: '',
-				datetimesingle: '',
-				range: ['2021-02-1', '2021-3-28'],
-				datetimerange: [],
-				start: Date.now() - 1000000000,
-				end: Date.now() + 1000000000,
-				loadStatus: "more",
+				range: [getMonth() , Date.now()],
 				list: [], 
 				params: {
 					pageNumber: 1,
 					pageSize: 10,
+					beginDate: dateFormat(getMonth()),
+					endDate: dateFormat(new Date())
 				},
-				inviter: '',
-				tel: '',
 				type: 1,
+				loadStatus: "加载更多",
+				pages: 1,
+				total: 0
 			};
-		},
-		mounted() {
-			setTimeout(() => {
-				this.datetimesingle = Date.now() - 2*24*3600*1000
-				this.single = '2021-2-12'
-				this.datetimerange = ["2021-07-08 0:01:10", "2021-08-08 23:59:59"]
-			},3000)
 		},
 		onLoad() {
 			this.initPointData();
 			this.getList();
+			
 		},
 		onReachBottom() {
-			this.params.pageNumber++;
-			this.getList();
+			if(this.pages > this.params.pageNumber) {
+				this.params.pageNumber++;
+				this.getList();
+			}
+		},
+		watch: {
+			range(newVal, oldVal) {
+				this.params.beginDate = this.range[0];
+				this.params.endDate = this.range[1];
+				this.getInitPage();
+			},
+			type(newVal, oldVal) {
+				this.getInitPage();
+			},
 		},
 		methods: {
-			change(e) {
-				this.single = e
-				console.log('change事件:', this.single = e);
+			getInitPage() {
+				this.params.pageNumber = 1;
+				this.params.pageSize = 10;
+				this.loadStatus = '加载更多';
+				this.pages = 1;
+				this.total = 0;
+				this.list = [];
+				this.getList();
 			},
-			changeLog(e) {
-				console.log('change事件:', e);
-			},
-			maskClick(e){
-				console.log('maskClick事件:', e);
-			},
-			handleBind() {
-				this.$refs.popupScreen.open();
-			},
-			close() {
-				this.$refs.popupScreen.close();
-				uni.switchTab({
-					url: '/pages/home/index'
-				});
-			},
-			getList() {
+			async getList() {
+				let self = this;
 				let params = this.params;
+				let res = null;
 				uni.showLoading({
 					title: "加载中",
 				});
-				getPointsData(params).then((res) => {
-					uni.hideLoading();
-					if (res.data.success) {
-						let data = res.data.result.records;
-						if (data.length < 10) {
-							this.$set(this.count, "loadStatus", "noMore");
-							this.pointList.push(...data);
-						} else {
-							this.pointList.push(...data);
-							if (data.length < 10) this.$set(this.count, "loadStatus", "noMore");
-						}
+				if(self.type == 1)  res = await transferInDetails(params);
+				else res = await transferOutDetails(params);
+				uni.hideLoading();
+				if (res.data.success) {
+					self.pages = res.data.result.pages;
+					self.total = res.data.result.total;
+					let data = res.data.result.records;
+					if (data.length < self.params.pageSize) {
+						self.loadStatus = "没有更多";
+						self.list.push(...data);
+					} else {
+						self.list.push(...data);
+						self.loadStatus = "加载更多";
 					}
-				});
+				}
 			},
 			
 			handleAdd() {
@@ -172,8 +199,8 @@
 		}
 		
 		.items {
-			margin-top: 200rpx;
-			padding: 0 20rpx 180rpx 20rpx;
+			padding: 180rpx 20rpx 0 20rpx;
+			margin-bottom: 60rpx;
 			
 			.card-area {
 				border-radius: 20rpx;
@@ -197,15 +224,16 @@
 					padding: 0 10rpx;
 					line-height: 1.5;
 					color: #ffffff;
+					font-size: 28rpx;
 					border-radius: 10rpx;
 				}
 				
-				.badge-into {
+				.badge-success {
 					background-color: $uni-color-success;
 				}
 				
-				.badge-out {
-					background-color: $uni-color-error;
+				.badge-warning {
+					background-color: $uni-color-warning;
 				}
 			}
 		}

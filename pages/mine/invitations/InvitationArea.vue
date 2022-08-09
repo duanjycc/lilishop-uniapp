@@ -23,7 +23,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="text-center">{{ loadStatus }}</view>
+		<view class="text-center font-color-disabled">{{ loadStatus }}</view>
 	</view>
 </template>
 

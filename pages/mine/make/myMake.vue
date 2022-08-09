@@ -3,11 +3,11 @@
 		<view class="mine-header">
 			<view>
 				<view>通证</view>
-				<view class="uni-top-2">{{ userInfo.ssd || 0 }}</view>
+				<view class="uni-top-2">{{ userInfo.member.ssd || 0 }}</view>
 			</view>
 			<view>
 				<view>积分</view>
-				<view class="uni-top-2">{{ userInfo.point || 0 }}</view>
+				<view class="uni-top-2">{{ userInfo.member.point || 0 }}</view>
 			</view>
 		</view>
 		
@@ -31,7 +31,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="text-center loadStatus">{{ loadStatus }}</view>
+		<view class="text-center loadStatus font-color-disabled">{{ loadStatus }}</view>
 		
 		<view class="btn-bottom"  @click="handleAdd">
 			做单
@@ -48,7 +48,7 @@
 				list: [], //积分数据集合
 				params: {
 					pageNumber: 1,
-					pageSize: 5,
+					pageSize: 10,
 				},
 				userInfo: null,
 				loadStatus: "加载更多",
