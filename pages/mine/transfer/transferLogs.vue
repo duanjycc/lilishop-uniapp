@@ -163,7 +163,7 @@
 		
 		.header {
 			position: fixed;
-			top: 80rpx;
+			// top: 80rpx;
 			left: 0;
 			right: 0;
 			
