@@ -41,7 +41,7 @@
       <flexTwo v-if="item.type == 'flexTwo'" :res="item.options" />
       <textPicture v-if="item.type == 'textPicture'" :res="item.options" />
       <menuLayout v-if="item.type == 'menu'" :res="item.options" />
-      <flexOne v-if="item.type == 'flexOne'" :res="item.options" />
+      <!-- <flexOne v-if="item.type == 'flexOne'" :res="item.options" /> -->
       <goods v-if="item.type == 'goods'" :res="item.options" />
       <group v-if="item.type == 'group'" :res="item.options" />
       <notice v-if="item.type == 'notice'" :res="item.options" />
@@ -125,6 +125,7 @@ export default {
       getFloorData().then((res) => {
         if (res.data.success) {
           this.pageData = JSON.parse(res.data.result.pageData);
+		  console.log(this.pageData);
         }
       });
     },

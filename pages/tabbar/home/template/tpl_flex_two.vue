@@ -1,50 +1,78 @@
 <template>
-  <div class="layout">
-    <div class="flex-two">
-      <div class="flex-item" @click="modelNavigateTo(res.list[0])">
-        <u-image height="250rpx" borderRadius="10px" width="100%" mode="scaleToFill" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01514658cf4a5ba801219c777b5eda.png&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661933864&t=f04be5975357f2028362df477b433d33" alt>
-          <u-loading slot="loading"></u-loading>
-		
-        </u-image>
-      </div>
-      <div class="flex-item" @click="modelNavigateTo(res.list[1])">
-        <u-image height="250rpx"  borderRadius="10px" width="100%" mode="scaleToFill" :src="res.list[1].img" alt>
-          <u-loading slot="loading"></u-loading>
-        </u-image>
-      </div>
-    </div>
+	<div class="layout">
+		<div class="flex-two">
+			<div class="item item-1">
+				<view>
+					<view class="fs-28 mb-10">SSD销毁总量</view>
+					<view class="fs-48 font-weight-700">{{ todayCount }}</view>
+				</view>
+			</div>
+			<div class="item item-2">
+				<view>
+					<view class="fs-28 mb-10">昨日销毁量</view>
+					<view class="fs-48 font-weight-700">{{ yesterdayCount }}</view>
+				</view>
+			</div>
+		</div>
   </div>
 </template>
 <script>
-import uImage from "@/uview-ui/components/u-image/u-image.vue";
-import { modelNavigateTo } from "./tpl";
-export default {
-  components: { uImage },
-  title: "两张横图",
-  props: ["res"],
-  mounted() {
-   
-  },
-  data() {
-    return {
-      modelNavigateTo,
-    };
-  },
-};
+	
+	import { homeSSD } from "@/api/home"; //获取楼层装修接口
+	export default {
+		title: "两张横图",
+		data() {
+			return {
+				todayCount: 0,
+				yesterdayCount: 0
+			};
+		},
+		mounted() {
+			this.getData();
+		},
+		methods: {
+			getData() {
+				let self = this;
+				homeSSD().then((res) => {
+					if (res.data.success) {
+						let data = res.data.result;
+						self.todayCount = data.sum;
+						self.yesterdayCount = data.yesterdayCount;
+					}
+				});
+			}
+		}
+	};
 </script>
 <style lang="scss" scoped>
 @import "./tpl.scss";
 .flex-two {
-  width: 100%;
-  display: flex;
-  overflow: hidden;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 200rpx;
+	
+	.item {
+		height: 100%;
+		width: calc(50% - 10rpx);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		color: #ffffff;
+		border-radius: 10rpx;
+	}
+	
+	.item-1 {
+		background-color:#72c5b3;
+		background-image:-webkit-gradient(linear, left bottom, right top, color-stop(0.32, #51708c87), color-stop(0.83, #72c5b3));
+	}
+	
+	.item-2 {
+		background-color:#d41a1a;
+		background-image:-webkit-gradient(linear, left bottom, right top, color-stop(0.32, #ae8d8d96), color-stop(0.83, #ffc107));
+	}
 }
-.flex-item {
-  width: 50%;
-  > img {
-    display: flex;
-    max-width: 100%;
-    height: 100%;
-  }
-}
+
 </style>

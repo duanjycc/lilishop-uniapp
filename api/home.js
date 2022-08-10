@@ -60,3 +60,14 @@ export function getCategoryIndexData(parentId = 0) {
     method: "get",
   });
 }
+
+
+/**
+ * 获取首页ssd统计
+ */
+export function homeSSD() {
+  return http.request({
+    url: `/home/ssd`,
+    method: "get",
+  });
+}
