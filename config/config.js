@@ -1,5 +1,5 @@
-const name = "联德时代"; //全局商城name
-const schemeName = '联德时代' //唤醒app需要的schemeName
+const name = "惠乐猫"; //全局商城name
+const schemeName = '惠乐猫' //唤醒app需要的schemeName
 export default {
   name: name,
   schemeLink: `${schemeName}://`, //唤起app地址

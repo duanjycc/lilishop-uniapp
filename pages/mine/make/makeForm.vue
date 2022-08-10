@@ -27,10 +27,10 @@
 				<view class="form-label">手机号码</view>
 				<input class="form-text" type="text" v-model="form.vipPhone" placeholder="输入会员手机号"/>
 			</view>
-			<view class="desc fs-28 mt-20">{{ userInfo.ssd }}/SSD</view>
+			<view class="desc fs-28 mt-20">{{ userInfo.member.ssd }}/SSD</view>
 		</view>
 		
-		<view class="tip-info fs-28 mt-100">本次做单大约需要 {{ ssd }}(SSD)</view>
+		<view class="tip-info fs-28 mt-100" v-show="ssd">本次做单大约需要 {{ ssd }}(SSD)</view>
 		<view class="btn-submit" @click="handleSubmit">确认让利</view>
 		<u-keyboard class="passwrod-panel" @change="onChange" ref="uKeyboard" v-model="showKeyboard" @backspace="onBackspace" mode="number" :dot-enabled="false" :tooltip="false" default="">
 			<view class="mt-40 mb-40 text-center" style="text-align: center;">
@@ -65,19 +65,19 @@
 		data() {
 			return {
 				userInfo: null,
-				surrenderRatioIndex: 0,
+				surrenderRatioIndex: 9,
 				surrenderRatios: [0.01, 0.02, 0.03, 0.04, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1],
 				surrenderRatioDescs: ['1%','2%','3%','4%','5%','6%','7%','8%','9%','10%'],
 				storeIndex: 0,
 				storeIds: [],
 				storeNames: [],
 				form: {
-					monetary: 0,
+					monetary: null,
 					merId: 0,
 					merName: null,
 					surrenderRatio: 0.01,
 					surrenderPrice: 0,
-					vipPhone: 13311111111,
+					vipPhone: null,
 					password: null,
 					wantPrice: null
 				},
