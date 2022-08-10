@@ -25,6 +25,9 @@
 <script>
 	const NAME = 'pay';
 	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue';
+	import { getUserInfo } from "@/api/members";
+	import storage from "@/utils/storage.js"
+	
 	export default {
 		name: NAME,
 		props: {},
@@ -80,7 +83,7 @@
 <style lang="scss" scoped>
 .pay {
 	background-color: #5F9DFF;
-	height: calc(100vh - 80rpx);
+	min-height: 100vh;
 	padding: 50rpx 30rpx;
 	
 	

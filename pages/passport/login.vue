@@ -609,9 +609,6 @@ export default {
          */
         getUserInfo().then((user) => {
           if (user.data.success) {
-            /**
-             * 个人信息存储到缓存userInfo中
-             */
             storage.setUserInfo(user.data.result);
             storage.setHasLogin(true);
             // 登录成功
@@ -619,10 +616,7 @@ export default {
               title: "登录成功!",
               icon: "none",
             });
-
-           
-                whetherNavigate();
-              
+            whetherNavigate();
           } else {
             uni.switchTab({
               url: "/pages/tabbar/home/index",

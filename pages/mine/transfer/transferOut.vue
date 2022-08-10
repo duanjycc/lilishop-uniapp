@@ -73,6 +73,8 @@
 	import { transferAccounts } from "@/api/mine-transfer.js";
 	import { queryConfigureByType } from "@/api/mine-common.js";
 	import { sendMobile, checkPassword, paymentPassword } from "@/api/login";
+	import { getUserInfo } from "@/api/members";
+	import storage from "@/utils/storage.js"
 	
 	export default {
 		name: 'donating',
@@ -300,7 +302,17 @@
 						'verificationCode': self.verificationCode
 					}).then((res) => {
 						uni.hideLoading();
-						if (res.data.success) { }
+						if (res.data.success) {
+							self.$nextTick(() => {
+								getUserInfo().then((user) => {
+									if (user.data.success) {
+										storage.setUserInfo(user.data.result);
+										self.userInfo = user.data.result;
+									}
+								});
+							})
+							uni.navigateBack();
+						}
 					});
 				}
 				
@@ -337,7 +349,7 @@
 <style lang="scss" scoped>
 .pay {
 	background-color: #5F9DFF;
-	height: calc(100vh - 80rpx);
+	min-height: 100vh;
 	padding: 50rpx 30rpx;
 	
 }

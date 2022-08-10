@@ -58,6 +58,9 @@
 	import { makeAccount, getStoreList } from "@/api/mine-make.js";
 	import {checkPassword, paymentPassword } from "@/api/login";
 	import { queryConfigureByType } from "@/api/mine-common.js";
+	import { getUserInfo } from "@/api/members";
+	import storage from "@/utils/storage.js"
+	
 	export default {
 		data() {
 			return {
@@ -239,6 +242,14 @@
 						self.showKeyboard = false;
 						if (res.data.success) { 
 							self.keyboardLevel = 0;
+							self.$nextTick(() => {
+								getUserInfo().then((user) => {
+									if (user.data.success) {
+										storage.setUserInfo(user.data.result);
+										self.userInfo = user.data.result;
+									}
+								});
+							})
 							uni.navigateBack()
 						} 
 					});

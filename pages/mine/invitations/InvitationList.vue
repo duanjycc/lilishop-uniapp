@@ -7,7 +7,7 @@
 			</view>
 			<view v-if="isBind">
 				<view>谁邀请我</view>
-				<view class="uni-top-2">{{ invitee.username }}</view>
+				<view class="uni-top-2">{{ userInfo.member.inviteeMobile }}</view>
 			</view>
 			<view v-else class="bind" @click="handleBind">绑定邀请人</view>
 		</view>
@@ -52,6 +52,7 @@
 	import { queryInvitation, queryMyInvitee, checkInvitee, bindInvitee } from "@/api/mine-invitation.js";
 	import uniPopup from '@/components/uni-popup/uni-popup.vue';
 	import storage from "@/utils/storage.js"
+	import { getUserInfo } from "@/api/members";
 	
 	export default {
 		components: {
@@ -69,10 +70,12 @@
 				isBind: false,
 				loadStatus: "加载更多",
 				pages: 1,
-				total: 0
+				total: 0,
+				userInfo: null
 			};
 		},
 		onLoad() {
+			this.userInfo = this.$options.filters.isLogin();
 			this.initData();
 			this.getList();
 		},
@@ -121,15 +124,6 @@
 				checkInvitee().then((res) => {
 					if (res.data.success) {
 						self.isBind = res.data.result;
-						self.$nextTick(() => {
-							if(!self.isBind) {
-								queryMyInvitee().then((res1) => {
-									if (res1.data.success) {
-										self.invitee = res1.data.result
-									}
-								});
-							}
-						})
 					}
 				})
 				
@@ -151,7 +145,12 @@
 							storage.setAccessToken(res.data.result.accessToken);
 							storage.setRefreshToken(res.data.result.refreshToken);
 							self.$nextTick(() => {
-								self.initData();
+								getUserInfo().then((user) => {
+									if (user.data.success) {
+										storage.setUserInfo(user.data.result);
+										self.userInfo = user.data.result;
+									}
+								});
 							})
 						}
 					})
