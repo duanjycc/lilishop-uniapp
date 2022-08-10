@@ -30,6 +30,7 @@
 			"path": "pages/tabbar/cart/cartList",
 			"style": {
 				"navigationBarTitleText": "购物车",
+				"navigationStyle": "custom",
 				"navigationBarBackgroundColor": "#fff",
 				"enablePullDownRefresh":true    //实现下拉刷新样式
 
@@ -53,7 +54,6 @@
 			"style": {
 				"navigationBarTitleText": "搜索",
 				"navigationStyle": "custom",
-				
 				"app-plus": {
 					//app页面不显示滚动条
 					"scrollIndicator": "none",
@@ -90,7 +90,8 @@
 				{
 					"path": "signIn",
 					"style": {
-						"navigationBarTitleText": "签到"
+						"navigationBarTitleText": "签到",
+						"navigationStyle": "custom"
 					}
 				}, 
 				{
@@ -116,6 +117,7 @@
 					"path": "distribution/list",
 					"style": {
 						"navigationBarTitleText": "推广分佣",
+						"navigationStyle": "custom",
 						"app-plus": {
 							//app页面不显示滚动条
 							"scrollIndicator": "none"
@@ -126,6 +128,7 @@
 					"path": "distribution/withdrawal",
 					"style": {
 						"navigationBarTitleText": "提现",
+						"navigationStyle": "custom",
 						"app-plus": {
 							//app页面不显示滚动条
 							"scrollIndicator": "none"
@@ -137,6 +140,7 @@
 					"style": {
 						"navigationBarTitleText": "推广资格申请",
 						"navigationBarTextStyle": "black",
+						"navigationStyle": "custom",
 						"app-plus": {
 							//app页面不显示滚动条
 							"scrollIndicator": "none"
@@ -146,14 +150,16 @@
 				{
 					"path": "distribution/history",
 					"style": {
-						"navigationBarTitleText": "提现历史"
+						"navigationBarTitleText": "提现历史",
+						"navigationStyle": "custom"
 
 					}
 				},
 				{
 					"path": "distribution/auth",
 					"style": {
-						"navigationBarTitleText": "会员实名认证"
+						"navigationBarTitleText": "会员实名认证",
+						"navigationStyle": "custom"
 
 					}
 				},
@@ -167,7 +173,8 @@
 				{
 					"path": "distribution/home",
 					"style": {
-						"navigationBarTitleText": "推广分佣"
+						"navigationBarTitleText": "推广分佣",
+						"navigationStyle": "custom"
 
 					}
 				},
@@ -188,21 +195,24 @@
 				{
 					"path": "deposit/recharge",
 					"style": {
-						"navigationBarTitleText": "充值金额"
+						"navigationBarTitleText": "充值金额",
+						"navigationStyle": "custom"
 
 					}
 				},
 				{
 					"path": "deposit/withdrawal",
 					"style": {
-						"navigationBarTitleText": "提现金额"
+						"navigationBarTitleText": "提现金额",
+						"navigationStyle": "custom"
 
 					}
 				},
 				{
 					"path": "deposit/info",
 					"style": {
-						"navigationBarTitleText": "预存款详情"
+						"navigationBarTitleText": "预存款详情",
+						"navigationStyle": "custom"
 
 					}
 				},
@@ -210,43 +220,50 @@
 					"path": "address/address",
 					"style": {
 						"enablePullDownRefresh": true,
-						"navigationBarTitleText": "地址管理"
+						"navigationBarTitleText": "地址管理",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "address/add",
 					"style": {
-						"navigationBarTitleText": "收货人"
+						"navigationBarTitleText": "收货人",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "address/addressManage",
 					"style": {
-						"navigationBarTitleText": "地址管理"
+						"navigationBarTitleText": "地址管理",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "set/versionFunctionList",
 					"style": {
-						"navigationBarTitleText": "功能介绍"
+						"navigationBarTitleText": "功能介绍",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "set/securityCenter/fingerLogin",
 					"style": {
-						"navigationBarTitleText": "指纹登录"
+						"navigationBarTitleText": "指纹登录",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "set/securityCenter/faceLogin",
 					"style": {
-						"navigationBarTitleText": "面容登录"
+						"navigationBarTitleText": "面容登录",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "set/securityCenter/editPassword",
 					"style": {
 						"navigationBarTitleText": "修改密码",
+						"navigationStyle": "custom",
 						"app-plus": {
 
 						}
@@ -255,31 +272,36 @@
 				{
 					"path": "set/feedBack",
 					"style": {
-						"navigationBarTitleText": "意见反馈"
+						"navigationBarTitleText": "意见反馈",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "set/securityCenter/securityCenter",
 					"style": {
-						"navigationBarTitleText": "安全中心"
+						"navigationBarTitleText": "安全中心",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "set/editionIntro",
 					"style": {
-						"navigationBarTitleText": "关于我们"
+						"navigationBarTitleText": "关于我们",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "set/setUp",
 					"style": {
-						"navigationBarTitleText": "设置"
+						"navigationBarTitleText": "设置",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "set/personMsg",
 					"style": {
 						"navigationBarTitleText": "个人信息",
+						"navigationStyle": "custom",
 						"app-plus": {
 							"titleNView": {
 								"padding-right": "12",
@@ -302,55 +324,64 @@
 				{
 					"path": "point/myPoint",
 					"style": {
-						"navigationBarTitleText": "我的积分"
+						"navigationBarTitleText": "我的积分",
+						"navigationStyle": "custom"
 					}
 				}, 
 				{
 					"path": "make/myMake",
 					"style": {
-						"navigationBarTitleText": "每日做单"
+						"navigationBarTitleText": "每日做单",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "make/makeForm",
 					"style": {
-						"navigationBarTitleText": "每日做单"
+						"navigationBarTitleText": "每日做单",
+						"navigationStyle": "custom"
 					}
 				}, 
 				{
 					"path": "msgTips/main",
 					"style": {
-						"navigationBarTitleText": "消息中心"
+						"navigationBarTitleText": "消息中心",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "msgTips/sysMsg/index",
 					"style": {
-						"navigationBarTitleText": "系统消息"
+						"navigationBarTitleText": "系统消息",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "msgTips/serviceMsg/index",
 					"style": {
-						"navigationBarTitleText": "客服记录"
+						"navigationBarTitleText": "客服记录",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "msgTips/packageMsg/index",
 					"style": {
-						"navigationBarTitleText": "物流消息"
+						"navigationBarTitleText": "物流消息",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "msgTips/packageMsg/logisticsDetail",
 					"style": {
-						"navigationBarTitleText": "订单跟踪"
+						"navigationBarTitleText": "订单跟踪",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path" : "transfer/transferInto",
 					"style" : {
 						"navigationBarTitleText": "转入",
+						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
 				},
@@ -358,6 +389,7 @@
 					"path" : "transfer/transferOut",
 					"style" : {
 						"navigationBarTitleText": "转出",
+						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
 				},
@@ -365,6 +397,7 @@
 					"path" : "invitations/InvitationList",
 					"style" : {
 						"navigationBarTitleText": "绑定邀请人",
+						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
 				},
@@ -372,6 +405,7 @@
 					"path" : "invitations/InvitationArea",
 					"style" : {
 						"navigationBarTitleText": "邀请区域",
+						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
 				},
@@ -379,6 +413,7 @@
 					"path" : "transfer/transferLogs",
 					"style" : {
 						"navigationBarTitleText": "转入转出明细",
+						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
 				}
@@ -646,19 +681,22 @@
 			"pages": [{
 					"path": "complain/complain",
 					"style": {
-						"navigationBarTitleText": "订单商品投诉"
+						"navigationBarTitleText": "订单商品投诉",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "complain/complainInfo",
 					"style": {
-						"navigationBarTitleText": "投诉详情"
+						"navigationBarTitleText": "投诉详情",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "complain/complainList",
 					"style": {
-						"navigationBarTitleText": "投诉列表"
+						"navigationBarTitleText": "投诉列表",
+						"navigationStyle": "custom"
 					}
 				},
 				{

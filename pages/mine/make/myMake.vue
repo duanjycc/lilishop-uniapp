@@ -108,7 +108,7 @@
 		    background-repeat: no-repeat;
 			border-radius: 0 0 30rpx 30rpx;
 			position: fixed;
-			top: 80rpx !important;
+			// top: 80rpx !important;
 			left: 0;
 			right: 0;
 			display: flex;

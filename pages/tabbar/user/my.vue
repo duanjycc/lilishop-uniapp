@@ -9,25 +9,35 @@
         <image :src="userInfo.face || '/static/missing-face.png'"></image>
       </view>
       <view class="head-2" v-if="userInfo.id">
-        <view class="user-name">{{ userInfo.username }}</view>
-        <view class="user-name">{{ userInfo.nickName }}</view>
+     <!--   <view class="user-name">{{ userInfo.username }}</view> -->
+        <view class="user-name">{{ userInfo.member.mobile }}</view>
+		
+		<view v-for="(item, index) in userInfo.member.roles" :key="index">
+		  <view>
+			   <view class="head-image">
+					<image :src ="item.imgUrl"></image>  {{ item.roleName }}
+			   </view>
+		  </view>
+		</view>
       </view>
       <view class="head-2" v-else>
         <view class="user-name">登录/注册</view>
       </view>
+	  
       <u-icon name="arrow-right"></u-icon>
+	  
     </view>
     <!-- 积分，优惠券，关注， -->
     <div class="pointBox box">
       <u-row text-align="center" gutter="16" class="point">
         <u-col text-align="center" span="4" @click="navigateTo('/pages/mine/deposit/operation')">
           <view>SSD卷</view>
-          <view class="money">{{ walletNum | unitPrice}}</view>
+          <view class="money">{{ userInfo.member.ssd.toFixed(2) || 0 }}</view>
         </u-col>
 
         <u-col text-align="center" span="4" @click="navigateTo('/pages/cart/coupon/myCoupon')">
           <view>积分</view>
-          <view>{{ couponNum || 0 }}</view>
+          <view>{{ userInfo.member.point.toFixed(2) || 0 }}</view>
         </u-col>
 
         <u-col text-align="center" span="4" @click="navigateTo('/pages/mine/myTracks')">
@@ -198,7 +208,13 @@ body {
       margin-left: 30rpx;
       line-height: 1.5;
     }
-	
+	.head-image{
+		image{
+			padding-top: 10rpx;
+			width: 25rpx;
+			height: 25rpx;
+		}
+	}
   }
   .pointBox {
     width: 94%;
