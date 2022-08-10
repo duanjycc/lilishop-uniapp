@@ -57,8 +57,7 @@
 			};
 		},
 		onShow() {
-			this.userInfo = this.$options.filters.isLogin();
-			this.getList();
+			this.initData();
 		},
 		onReachBottom() {
 			if(this.pages > this.params.pageNumber) {
@@ -67,6 +66,16 @@
 			}
 		},
 		methods: {
+			initData() {
+				this.total = 0;
+				this.pages = 1,
+				this.loadStatus = "加载更多";
+				this.list = [];
+				this.params.pageSize = 10;
+				this.params.pageNumber = 1;
+				this.userInfo = this.$options.filters.isLogin();
+				this.getList();
+			},
 			getList() {
 				let self = this;
 				let params = this.params;

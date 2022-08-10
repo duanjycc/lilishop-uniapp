@@ -19,6 +19,16 @@
 <script>
 	
 	import { homeSSD } from "@/api/home"; //获取楼层装修接口
+	
+	let getFloat = function(number, n) {
+		n = n ? parseInt(n) : 0;
+		if(n <= 0) {
+			return Math.round(number);
+		}
+		number = Math.round(number * Math.pow(10, n)) / Math.pow(10, n); //四舍五入
+		return number;
+	};
+	
 	export default {
 		title: "两张横图",
 		data() {
@@ -36,8 +46,8 @@
 				homeSSD().then((res) => {
 					if (res.data.success) {
 						let data = res.data.result;
-						self.todayCount = data.sum;
-						self.yesterdayCount = data.yesterdayCount;
+						self.todayCount = getFloat(data.sum, 4);
+						self.yesterdayCount = getFloat(data.yesterdayCount, 4);
 					}
 				});
 			}

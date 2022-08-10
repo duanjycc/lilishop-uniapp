@@ -23,7 +23,7 @@
 					<view class="item">
 						<view class="title">验证码</view>
 						<view class="t-info verificationCode">
-							<input type="text" placeholder="填写验证码" class="it" v-model="verificationCode" placeholder-style="font-size:34rpx;color:#C7C7C7;"/>
+							<input type="number" placeholder="填写验证码" class="it" v-model="verificationCode" placeholder-style="font-size:34rpx;color:#C7C7C7;"/>
 						</view>
 					 
 						<button class="code" @click="code">{{ verificationText }}</button>
@@ -74,8 +74,16 @@
 	import { queryConfigureByType } from "@/api/mine-common.js";
 	import { sendMobile, checkPassword, paymentPassword } from "@/api/login";
 	import { getUserInfo } from "@/api/members";
-	import storage from "@/utils/storage.js"
-	
+	import storage from "@/utils/storage.js";
+	// import storage from "@/js_sdk/qrcode/jsQR.js"
+	let getFloat = function(number, n) {
+		n = n ? parseInt(n) : 0;
+		if(n <= 0) {
+			return Math.round(number);
+		}
+		number = Math.round(number * Math.pow(10, n)) / Math.pow(10, n); //四舍五入
+		return number;
+	};
 	export default {
 		name: 'donating',
 		data() {
@@ -84,7 +92,7 @@
 				verificationCode: "",
 				acceptAddress: '',
 				limit: '',
-				transferCount: 0,
+				transferCount: null,
 				secondPassword: '',
 				frozen: '',
 				verificationText: '获取验证码',
@@ -101,13 +109,13 @@
 		onShow() {
 			this.userInfo = this.$options.filters.isLogin();
 			if(this.userInfo) {
-				this.limit = this.userInfo.member.ssd - this.userInfo.member.frozenSSD;
-				this.frozen = this.userInfo.member.frozenSSD;
+				this.limit = getFloat(this.userInfo.member.ssd - this.userInfo.member.frozenSSD, 4);
+				this.frozen = getFloat(this.userInfo.member.frozenSSD, 4);
 			}
 		},
 		computed: {
 			actualPrice() {
-				return parseFloat(this.serviceCharge) + parseFloat(this.transferCount);
+				return parseFloat(this.serviceCharge) + parseFloat(this.transferCount || 0);
 			}
 		},
 		watch: {
@@ -200,6 +208,11 @@
 					self.secondPassword = val
 				}
 				console.log(val);
+			},
+			onBackspace(e) {
+				if (this.secondPassword.length > 0) {
+					this.secondPassword = this.secondPassword.substring(0, this.secondPassword.length - 1);
+				}
 			},
 			handle_all() {
 				this.transferCount = this.limit;

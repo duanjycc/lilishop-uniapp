@@ -1,9 +1,9 @@
 <template>
 	<view class="container pb-120">
-		<view class="content">
+		<view class="content mb-100">
 			<view class="form-group">
 				<view class="form-label">消费金额</view>
-				<input class="form-text" type="text" v-model="form.monetary" placeholder="金额"/>
+				<input class="form-text" type="number" v-model="form.monetary" placeholder="金额"/>
 			</view>
 			<view class="form-group">
 				<view class="form-label">店铺</view>
@@ -30,7 +30,7 @@
 			<view class="desc fs-28 mt-20">{{ userInfo.member.ssd }}/SSD</view>
 		</view>
 		
-		<view class="tip-info fs-28 mt-100" v-show="ssd">本次做单大约需要 {{ ssd }}(SSD)</view>
+		<view class="tip-info fs-28" v-show="ssd > 0">本次做单大约需要 {{ ssd }}(SSD)</view>
 		<view class="btn-submit" @click="handleSubmit">确认让利</view>
 		<u-keyboard class="passwrod-panel" @change="onChange" ref="uKeyboard" v-model="showKeyboard" @backspace="onBackspace" mode="number" :dot-enabled="false" :tooltip="false" default="">
 			<view class="mt-40 mb-40 text-center" style="text-align: center;">
@@ -48,7 +48,7 @@
 					<text>SSD</text>
 				</view>
 			</view>
-			<u-message-input class="mt-30" mode="box" :maxlength="6" :dot-fill="true" v-model="password" :disabled-keyboard="true" @finish="finish"></u-message-input>
+			<u-message-input class="mt-30" mode="box" :maxlength="6" :dot-fill="true" v-model="secondPassword" :disabled-keyboard="true" @finish="finish"></u-message-input>
 		</u-keyboard>
 	</view>
 </template>
@@ -59,7 +59,16 @@
 	import {checkPassword, paymentPassword } from "@/api/login";
 	import { queryConfigureByType } from "@/api/mine-common.js";
 	import { getUserInfo } from "@/api/members";
-	import storage from "@/utils/storage.js"
+	import storage from "@/utils/storage.js";
+	
+	let getFloat = function(number, n) {
+		n = n ? parseInt(n) : 0;
+		if(n <= 0) {
+			return Math.round(number);
+		}
+		number = Math.round(number * Math.pow(10, n)) / Math.pow(10, n); //四舍五入
+		return number;
+	};
 	
 	export default {
 		data() {
@@ -78,10 +87,10 @@
 					surrenderRatio: 0.01,
 					surrenderPrice: 0,
 					vipPhone: null,
-					password: null,
+					secondPassword: null,
 					wantPrice: null
 				},
-				password: '',
+				secondPassword: '',
 				showKeyboard: false,
 				keyboardTitle: '请输入密码',
 				keyboardLevel: 0,
@@ -93,7 +102,7 @@
 		computed: {
 			ssd() {
 				if(this.unitPrice > 0) {
-					return parseFloat(this.form.surrenderPrice) / parseFloat(this.unitPrice);
+					return getFloat(parseFloat(this.form.surrenderPrice) / parseFloat(this.unitPrice), 8);
 				}
 				return 0;
 			}
@@ -126,8 +135,8 @@
 			this.init();
 		},
 		onBackspace(e) {
-			if (this.password.length > 0) {
-				this.password = this.password.substring(0, this.password.length - 1);
+			if (this.secondPassword.length > 0) {
+				this.secondPassword = this.secondPassword.substring(0, this.secondPassword.length - 1);
 			}
 		},
 		methods: {
@@ -164,11 +173,16 @@
 				this.storeIndex = e.target.value
 			},
 			onChange(val) {
-				if (this.password.length < 6) {
-					this.password += val;
+				if (this.secondPassword.length < 6) {
+					this.secondPassword += val;
 				}
-				if (this.password.length >= 6) {
+				if (this.secondPassword.length >= 6) {
 					this.finish();
+				}
+			},
+			onBackspace(e) {
+				if (this.secondPassword.length > 0) {
+					this.secondPassword = this.secondPassword.substring(0, this.secondPassword.length - 1);
 				}
 			},
 			checkStatus() {
@@ -194,14 +208,14 @@
 			},
 			finish() {
 				let self = this;
-				let password = self.password;
+				let secondPassword = self.secondPassword;
 				if(self.keyboardLevel == 1) {
-					self.password1 = password;
+					self.password1 = secondPassword;
 					self.keyboardLevel = 2;
-					self.password='';
+					self.secondPassword='';
 				}
 				else if(self.keyboardLevel == 2) {
-					self.password2 = password;
+					self.password2 = secondPassword;
 					if(self.password1 == self.password2) {
 						
 						uni.showLoading({
@@ -228,11 +242,11 @@
 						self.password1 = '';
 						self.password2 = '';
 					}
-					self.password = '';
+					self.secondPassword = '';
 				}
 				else {
 					self.showKeyboard = false;
-					self.form.password = md5(self.password);
+					self.form.secondPassword = md5(self.secondPassword);
 					self.form.wantPrice = self.unitPrice;
 					uni.showLoading({
 						title: "正在提交...",
@@ -273,7 +287,7 @@
 								self.keyboardLevel = 1;
 							}
 							self.showKeyboard = true;
-							self.password='';
+							self.secondPassword='';
 						}
 					});
 				}
