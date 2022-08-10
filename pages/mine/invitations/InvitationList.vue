@@ -142,15 +142,12 @@
 					}).then((res) => {
 						if (res.data.success) {
 							self.close();
-							storage.setAccessToken(res.data.result.accessToken);
-							storage.setRefreshToken(res.data.result.refreshToken);
 							self.$nextTick(() => {
 								getUserInfo().then((user) => {
 									if (user.data.success) {
+										self.isBind = true;
 										storage.setUserInfo(user.data.result);
-										self.$nextTick(() => {
-											self.userInfo = user.data.result;
-										})
+										self.userInfo = user.data.result;
 										self.$forceUpdate();
 									}
 								});
