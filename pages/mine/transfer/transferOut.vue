@@ -308,10 +308,10 @@
 									if (user.data.success) {
 										storage.setUserInfo(user.data.result);
 										self.userInfo = user.data.result;
+										uni.navigateBack();
 									}
 								});
 							})
-							uni.navigateBack();
 						}
 					});
 				}

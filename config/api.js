@@ -4,11 +4,11 @@
  */
 // 开发环境
 const dev = {
- common: "http://wang.wantbibi.com/common-api",
- buyer: "http://wang.wantbibi.com/buyer-api",
+ // common: "http://wang.wantbibi.com/common-api",
+ // buyer: "http://wang.wantbibi.com/buyer-api",
  
-  // common: "http://e6801ae.r2.cpolar.cn",
-  // buyer: "http://79e72ced.r2.cpolar.cn",
+  common: "http://8.136.107.94:7003",
+  buyer: "http://8.136.107.94:7002",
 };
 // 生产环境
 const prod = {

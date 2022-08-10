@@ -15,7 +15,7 @@
 		<view v-for="(item, index) in userInfo.member.roles" :key="index">
 		  <view>
 			   <view class="head-image">
-					<image :src ="item.imgUrl"></image>  {{ item.roleName }}
+					<image :src ="item.imgUrl" class="mr-10"></image>  {{ item.roleName }}
 			   </view>
 		  </view>
 		</view>

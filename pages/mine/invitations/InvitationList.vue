@@ -67,7 +67,7 @@
 				},
 				invitee: '',
 				mobile: '',
-				isBind: false,
+				isBind: true,
 				loadStatus: "加载更多",
 				pages: 1,
 				total: 0,
@@ -148,7 +148,10 @@
 								getUserInfo().then((user) => {
 									if (user.data.success) {
 										storage.setUserInfo(user.data.result);
-										self.userInfo = user.data.result;
+										self.$nextTick(() => {
+											self.userInfo = user.data.result;
+										})
+										self.$forceUpdate();
 									}
 								});
 							})
