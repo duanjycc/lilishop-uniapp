@@ -81,7 +81,7 @@
     </div>
     <!-- 常用工具 -->
 
-    <tool />
+    <tool :storeId="storeId"/>
 
   </view>
 </template>
@@ -101,6 +101,7 @@ export default {
 	  ssd: 0,
 	  point: 0,
       userInfo: {},
+	  storeId: null,
       unitPrice: 0,
 	  walletNum: 0,
       footNum: "",
@@ -166,7 +167,9 @@ export default {
         // this.walletNum = res[2].data.result.memberWallet;
 		this.ssd = res[0].data.result.member.ssd;
 		this.point = res[0].data.result.member.point;
+		this.storeId = res[0].data.result.member.storeId;
 		this.unitPrice = res[1].data.result;
+	
       });
     },
   },

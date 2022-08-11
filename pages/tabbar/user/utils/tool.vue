@@ -6,11 +6,7 @@
       <div class="paddingBox">
         <view class="interact-container">
 
-<!--          <view class="interact-item" @click="navigateTo('/pages/mine/signIn')">
-            <image src="/static/mine/sign.png" mode=""></image>
-            <view>每日签到</view>
-          </view> -->
-		  <view class="interact-item" @click="navigateTo('/pages/mine/make/myMake')">
+		  <view v-if="storeId != null" class="interact-item" @click="navigateTo('/pages/mine/make/myMake')">
 		    <image src="/static/mine/couponcenter.png" mode=""></image>
 		    <view>商户做单</view>
 		  </view>
@@ -64,6 +60,7 @@
 <script>
 import { distribution } from "@/api/goods";
 export default {
+  props:['storeId'],
   methods: {
     navigateTo(url) {
 		console.log(url)
