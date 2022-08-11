@@ -30,10 +30,9 @@
     <!-- 积分，优惠券，关注， -->
     <div class="pointBox box">
       <u-row text-align="center" gutter="16" class="point">
-        <u-col text-align="center" span="4" @click="navigateTo('/pages/mine/deposit/operation')">
+        <u-col text-align="center" span="4" @click="navigateTo('/pages/mine/profit/memberProfit')">
           <view>SSD卷</view>
-          <view class="money">{{ ssd || 0 }}</view>
-		  
+          <view class="money">{{ ssd.toFixed(4) || 0 }}</view>
         </u-col>
 
         <u-col text-align="center" span="4" @click="navigateTo('/pages/cart/coupon/myCoupon')">
@@ -43,7 +42,7 @@
 
         <u-col text-align="center" span="4">
           <view>今日SSD价格</view>
-          <view>{{ unitPrice.toFixed(2) || 0 }}</view>
+          <view>{{ unitPrice.toFixed(4) || 0 }}</view>
         </u-col>
       </u-row>
       <!-- 我的订单，代付款 -->

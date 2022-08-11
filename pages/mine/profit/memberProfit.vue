@@ -4,39 +4,12 @@
 			<view class="screen">
 				<uni-datetime-picker class="datetime-picker" v-model="range" type="daterange" @maskClick="maskClick" />
 			</view>
-			<view class="header-tabs">
-				<view class="tab" :class="type == 1 ? 'activity' : ''" @click="type = 1">转入</view>
-				<view class="tab" :class="type == 2 ? 'activity' : ''" @click="type = 2">转出</view>
+			<view class="card-title">
+				会员收益
 			</view>
 		</view>
 		<view class="items">
-			<view class="card-area ml-20 mr-20" v-for="(item, index) in list" :key="index">
-				<view class="card-title d-flex justify-content-space-between align-items-center">
-					<view v-if="type == 1">{{ item.intoTime | filterDate }}</view>
-					<view v-else>{{ item.rechargeTime | filterDate }}</view>
-					
-					<view v-if="type == 1">
-						<view class="badge badge-success" v-if="item.rechargeStatus == 0">成功</view>
-						<view v-else class="badge badge-warning">转出中</view>
-					</view>
-					<view v-if="type == 2">
-						<view class="badge badge-success" v-if="item.receiptStatus == 0">成功</view>
-						<view v-else class="badge badge-warning">转出中</view>
-					</view>
-				</view>
-				<view class="card-body break-all">
-					<view class="d-flex">
-						<text class="label">数量：</text>
-						<text v-if="type == 1">{{ item.arrivalAmount }}</text>
-						<text v-else>{{ item.rechargeAmount }}</text>
-					</view>
-					<view class="d-flex">
-						<text class="label">账户：</text>
-						<text v-if="type == 1">{{ item.paymentAddress }}</text>
-						<text v-else>{{ item.intoAddress }}</text>
-					</view>
-				</view>
-			</view>
+			
 		</view>
 		
 		<view class="text-center font-color-disabled">{{ loadStatus }}</view>

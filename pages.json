@@ -336,6 +336,13 @@
 					}
 				},
 				{
+					"path": "profit/memberProfit",
+					"style": {
+						"navigationBarTitleText": "会员收益",
+						"navigationStyle": "custom"
+					}
+				},
+				{
 					"path": "make/makeForm",
 					"style": {
 						"navigationBarTitleText": "每日做单",
