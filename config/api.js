@@ -4,8 +4,8 @@
  */
 // 开发环境
 const dev = {
- common: "http://127.0.0.1:8890",
- buyer: "http://127.0.0.1:8888",
+ common: "http://wang.wantbibi.com/common-api",
+ buyer: "http://wang.wantbibi.com/buyer-api",
  
   // common: "http://8.136.107.94:7003",
   // buyer: "http://8.136.107.94:7002",

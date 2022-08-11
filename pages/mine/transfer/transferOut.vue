@@ -75,7 +75,7 @@
 	import { sendMobile, checkPassword, paymentPassword } from "@/api/login";
 	import { getUserInfo } from "@/api/members";
 	import storage from "@/utils/storage.js";
-	// import storage from "@/js_sdk/qrcode/jsQR.js"
+	
 	let getFloat = function(number, n) {
 		n = n ? parseInt(n) : 0;
 		if(n <= 0) {
@@ -112,6 +112,8 @@
 				this.limit = getFloat(this.userInfo.member.ssd - this.userInfo.member.frozenSSD, 4);
 				this.frozen = getFloat(this.userInfo.member.frozenSSD, 4);
 			}
+			this.acceptAddress = getApp().globalData.acceptAddress;
+			getApp().globalData.acceptAddress = '';
 		},
 		computed: {
 			actualPrice() {
@@ -186,7 +188,9 @@
 			},
 			scan() {
 				//#ifdef H5
-					// 向后端请求验证码
+					uni.navigateTo({
+						url: '/pages/mine/transfer/scan'
+					})
 				//#endif
 				
 				// uni.scanCode({

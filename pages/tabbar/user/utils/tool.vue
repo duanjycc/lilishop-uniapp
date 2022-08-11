@@ -38,13 +38,9 @@
             <view>我邀请的区域</view>
           </view>
 		  
-		  <view class="interact-item" @click="navigateTo('/pages/order/evaluate/myEvaluate')">
+		  <view class="interact-item" @click="navigateTo('/pages/mine/areaProfit')">
 		    <image src="/static/mine/mycommit.png" mode=""></image>
 		    <view>区域收益</view>
-		  </view>
-		  <view class="interact-item" @click="navigateTo('/pages/order/complain/complainList')">
-		    <image src="/static/mine/shensu.png" mode=""></image>
-		    <view>子区域收益</view>
 		  </view>
 		  
 		  <view class="interact-item" @click="navigateTo('/pages/mine/set/setUp')">

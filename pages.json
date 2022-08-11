@@ -423,6 +423,14 @@
 						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
+				},
+				{
+					"path" : "transfer/scan",
+					"style" : {
+							"navigationBarTitleText": "扫描二维码",
+							"enablePullDownRefresh": false
+						}
+				
 				}
             ]
 

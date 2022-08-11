@@ -12,11 +12,14 @@ import storage from "@/utils/storage";
 // 悬浮球
 
 export default {
-  data() {
-    return {
-      config,
-    };
-  },
+	globalData: {
+		acceptAddress: '',
+	},
+	data() {
+		return {
+			config,
+		};
+	},
 
   /**
    * 监听返回
