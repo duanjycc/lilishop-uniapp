@@ -3,11 +3,11 @@
 		<view class="mine-header">
 			<view>
 				<view>通证</view>
-				<view class="uni-top-2">{{ userInfo.member.ssd || 0 }}</view>
+				<view class="uni-top-2">{{ userInfo.member.ssd.toFixed(2) || 0 }}</view>
 			</view>
 			<view>
 				<view>积分</view>
-				<view class="uni-top-2">{{ userInfo.member.point || 0 }}</view>
+				<view class="uni-top-2">{{ userInfo.member.point.toFixed(2) || 0 }}</view>
 			</view>
 		</view>
 		

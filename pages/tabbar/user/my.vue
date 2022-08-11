@@ -32,17 +32,18 @@
       <u-row text-align="center" gutter="16" class="point">
         <u-col text-align="center" span="4" @click="navigateTo('/pages/mine/deposit/operation')">
           <view>SSD卷</view>
-          <view class="money">{{ userInfo.member.ssd.toFixed(2) || 0 }}</view>
+          <view class="money">{{ ssd || 0 }}</view>
+		  
         </u-col>
 
         <u-col text-align="center" span="4" @click="navigateTo('/pages/cart/coupon/myCoupon')">
           <view>积分</view>
-          <view>{{ userInfo.member.point.toFixed(2) || 0 }}</view>
+          <view >{{  point || 0 }}</view>
         </u-col>
 
-        <u-col text-align="center" span="4" @click="navigateTo('/pages/mine/myTracks')">
+        <u-col text-align="center" span="4">
           <view>今日SSD价格</view>
-          <view>{{ footNum || 0 }}</view>
+          <view>{{ unitPrice.toFixed(2) || 0 }}</view>
         </u-col>
       </u-row>
       <!-- 我的订单，代付款 -->
@@ -88,7 +89,7 @@
 <script>
 import tool from "@/pages/tabbar/user/utils/tool.vue";
 import { getCouponsNum, getFootprintNum } from "@/api/members.js";
-import { getUserWallet } from "@/api/members";
+import { getUserWallet,getUserInfo,queryConfigureByType } from "@/api/members";
 export default {
   components: {
     tool,
@@ -98,8 +99,11 @@ export default {
       coverTransform: "translateY(0px)",
       coverTransition: "0s",
       moving: false,
+	  ssd: 0,
+	  point: 0,
       userInfo: {},
-      couponNum: "",
+      unitPrice: 0,
+	  walletNum: 0,
       footNum: "",
       walletNum: "",
     };
@@ -137,6 +141,9 @@ export default {
         url,
       });
     },
+	member(){
+		
+	},
     userDetail() {
       this.userInfo.id
         ? this.navigateTo("/pages/mine/set/personMsg")
@@ -146,13 +153,21 @@ export default {
       uni.stopPullDownRefresh();
 
       Promise.all([
-        getCouponsNum(), //优惠券
-        getFootprintNum(), //浏览数量
-        getUserWallet(), //预存款
+		  //优惠券
+        //getCouponsNum(),
+		 //浏览数量
+        //getFootprintNum(), 
+		//预存款
+        //getUserWallet(), 
+		getUserInfo(),
+		queryConfigureByType({'type': 'unitPrice'}),
       ]).then((res) => {
-        this.couponNum = res[0].data.result;
-        this.footNum = res[1].data.result;
-        this.walletNum = res[2].data.result.memberWallet;
+        // this.couponNum = res[0].data.result;
+        // this.footNum = res[1].data.result;
+        // this.walletNum = res[2].data.result.memberWallet;
+		this.ssd = res[0].data.result.member.ssd;
+		this.point = res[0].data.result.member.point;
+		this.unitPrice = res[1].data.result;
       });
     },
   },

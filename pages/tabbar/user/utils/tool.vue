@@ -22,14 +22,7 @@
             <image src="/static/mine/myhistory.png" mode=""></image>
             <view>转出</view>
           </view>
-          <view class="interact-item" @click="navigateTo('/pages/order/evaluate/myEvaluate')">
-            <image src="/static/mine/mycommit.png" mode=""></image>
-            <view>我的评价</view>
-          </view>
-          <view class="interact-item" @click="navigateTo('/pages/order/complain/complainList')">
-            <image src="/static/mine/shensu.png" mode=""></image>
-            <view>我的投诉</view>
-          </view>
+        
 
           <view class="interact-item" @click="navigateTo('/pages/mine/set/feedBack')">
             <image src="/static/mine/feedback.png" mode=""></image>
@@ -39,10 +32,7 @@
             <image src="/static/mine/myaddress.png" mode=""></image>
             <view>地址管理</view>
           </view>
-          <view class="interact-item" @click="navigateTo('/pages/mine/set/setUp')">
-            <image src="/static/mine/setting.png" mode=""></image>
-            <view>设置</view>
-          </view>
+        
          <view class="interact-item" @click="navigateTo('/pages/mine/invitations/InvitationList')">
             <image src="/static/mine/distribution.png" mode=""></image>
             <view>绑定邀请人</view>
@@ -51,6 +41,20 @@
             <image src="/static/mine/kanjia.png" mode=""></image>
             <view>我邀请的区域</view>
           </view>
+		  
+		  <view class="interact-item" @click="navigateTo('/pages/order/evaluate/myEvaluate')">
+		    <image src="/static/mine/mycommit.png" mode=""></image>
+		    <view>区域收益</view>
+		  </view>
+		  <view class="interact-item" @click="navigateTo('/pages/order/complain/complainList')">
+		    <image src="/static/mine/shensu.png" mode=""></image>
+		    <view>子区域收益</view>
+		  </view>
+		  
+		  <view class="interact-item" @click="navigateTo('/pages/mine/set/setUp')">
+		    <image src="/static/mine/setting.png" mode=""></image>
+		    <view>设置</view>
+		  </view>
         </view>
       </div>
     </view>

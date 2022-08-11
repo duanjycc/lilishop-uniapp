@@ -281,6 +281,19 @@ export function getUserInfo() {
   });
 }
 
+
+/**
+ * 根据类型获取配置
+ * @param params
+ */
+export function queryConfigureByType(params) {
+  return http.request({
+    url: '/configure/queryConfigureByType',
+    method: Method.GET,
+    params,
+  });
+}
+
 /**
  * 获取当前用户的预存款
  * @returns {AxiosPromise}
