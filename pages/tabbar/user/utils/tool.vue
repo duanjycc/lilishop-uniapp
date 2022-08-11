@@ -35,10 +35,10 @@
           </view>
           <view class="interact-item" @click="navigateTo('/pages/mine/invitations/InvitationArea')">
             <image src="/static/mine/kanjia.png" mode=""></image>
-            <view>我邀请的区域</view>
+            <view>邀请区域</view>
           </view>
 		  
-		  <view class="interact-item" @click="navigateTo('/pages/mine/areaProfit')">
+		  <view class="interact-item" @click="navigateTo('/pages/mine/detailList/regionalBenefits')">
 		    <image src="/static/mine/mycommit.png" mode=""></image>
 		    <view>区域收益</view>
 		  </view>

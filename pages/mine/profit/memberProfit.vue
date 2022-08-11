@@ -1,15 +1,27 @@
 <template>
 	<view class="container">
-		<view class="header">
-			<view class="screen">
-				<uni-datetime-picker class="datetime-picker" v-model="range" type="daterange" @maskClick="maskClick" />
-			</view>
-			<view class="card-title">
-				会员收益
-			</view>
+		<view class="screen">
+			<uni-datetime-picker class="datetime-picker" v-model="range" type="daterange" @maskClick="maskClick" />
 		</view>
 		<view class="items">
-			
+			<view class="card-area ml-20 mr-20" v-for="(item, index) in list" :key="index">
+				<view class="card-title d-flex justify-content-space-between align-items-center">
+					<view>{{ item.intoTime | filterDate }}</view>
+					
+					<view class="badge badge-success" v-if="item.rechargeStatus == 0">成功</view>
+					<view v-else class="badge badge-warning">转入中</view>
+				</view>
+				<view class="card-body break-all">
+					<view class="d-flex">
+						<text class="label">数量：</text>
+						<text>{{ item.arrivalAmount }}</text>
+					</view>
+					<view class="d-flex">
+						<text class="label">账户：</text>
+						<text>{{ item.paymentAddress }}</text>
+					</view>
+				</view>
+			</view>
 		</view>
 		
 		<view class="text-center font-color-disabled">{{ loadStatus }}</view>
@@ -57,7 +69,6 @@
 			};
 		},
 		onLoad() {
-			this.initPointData();
 			this.getList();
 			
 		},
@@ -110,17 +121,10 @@
 					}
 				}
 			},
-			
 			handleAdd() {
 				uni.navigateTo({
 					url:'makeForm?makeId=1'
 				})
-			},
-			
-			initPointData() {
-				// getMemberPointSum().then((res) => {
-				// 	this.pointData = res.data.result;
-				// });
 			},
 			handleSubmit() {
 				console.log(111);
@@ -134,45 +138,22 @@
 		width: 100%;
 		min-height: calc(100vh - 80rpx);
 		
-		.header {
+		.screen {
+			background-color: #ffffff;
+			height: 80rpx;
 			position: fixed;
-			// top: 80rpx;
 			left: 0;
 			right: 0;
+			border-bottom: 1rpx $border-color-base solid;
 			
-			.screen {
-				background-color: #ffffff;
+			/deep/ .uni-date-editor--x {
 				height: 80rpx;
-				
-				/deep/ .uni-date-editor--x {
-					height: 80rpx;
-					border: 0;
-				}
+				border: 0;
 			}
-			
-			.header-tabs {
-				height: 100rpx;
-				line-height: 100rpx;
-				width: 100vw;
-				display: flex;
-				color: #ffffff;
-				
-				.tab {
-					width: 50%;
-					background: linear-gradient(91deg, #facdbb 1%, #fae6ce 99%);
-					color: #ffffff;
-					text-align: center;
-				}
-				
-				.activity {
-					background: linear-gradient(91deg, $light-color 1%, $aider-light-color 99%);
-				}
-			}
-			
 		}
 		
 		.items {
-			padding: 180rpx 20rpx 0 20rpx;
+			padding: 90rpx 20rpx 0 20rpx;
 			margin-bottom: 60rpx;
 			
 			.card-area {

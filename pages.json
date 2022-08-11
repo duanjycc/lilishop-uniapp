@@ -427,10 +427,18 @@
 				{
 					"path" : "transfer/scan",
 					"style" : {
-							"navigationBarTitleText": "扫描二维码",
-							"enablePullDownRefresh": false
-						}
-				
+						"navigationBarTitleText": "扫描二维码",
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path" : "detailList/regionalBenefits",
+					"style" : {
+						"navigationBarTitleText": "区域收益明细",
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
 				}
             ]
 

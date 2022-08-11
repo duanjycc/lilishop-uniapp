@@ -285,7 +285,7 @@
 							title: "正在设置密码",
 						});
 						paymentPassword({
-							'paymentPassword': self.password2
+							'paymentPassword': md5(self.password2)
 						}).then((res) => {
 							uni.hideLoading();
 							if (res.data.success) { 
