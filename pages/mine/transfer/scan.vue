@@ -17,12 +17,25 @@
 	        },
 	        methods: {
 	            onDecode(result) {
-	                getApp().globalData.acceptAddress = result;//扫码获取到的数据
-	                uni.navigateBack({
-	                    delta: 1
-	                });
+					if(getApp().globalData.scanInit == 0) {
+						getApp().globalData.scanInit = 1;
+						uni.navigateBack({
+						    delta: 1
+						});
+					} else {
+						getApp().globalData.acceptAddress = result;//扫码获取到的数据
+						uni.navigateBack({
+						    delta: 1
+						});
+					}
 	            },
 	            async onInitData(promise) {
+					if(getApp().globalData.scanInit == 0) {
+						getApp().globalData.scanInit = 1;
+						uni.navigateBack({
+						    delta: 1
+						});
+					}
 	                try {
 	                    await promise
 	                } catch (error) {
@@ -49,5 +62,6 @@
 	    .saoma {
 	        width: 100vw;
 	        height: 100vh;
+			background-color: #000000;
 	    }
 	</style>

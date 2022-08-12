@@ -15,19 +15,32 @@
 			<swiper-item class="tab-content" v-for="(navItem, navIndex) in navList" :key="navIndex">
 				<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
 
-					<view class="items">
-						<view class="item" v-for="(item, index) in navItem.dataList" :key="index">
-							<view class="split-line-1" v-if="index > 0"></view>
-							<view class="fs-32 d-flex justify-content-space-between" :class="index > 0 ? 'mt-20' : ''">
-								<view class="title">{{ item.merName }}</view>
-								<view>{{ item.quantity }}</view>
+					<view class="card-area ml-20 mr-20" v-for="(item, index) in navItem.dataList" :key="index">
+						<view class="card-title d-flex justify-content-space-between align-items-center">
+							<view class="fs-24">
+								<text class="mr-10">订单号：</text> 
+								<text>{{ item.orderId }}</text> 
 							</view>
-							<view class="font-light d-flex justify-content-space-between mt-10 fs-26">
-								<view><text v-show="tabCurrentIndex == 1">{{ item.subArea }}</text></view>
-								<view>{{ item.creationTime|filterDateTime }}</view>
+							
+							<view class="count-danger fs-28">{{ item. quantity }}个</view>
+						</view>
+						
+						<view class="card-body break-all">
+							<view class="d-flex" v-if="tabCurrentIndex == 1">
+								<text class="label-title">子区域：</text>
+								<text>{{ item.subArea }}</text>
+							</view>
+							<view class="d-flex">
+								<text class="label-title">做单商铺：</text>
+								<text>{{ item.merName }}</text>
+							</view>
+							<view class="d-flex">
+								<text class="label-title">收益时间：</text>
+								<text>{{ item.creationTime|filterDateTime }}</text>
 							</view>
 						</view>
 					</view>
+					
 					<uni-load-more :status="navItem.loadStatus"></uni-load-more>
 				</scroll-view>
 			</swiper-item>
@@ -52,19 +65,22 @@
 		var newDate = year +"-"+ mon +"-"+ data;
 		return newDate;
 	}
-	
-	
 	function dateTimeFormat(dat){
 		var hours = dat.getHours()  < 10 ? "0"+(dat.getHours()) : dat.getHours();
 		var minutes = dat.getMinutes()  < 10 ? "0"+(dat.getMinutes()) : dat.getMinutes();
 		var seconds = dat.getSeconds()  < 10 ? "0"+(dat.getSeconds()) : dat.getSeconds();
-		return dateFormat(dat)+' '+ hours +"-"+minutes+"-"+seconds;
+		var newTime = hours +":"+ minutes +":"+ seconds;
+		return dateFormat(dat)+' '+newTime;
 	}
+	
 	
 	import { profitArea } from "@/api/mine-profit.js";
 	
 	export default {
 		filters: {
+			filterDate(val) {
+				return dateFormat(new Date(val));
+			},
 			filterDateTime(val) {
 				return dateTimeFormat(new Date(val));
 			}
@@ -82,7 +98,7 @@
 							pageNumber: 1,
 							pageSize: 10,
 							status: 1,
-							incomeType: 0
+							incomeType: 0,
 						}
 					},
 					{
@@ -93,7 +109,7 @@
 							pageNumber: 1,
 							pageSize: 10,
 							status: 2,
-							incomeType: 1
+							incomeType: 1,
 						}
 					},
 				]
@@ -123,7 +139,7 @@
 							pageNumber: 1,
 							pageSize: 10,
 							status: 1,
-							incomeType: 0
+							incomeType: 0,
 						}
 					},
 					{
@@ -134,7 +150,7 @@
 							pageNumber: 1,
 							pageSize: 10,
 							status: 2,
-							incomeType: 1
+							incomeType: 1,
 						}
 					},
 				];
@@ -155,7 +171,7 @@
 				res = await profitArea(params);
 				uni.hideLoading();
 				
-				if (!!res && !!res.data && res.data.success) {
+				if (res.data.success) {
 					let data = res.data.result.records;
 					if (data.length < 10) {
 						this.navList[index].loadStatus = "noMore";
@@ -204,31 +220,14 @@
 		height: 100%;
 	}
 	
-	
 	.screen {
 		background-color: #ffffff;
 		height: 80rpx;
-		box-shadow: 0rpx 12rpx 80rpx 0px rgb(142, 142, 142);
+		z-index: 900;
 		
 		/deep/ .uni-date-editor--x {
 			height: 80rpx;
 			border: 0;
-		}
-	}
-	
-	
-	.bar-border {
-		width: 100vw;
-		height: 20rpx;
-		z-index: 9;
-		background: linear-gradient(to bottom, #ffffffff 0%,  #9c9c9c55 100%);;
-	}
-	
-	.items {
-		background-color: #ffffff;
-		
-		.item {
-			padding: 20rpx;
 		}
 	}
 
@@ -244,161 +243,7 @@
 	.list-scroll-content {
 		height: 100%;
 		width: 100%;
-
-		.coupon-item {
-			display: flex;
-			align-items: center;
-			height: 220rpx;
-			margin: 20rpx;
-
-			.left {
-				height: 100%;
-				width: 260rpx;
-				background-color: $light-color;
-				position: relative;
-
-				.message {
-					color: $font-color-white;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					flex-direction: column;
-					margin-top: 40rpx;
-
-					view:nth-child(1) {
-						font-weight: bold;
-						font-size: 60rpx;
-					}
-
-					view:nth-child(2) {
-						font-size: $font-sm;
-					}
-				}
-
-				.wave-line {
-					height: 220rpx;
-					width: 8rpx;
-					position: absolute;
-					top: 0;
-					left: 0;
-					background-color: $light-color;
-					overflow: hidden;
-
-					.wave {
-						width: 8rpx;
-						height: 16rpx;
-						background-color: #ffffff;
-						border-radius: 0 16rpx 16rpx 0;
-						margin-top: 4rpx;
-					}
-				}
-
-				.circle {
-					width: 40rpx;
-					height: 40rpx;
-					background-color: $bg-color;
-					position: absolute;
-					border-radius: 50%;
-					z-index: 111;
-				}
-
-				.circle-top {
-					top: -20rpx;
-					right: -20rpx;
-				}
-
-				.circle-bottom {
-					bottom: -20rpx;
-					right: -20rpx;
-				}
-			}
-
-			.right {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				width: 450rpx;
-				font-size: $font-sm;
-				height: 100%;
-				background-color: #ffffff;
-				overflow: hidden;
-				position: relative;
-
-				.content {
-					color: #666666;
-					margin-left: 20rpx;
-					line-height: 2em;
-					
-					> view:nth-child(1) {
-						color: #ff6262;
-						font-size: 30rpx;
-					}
-
-					.title-1, .title-2, .title-3 {
-						font-size: 25rpx;
-					}
-				}
-				
-				.receive {
-					color: #ffffff;
-					background-color: $main-color;
-					border-radius: 50%;
-					width: 86rpx;
-					height: 86rpx;
-					text-align: center;
-					margin-right: 48rpx;
-					vertical-align: middle;
-					padding-top: 8rpx;
-					position: relative;
-					z-index: 2;
-				}
-
-				.jiao-1 {
-					background-color: #ffc71c;
-					width: 400rpx;
-					transform: rotate(45deg);
-					text-align: center;
-					position: absolute;
-					color: #ffffff;
-					right: -130rpx;
-					top: 0;
-					
-					.text-1 {
-						margin-left: 68rpx;
-						font-size: 28rpx;
-					}
-					
-					.text-2 {
-						margin-left: 68rpx;
-						font-size: 28rpx;
-					}
-				}
-				
-				.no-icon {
-					border-radius: 50%;
-					width: 86rpx;
-					height: 86rpx;
-					margin-right: 48rpx;
-					position: relative;
-					z-index: 2;
-				}
-				
-				.bg-quan {
-					width: 244rpx;
-					height: 244rpx;
-					border: 6rpx solid $main-color;
-					border-radius: 50%;
-					opacity: 0.1;
-					color: $main-color;
-					text-align: center;
-					padding-top: 30rpx;
-					font-size: 130rpx;
-					position: absolute;
-					right: -54rpx;
-					bottom: -60rpx;
-				}
-			}
-		}
+		padding: 0 20rpx;
 	}
 
 	.navbar {
@@ -429,4 +274,8 @@
 			}
 		}
 	}
+	
+	
+	
+	
 </style>

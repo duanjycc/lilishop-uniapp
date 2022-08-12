@@ -15,7 +15,7 @@
 			<swiper-item class="tab-content" v-for="(navItem, navIndex) in navList" :key="navIndex">
 				<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
 
-					<view class="card-area ml-20 mr-20" v-for="(item, index) in navItem.dataList" :key="index">
+					<view class="card-area-list ml-20 mr-20" v-for="(item, index) in navItem.dataList" :key="index">
 						<view class="card-title d-flex justify-content-space-between align-items-center">
 							<view v-if="tabCurrentIndex == 0">{{ item.intoTime | filterDate }}</view>
 							<view v-else>{{ item.rechargeTime | filterDate }}</view>
@@ -208,7 +208,6 @@
 		height: 100%;
 	}
 	
-	
 	.screen {
 		background-color: #ffffff;
 		height: 80rpx;
@@ -233,42 +232,6 @@
 		height: 100%;
 		width: 100%;
 		padding: 0 20rpx;
-
-		.card-area {
-			border-radius: 20rpx;
-			line-height: 1.8;
-			width: calc(100% - 40rpx);
-			
-			.label {
-				flex: 0 0 90rpx;
-				color: $font-color-base;
-			}
-			
-			.count-into {
-				color: $uni-color-success;
-			}
-			
-			.count-out {
-				color: $uni-color-error;
-			}
-			
-			.badge {
-				margin-left: 10rpx;
-				padding: 0 10rpx;
-				line-height: 1.5;
-				color: #ffffff;
-				font-size: 28rpx;
-				border-radius: 10rpx;
-			}
-			
-			.badge-success {
-				background-color: $uni-color-success;
-			}
-			
-			.badge-warning {
-				background-color: $uni-color-warning;
-			}
-		}
 	}
 
 	.navbar {

@@ -14,6 +14,7 @@ import storage from "@/utils/storage";
 export default {
 	globalData: {
 		acceptAddress: '',
+		scanInit: 0
 	},
 	data() {
 		return {

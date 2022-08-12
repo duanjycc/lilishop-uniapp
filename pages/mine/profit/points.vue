@@ -7,19 +7,31 @@
 		</view>
 		
 		<view class="items">
-			<view class="item" v-for="(item, index) in list" :key="index">
-				<view class="split-line-1" v-if="index > 0"></view>
-				<view class="item-content">
-					<view class="fs-30 d-flex justify-content-space-between">
-						<view class="title">{{ item.merName }}</view>
-						<view>{{ item.userReturnPower }}</view>
+			<view class="card-area" v-for="(item, index) in list" :key="index">
+				<view class="card-title d-flex justify-content-space-between align-items-center">
+					<view class="fs-24">
+						<text>商铺：</text> 
+						<text>{{ item.merName }}</text> 
 					</view>
-					<view class="font-light d-flex justify-content-space-between">
-						<view></view>
-						<view>{{ item.createTime }}</view>
+					<view class="count-danger fs-28">{{ item.userReturnPower }}分</view>
+				</view>
+				
+				<view class="card-body break-all">
+					<view class="d-flex">
+						<text class="label-title">消费金额：</text>
+						<text>{{ item.monetary }}</text>
+					</view>
+					<view class="d-flex">
+						<text class="label-title">让利金额：</text>
+						<text>{{ item.surrenderPrice }}</text>
+					</view>
+					<view class="d-flex">
+						<text class="label-title">收益时间：</text>
+						<text>{{ item.createTime|filterDateTime }}</text>
 					</view>
 				</view>
 			</view>
+			
 		</view>
 		<view class="text-center loadStatus font-color-disabled">{{ loadStatus }}</view>
 		
@@ -42,12 +54,22 @@
 		var newDate = year +"-"+ mon +"-"+ data;
 		return newDate;
 	}
+	function dateTimeFormat(dat){
+		var hours = dat.getHours()  < 10 ? "0"+(dat.getHours()) : dat.getHours();
+		var minutes = dat.getMinutes()  < 10 ? "0"+(dat.getMinutes()) : dat.getMinutes();
+		var seconds = dat.getSeconds()  < 10 ? "0"+(dat.getSeconds()) : dat.getSeconds();
+		var newTime = hours +":"+ minutes +":"+ seconds;
+		return dateFormat(dat)+' '+newTime;
+	}
 	
 	import { queryMakeAccount } from "@/api/mine-make.js";
 	export default {
 		filters: {
 			filterDate(val) {
 				return dateFormat(new Date(val));
+			},
+			filterDateTime(val) {
+				return dateTimeFormat(new Date(val));
 			}
 		},
 		data() {
@@ -136,16 +158,12 @@
 		}
 		
 		.items {
-			padding-top: 82rpx;
-			background-color: #ffffff;
+			padding-top: 100rpx;
 			
-			.item {
-				padding: 0 20rpx;
-				
-				.item-content {
-					padding: 20rpx 0;
-				}
+			.card-area {
+				margin-left: 20rpx;
 			}
+			
 		}
 		
 		.loadStatus {

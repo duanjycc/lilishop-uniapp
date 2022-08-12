@@ -7,16 +7,23 @@
 		</view>
 		
 		<view class="items">
-			<view class="item" v-for="(item, index) in list" :key="index">
-				<view class="split-line-1" v-if="index > 0"></view>
-				<view class="item-content">
-					<view class="fs-30 d-flex justify-content-space-between">
-						<view class="title">{{ item.incomeType|filterType }}</view>
-						<view>{{ item.quantity }}</view>
+			<view class="card-area" v-for="(item, index) in list" :key="index">
+				<view class="card-title d-flex justify-content-space-between align-items-center">
+					<view class="fs-24">
+						<text>订单号：</text> 
+						<text>{{ item.orderId }}</text> 
 					</view>
-					<view class="mt-20 font-light d-flex justify-content-space-between fs-24">
-						<view></view>
-						<view>{{ item.creationTime }}</view>
+					<view class="count-danger fs-28">{{ item.quantity }}个</view>
+				</view>
+				
+				<view class="card-body break-all">
+					<view class="d-flex">
+						<text class="label-title">收益类型：</text>
+						<text>{{ item.incomeType|filterType }}</text>
+					</view>
+					<view class="d-flex">
+						<text class="label-title">收益时间：</text>
+						<text>{{ item.creationTime|filterDateTime }}</text>
 					</view>
 				</view>
 			</view>
@@ -132,6 +139,7 @@
 			position: fixed;
 			left: 0;
 			right: 0;
+			border-bottom: 1rpx $border-color-base solid;
 			
 			/deep/ .uni-date-editor--x {
 				height: 80rpx;
@@ -140,51 +148,10 @@
 		}
 		
 		.items {
-			padding-top: 100rpx;
-			background-color: #ffffff;
-			
-			.item {
-				padding: 0 20rpx;
-				
-				.item-content {
-					padding: 20rpx 0;
-				}
-			}
+			padding-top: 120rpx;
 			
 			.card-area {
-				border-radius: 20rpx;
-				line-height: 1.8;
-				width: calc(100% - 40rpx);
-				
-				.label {
-					flex: 0 0 90rpx;
-					color: $font-color-base;
-				}
-				
-				.count-into {
-					color: $uni-color-success;
-				}
-				
-				.count-out {
-					color: $uni-color-error;
-				}
-				
-				.badge {
-					margin-left: 10rpx;
-					padding: 0 10rpx;
-					line-height: 1.5;
-					color: #ffffff;
-					font-size: 28rpx;
-					border-radius: 10rpx;
-				}
-				
-				.badge-success {
-					background-color: $uni-color-success;
-				}
-				
-				.badge-warning {
-					background-color: $uni-color-warning;
-				}
+				margin-left: 20rpx;
 			}
 		}
 		
