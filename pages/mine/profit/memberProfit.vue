@@ -11,9 +11,9 @@
 						<view class="title">{{ item.incomeType|filterType }}</view>
 						<view>{{ item.quantity }}</view>
 					</view>
-					<view class="mt-20 font-light d-flex justify-content-space-between">
+					<view class="mt-20 font-light d-flex justify-content-space-between fs-24">
 						<view></view>
-						<view>{{ item.createTime }}</view>
+						<view>{{ item.creationTime }}</view>
 					</view>
 				</view>
 			</view>
