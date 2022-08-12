@@ -433,7 +433,7 @@
 					}
 				},
 				{
-					"path" : "detailList/regionalBenefits",
+					"path" : "profit/area",
 					"style" : {
 						"navigationBarTitleText": "区域收益明细",
 						"navigationStyle": "custom",

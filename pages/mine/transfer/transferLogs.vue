@@ -1,51 +1,56 @@
 <template>
-	<view class="container">
-		<view class="header">
-			<view class="screen">
-				<uni-datetime-picker class="datetime-picker" v-model="range" type="daterange" @maskClick="maskClick" />
-			</view>
-			<view class="header-tabs">
-				<view class="tab" :class="type == 1 ? 'activity' : ''" @click="type = 1">转入</view>
-				<view class="tab" :class="type == 2 ? 'activity' : ''" @click="type = 2">转出</view>
-			</view>
-		</view>
-		<view class="items">
-			<view class="card-area ml-20 mr-20" v-for="(item, index) in list" :key="index">
-				<view class="card-title d-flex justify-content-space-between align-items-center">
-					<view v-if="type == 1">{{ item.intoTime | filterDate }}</view>
-					<view v-else>{{ item.rechargeTime | filterDate }}</view>
-					
-					<view v-if="type == 1">
-						<view class="badge badge-success" v-if="item.rechargeStatus == 0">成功</view>
-						<view v-else class="badge badge-warning">转出中</view>
-					</view>
-					<view v-if="type == 2">
-						<view class="badge badge-success" v-if="item.receiptStatus == 0">成功</view>
-						<view v-else class="badge badge-warning">转出中</view>
-					</view>
-				</view>
-				<view class="card-body break-all">
-					<view class="d-flex">
-						<text class="label">数量：</text>
-						<text v-if="type == 1">{{ item.arrivalAmount }}</text>
-						<text v-else>{{ item.rechargeAmount }}</text>
-					</view>
-					<view class="d-flex">
-						<text class="label">账户：</text>
-						<text v-if="type == 1">{{ item.paymentAddress }}</text>
-						<text v-else>{{ item.intoAddress }}</text>
-					</view>
-				</view>
-			</view>
-		</view>
+	<view class="b-content">
 		
-		<view class="text-center font-color-disabled">{{ loadStatus }}</view>
+		<view class="navbar">
+			<!-- 循环出头部tab栏 -->
+			<view v-for="(item, index) in navList" :key="index" class="nav-item" @click="handleTabClick(index)">
+				<text :class="{ current: tabCurrentIndex === index }">{{ item.text }}</text>
+			</view>
+		</view>
+		<view class="screen">
+			<uni-datetime-picker class="datetime-picker" v-model="range" type="daterange" @maskClick="maskClick" />
+		</view>
+		<swiper :current="tabCurrentIndex" class="swiper-box" duration="300" @change="changeTab">
+			<swiper-item class="tab-content" v-for="(navItem, navIndex) in navList" :key="navIndex">
+				<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
+
+					<view class="card-area ml-20 mr-20" v-for="(item, index) in navItem.dataList" :key="index">
+						<view class="card-title d-flex justify-content-space-between align-items-center">
+							<view v-if="tabCurrentIndex == 0">{{ item.intoTime | filterDate }}</view>
+							<view v-else>{{ item.rechargeTime | filterDate }}</view>
+							
+							<view v-if="tabCurrentIndex == 0">
+								<view class="badge badge-success" v-if="item.rechargeStatus == 0">成功</view>
+								<view v-else class="badge badge-warning">转入中</view>
+							</view>
+							<view v-if="tabCurrentIndex == 1">
+								<view class="badge badge-success" v-if="item.receiptStatus == 0">成功</view>
+								<view v-else class="badge badge-warning">转出中</view>
+							</view>
+						</view>
+						<view class="card-body break-all">
+							<view class="d-flex">
+								<text class="label">数量：</text>
+								<text v-if="type == 1">{{ item.arrivalAmount }}</text>
+								<text v-else>{{ item.rechargeAmount }}</text>
+							</view>
+							<view class="d-flex">
+								<text class="label">账户：</text>
+								<text v-if="type == 1">{{ item.paymentAddress }}</text>
+								<text v-else>{{ item.intoAddress }}</text>
+							</view>
+						</view>
+					</view>
+					
+					<uni-load-more :status="navItem.loadStatus"></uni-load-more>
+				</scroll-view>
+			</swiper-item>
+		</swiper>
+	
 	</view>
 </template>
 
 <script>
-	import { transferInDetails, transferOutDetails } from "@/api/mine-transfer.js";
-	
 	function getMonth() {
 		let fdate = new Date()
 		let fyears = fdate.getFullYear()
@@ -61,6 +66,9 @@
 		var newDate = year +"-"+ mon +"-"+ data;
 		return newDate;
 	}
+	
+	import { transferInDetails, transferOutDetails } from "@/api/mine-transfer.js";
+	
 	export default {
 		filters: {
 			filterDate(val) {
@@ -69,175 +77,229 @@
 		},
 		data() {
 			return {
-				range: [getMonth() , Date.now()],
-				list: [], 
-				params: {
-					pageNumber: 1,
-					pageSize: 10,
-					beginDate: dateFormat(getMonth()),
-					endDate: dateFormat(new Date())
-				},
-				type: 1,
-				loadStatus: "加载更多",
-				pages: 1,
-				total: 0
+				tabCurrentIndex: 0, 
+				range: [this.dateToStr(getMonth()) , this.dateToStr(new Date())],
+				navList: [
+					{
+						text: "转入",
+						loadStatus: "more",
+						dataList: [],
+						params: {
+							pageNumber: 1,
+							pageSize: 10,
+							status: 1,
+						}
+					},
+					{
+						text: "转出",
+						loadStatus: "more",
+						dataList: [],
+						params: {
+							pageNumber: 1,
+							pageSize: 10,
+							status: 2,
+						}
+					},
+				]
 			};
 		},
-		onLoad() {
-			this.initPointData();
-			this.getList();
-			
-		},
-		onReachBottom() {
-			if(this.pages > this.params.pageNumber) {
-				this.params.pageNumber++;
-				this.getList();
-			}
+		onShow() {
+			this.navList[this.tabCurrentIndex].params.pageNumber = 1
+			this.navList[this.tabCurrentIndex].dataList = [];
+			this.getData();
 		},
 		watch: {
-			range(newVal, oldVal) {
-				this.params.beginDate = this.range[0];
-				this.params.endDate = this.range[1];
-				this.getInitPage();
+			tabCurrentIndex(val) {
+				if (this.navList[val].dataList.length == 0) this.getData();
 			},
-			type(newVal, oldVal) {
+			range(newVal, oldVal) {
 				this.getInitPage();
 			},
 		},
 		methods: {
 			getInitPage() {
-				this.params.pageNumber = 1;
-				this.params.pageSize = 10;
-				this.loadStatus = '加载更多';
-				this.pages = 1;
-				this.total = 0;
-				this.list = [];
-				this.getList();
+				this.navList = [
+					{
+						text: "转入",
+						loadStatus: "more",
+						dataList: [],
+						params: {
+							pageNumber: 1,
+							pageSize: 10,
+							status: 1,
+						}
+					},
+					{
+						text: "转出",
+						loadStatus: "more",
+						dataList: [],
+						params: {
+							pageNumber: 1,
+							pageSize: 10,
+							status: 2,
+						}
+					},
+				];
+				this.getData();
 			},
-			async getList() {
-				let self = this;
-				let params = this.params;
+			handleTabClick(index) {
+				this.tabCurrentIndex = index;
+			},
+
+			async getData() {
+				let index = this.tabCurrentIndex;
+				let params = this.navList[index].params;
+				params['beginDate'] = this.range[0];
+				params['endDate'] = this.range[1];
 				let res = null;
-				uni.showLoading({
-					title: "加载中",
-				});
-				if(self.type == 1)  res = await transferInDetails(params);
+				
+				uni.showLoading({ title: "加载中" });
+				if(index == 0)  res = await transferInDetails(params);
 				else res = await transferOutDetails(params);
 				uni.hideLoading();
+				
 				if (res.data.success) {
-					self.pages = res.data.result.pages;
-					self.total = res.data.result.total;
 					let data = res.data.result.records;
-					if (data.length < self.params.pageSize) {
-						self.loadStatus = "没有更多";
-						self.list.push(...data);
+					if (data.length < 10) {
+						this.navList[index].loadStatus = "noMore";
+						this.navList[index].dataList.push(...data);
 					} else {
-						self.list.push(...data);
-						self.loadStatus = "加载更多";
+						this.navList[index].dataList.push(...data);
 					}
 				}
 			},
-			
-			handleAdd() {
-				uni.navigateTo({
-					url:'makeForm?makeId=1'
-				})
+			changeTab(e) {
+				this.tabCurrentIndex = e.target.current;
 			},
-			
-			initPointData() {
-				// getMemberPointSum().then((res) => {
-				// 	this.pointData = res.data.result;
-				// });
+			loadData() {
+				let index = this.tabCurrentIndex;
+				if (this.navList[index].loadStatus != "noMore") {
+					this.navList[index].params.pageNumber++;
+					this.getData();
+				}
 			},
-			handleSubmit() {
-				console.log(111);
-			}
+			useItNow(item) {
+				if (item.storeId && item.storeId!='0') {
+					uni.navigateTo({
+						url: `/pages/product/shopPage?id=${item.storeId}`,
+					});
+				} else {
+					uni.switchTab({
+						url: "/pages/navigation/search/searchPage",
+					});
+				}
+			},
+			dateToStr(date) {
+				var year = date.getFullYear();//年
+				var month = date.getMonth();//月
+				var day = date.getDate();//日
+				return year + "-" +
+					((month + 1) > 9 ? (month + 1) : "0" + (month + 1)) + "-" +
+					(day > 9 ? day : ("0" + day))
+			 }
 		},
 	};
 </script>
 
 <style lang="scss" scoped>
-	.container {
-		width: 100%;
-		min-height: calc(100vh - 80rpx);
-		
-		.header {
-			position: fixed;
-			// top: 80rpx;
-			left: 0;
-			right: 0;
-			
-			.screen {
-				background-color: #ffffff;
-				height: 80rpx;
-				
-				/deep/ .uni-date-editor--x {
-					height: 80rpx;
-					border: 0;
-				}
-			}
-			
-			.header-tabs {
-				height: 100rpx;
-				line-height: 100rpx;
-				width: 100vw;
-				display: flex;
-				color: #ffffff;
-				
-				.tab {
-					width: 50%;
-					background: linear-gradient(91deg, #facdbb 1%, #fae6ce 99%);
-					color: #ffffff;
-					text-align: center;
-				}
-				
-				.activity {
-					background: linear-gradient(91deg, $light-color 1%, $aider-light-color 99%);
-				}
-			}
-			
-		}
-		
-		.items {
-			padding: 180rpx 20rpx 0 20rpx;
-			margin-bottom: 60rpx;
-			
-			.card-area {
-				border-radius: 20rpx;
-				line-height: 1.8;
-				
-				.label {
-					flex: 0 0 90rpx;
-					color: $font-color-base;
-				}
-				
-				.count-into {
-					color: $uni-color-success;
-				}
-				
-				.count-out {
-					color: $uni-color-error;
-				}
-				
-				.badge {
-					margin-left: 10rpx;
-					padding: 0 10rpx;
-					line-height: 1.5;
-					color: #ffffff;
-					font-size: 28rpx;
-					border-radius: 10rpx;
-				}
-				
-				.badge-success {
-					background-color: $uni-color-success;
-				}
-				
-				.badge-warning {
-					background-color: $uni-color-warning;
-				}
-			}
-		}
-		
+	$item-color: #fff;
+	page {
+		height: 100%;
 	}
+	
+	
+	.screen {
+		background-color: #ffffff;
+		height: 80rpx;
+		
+		/deep/ .uni-date-editor--x {
+			height: 80rpx;
+			border: 0;
+		}
+	}
+
+	.b-content {
+		background: $page-color-base;
+		height: 100%;
+	}
+
+	.swiper-box {
+		height: calc(100vh - 152rpx);
+	}
+
+	.list-scroll-content {
+		height: 100%;
+		width: 100%;
+		padding: 0 20rpx;
+
+		.card-area {
+			border-radius: 20rpx;
+			line-height: 1.8;
+			width: calc(100% - 40rpx);
+			
+			.label {
+				flex: 0 0 90rpx;
+				color: $font-color-base;
+			}
+			
+			.count-into {
+				color: $uni-color-success;
+			}
+			
+			.count-out {
+				color: $uni-color-error;
+			}
+			
+			.badge {
+				margin-left: 10rpx;
+				padding: 0 10rpx;
+				line-height: 1.5;
+				color: #ffffff;
+				font-size: 28rpx;
+				border-radius: 10rpx;
+			}
+			
+			.badge-success {
+				background-color: $uni-color-success;
+			}
+			
+			.badge-warning {
+				background-color: $uni-color-warning;
+			}
+		}
+	}
+
+	.navbar {
+		display: flex;
+		height: 80rpx;
+		padding: 0 5px;
+		background: #fff;
+		color: $light-color;
+		box-shadow: 0 1px 5px rgba(0, 0, 0, 0.06);
+		position: relative;
+		z-index: 10;
+
+		.nav-item {
+			flex: 1;
+			height: 100%;
+			font-size: 26rpx;
+			color: $light-color;
+			position: relative;
+			text-align: center;
+			text {
+				line-height: 80rpx;
+			}
+			
+			.current {
+				font-weight: bold;
+				font-size: 28rpx;
+				padding-bottom: 10rpx;
+				border-bottom: 2px solid $light-color;
+			}
+		}
+	}
+	
+	
+	
 	
 </style>
