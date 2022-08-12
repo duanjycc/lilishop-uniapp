@@ -15,3 +15,15 @@ export function profitArea(params) {
     params,
   });
 }
+
+/**
+ * 会员收益
+ * @param params
+ */
+export function profitMember(params) {
+  return http.request({
+    url: '/profit/member',
+    method: Method.POST,
+    params,
+  });
+}

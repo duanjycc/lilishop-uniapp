@@ -6,13 +6,15 @@
 		<view class="items">
 			<view class="item" v-for="(item, index) in list" :key="index">
 				<view class="split-line-1" v-if="index > 0"></view>
-				<view class="fs-30 d-flex justify-content-space-between" :class="index>0 ? 'mt-20' : ''">
-					<view class="title">{{ item.merName }}</view>
-					<view>{{ item.userReturnPower }}</view>
-				</view>
-				<view class="mt-20 font-light d-flex justify-content-space-between">
-					<view>{{ item.createTime }}</view>
-					<view>{{ item.username }}</view>
+				<view class="item-content">
+					<view class="fs-30 d-flex justify-content-space-between">
+						<view class="title">{{ item.merName }}</view>
+						<view>{{ item.userReturnPower }}</view>
+					</view>
+					<view class="font-light d-flex justify-content-space-between">
+						<view></view>
+						<view>{{ item.createTime }}</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -132,11 +134,15 @@
 		}
 		
 		.items {
-			padding-top: 100rpx;
+			padding-top: 82rpx;
 			background-color: #ffffff;
 			
 			.item {
-				padding: 20rpx;
+				padding: 0 20rpx;
+				
+				.item-content {
+					padding: 20rpx 0;
+				}
 			}
 		}
 		

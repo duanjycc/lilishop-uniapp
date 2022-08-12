@@ -211,6 +211,7 @@
 	.screen {
 		background-color: #ffffff;
 		height: 80rpx;
+		box-shadow: 0px 6rpx 8rpx 0px rgba(142, 142, 142, 0.6);
 		
 		/deep/ .uni-date-editor--x {
 			height: 80rpx;
@@ -275,7 +276,6 @@
 		padding: 0 5px;
 		background: #fff;
 		color: $light-color;
-		box-shadow: 0 1px 5px rgba(0, 0, 0, 0.06);
 		position: relative;
 		z-index: 10;
 

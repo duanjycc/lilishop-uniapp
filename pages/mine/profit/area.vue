@@ -13,8 +13,19 @@
 		<swiper :current="tabCurrentIndex" class="swiper-box" duration="300" @change="changeTab">
 			<swiper-item class="tab-content" v-for="(navItem, navIndex) in navList" :key="navIndex">
 				<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
-					<view class="card-area ml-20 mr-20" v-for="(item, index) in navItem.dataList" :key="index">
-						111
+
+					<view class="items">
+						<view class="item" v-for="(item, index) in navItem.dataList" :key="index">
+							<view class="split-line-1" v-if="index > 0"></view>
+							<view class="fs-32 d-flex justify-content-space-between" :class="index > 0 ? 'mt-20' : ''">
+								<view class="title">{{ item.merName }}</view>
+								<view>{{ item.quantity }}</view>
+							</view>
+							<view class="font-light d-flex justify-content-space-between mt-10 fs-26">
+								<view><text v-show="tabCurrentIndex == 1">{{ item.subArea }}</text></view>
+								<view>{{ item.creationTime|filterDateTime }}</view>
+							</view>
+						</view>
 					</view>
 					<uni-load-more :status="navItem.loadStatus"></uni-load-more>
 				</scroll-view>
@@ -41,12 +52,20 @@
 		return newDate;
 	}
 	
+	
+	function dateTimeFormat(dat){
+		var hours = dat.getHours()  < 10 ? "0"+(dat.getHours()) : dat.getHours();
+		var minutes = dat.getMinutes()  < 10 ? "0"+(dat.getMinutes()) : dat.getMinutes();
+		var seconds = dat.getSeconds()  < 10 ? "0"+(dat.getSeconds()) : dat.getSeconds();
+		return dateFormat(dat)+' '+ hours +"-"+minutes+"-"+seconds;
+	}
+	
 	import { profitArea } from "@/api/mine-profit.js";
 	
 	export default {
 		filters: {
-			filterDate(val) {
-				return dateFormat(new Date(val));
+			filterDateTime(val) {
+				return dateTimeFormat(new Date(val));
 			}
 		},
 		data() {
@@ -55,7 +74,7 @@
 				range: [this.dateToStr(getMonth()) , this.dateToStr(new Date())],
 				navList: [
 					{
-						text: "当前区域明细",
+						text: "区域收益",
 						loadStatus: "more",
 						dataList: [],
 						params: {
@@ -66,7 +85,7 @@
 						}
 					},
 					{
-						text: "子区域明细",
+						text: "子区域收益",
 						loadStatus: "more",
 						dataList: [],
 						params: {
@@ -96,7 +115,7 @@
 			getInitPage() {
 				this.navList = [
 					{
-						text: "转入",
+						text: "区域收益",
 						loadStatus: "more",
 						dataList: [],
 						params: {
@@ -107,7 +126,7 @@
 						}
 					},
 					{
-						text: "转出",
+						text: "子区域收益",
 						loadStatus: "more",
 						dataList: [],
 						params: {
@@ -188,10 +207,19 @@
 	.screen {
 		background-color: #ffffff;
 		height: 80rpx;
+		box-shadow: 0rpx 12rpx 80rpx 0px rgb(142, 142, 142);
 		
 		/deep/ .uni-date-editor--x {
 			height: 80rpx;
 			border: 0;
+		}
+	}
+	
+	.items {
+		background-color: #ffffff;
+		
+		.item {
+			padding: 20rpx;
 		}
 	}
 
@@ -370,7 +398,6 @@
 		padding: 0 5px;
 		background: #fff;
 		color: $light-color;
-		box-shadow: 0 1px 5px rgba(0, 0, 0, 0.06);
 		position: relative;
 		z-index: 10;
 

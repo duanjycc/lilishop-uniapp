@@ -4,33 +4,26 @@
 			<uni-datetime-picker class="datetime-picker" v-model="range" type="daterange" @maskClick="maskClick" />
 		</view>
 		<view class="items">
-			<view class="card-area ml-20 mr-20" v-for="(item, index) in list" :key="index">
-				<view class="card-title d-flex justify-content-space-between align-items-center">
-					<view>{{ item.intoTime | filterDate }}</view>
-					
-					<view class="badge badge-success" v-if="item.rechargeStatus == 0">成功</view>
-					<view v-else class="badge badge-warning">转入中</view>
-				</view>
-				<view class="card-body break-all">
-					<view class="d-flex">
-						<text class="label">数量：</text>
-						<text>{{ item.arrivalAmount }}</text>
+			<view class="item" v-for="(item, index) in list" :key="index">
+				<view class="split-line-1" v-if="index > 0"></view>
+				<view class="item-content">
+					<view class="fs-30 d-flex justify-content-space-between">
+						<view class="title">{{ item.incomeType|filterType }}</view>
+						<view>{{ item.quantity }}</view>
 					</view>
-					<view class="d-flex">
-						<text class="label">账户：</text>
-						<text>{{ item.paymentAddress }}</text>
+					<view class="mt-20 font-light d-flex justify-content-space-between">
+						<view></view>
+						<view>{{ item.createTime }}</view>
 					</view>
 				</view>
 			</view>
 		</view>
+		<view class="text-center loadStatus font-color-disabled">{{ loadStatus }}</view>
 		
-		<view class="text-center font-color-disabled">{{ loadStatus }}</view>
 	</view>
 </template>
 
 <script>
-	import { transferInDetails, transferOutDetails } from "@/api/mine-transfer.js";
-	
 	function getMonth() {
 		let fdate = new Date()
 		let fyears = fdate.getFullYear()
@@ -46,16 +39,22 @@
 		var newDate = year +"-"+ mon +"-"+ data;
 		return newDate;
 	}
+	
+	import { profitMember } from "@/api/mine-profit.js";
 	export default {
 		filters: {
 			filterDate(val) {
 				return dateFormat(new Date(val));
+			},
+			filterType(val) {
+				if(val == 0) return '邀请收益';
+				return '空投收益';
 			}
 		},
 		data() {
 			return {
 				range: [getMonth() , Date.now()],
-				list: [], 
+				list: [], //积分数据集合
 				params: {
 					pageNumber: 1,
 					pageSize: 10,
@@ -67,9 +66,15 @@
 				total: 0
 			};
 		},
-		onLoad() {
-			this.getList();
-			
+		watch: {
+			range(newVal, oldVal) {
+				this.params.beginDate = this.range[0];
+				this.params.endDate = this.range[1];
+				this.initData();
+			},
+		},
+		onShow() {
+			this.initData();
 		},
 		onReachBottom() {
 			if(this.pages > this.params.pageNumber) {
@@ -77,52 +82,37 @@
 				this.getList();
 			}
 		},
-		watch: {
-			range(newVal, oldVal) {
-				this.params.beginDate = this.range[0];
-				this.params.endDate = this.range[1];
-				this.getInitPage();
-			},
-		},
 		methods: {
-			getInitPage() {
-				this.params.pageNumber = 1;
-				this.params.pageSize = 10;
-				this.loadStatus = '加载更多';
-				this.pages = 1;
+			initData() {
 				this.total = 0;
+				this.pages = 1,
+				this.loadStatus = "加载更多";
 				this.list = [];
+				this.params.pageSize = 10;
+				this.params.pageNumber = 1;
+				this.userInfo = this.$options.filters.isLogin();
 				this.getList();
 			},
-			async getList() {
+			getList() {
 				let self = this;
 				let params = this.params;
-				let res = null;
-				
-				uni.showLoading({title: "加载中"});
-				res = await transferInDetails(params);
-				uni.hideLoading();
-				
-				if (res.data.success) {
-					self.pages = res.data.result.pages;
-					self.total = res.data.result.total;
-					let data = res.data.result.records;
-					if (data.length < self.params.pageSize) {
-						self.loadStatus = "没有更多";
-						self.list.push(...data);
-					} else {
-						self.list.push(...data);
-						self.loadStatus = "加载更多";
+				uni.showLoading({
+					title: "加载中",
+				});
+				profitMember(params).then((res) => {
+					uni.hideLoading();
+					if (res.data.success) {
+						self.pages = res.data.result.pages;
+						let data = res.data.result.records;
+						if (data.length < self.params.pageSize) {
+							self.loadStatus = "没有更多";
+							self.list.push(...data);
+						} else {
+							self.list.push(...data);
+							self.loadStatus = "加载更多";
+						}
 					}
-				}
-			},
-			handleAdd() {
-				uni.navigateTo({
-					url:'makeForm?makeId=1'
-				})
-			},
-			handleSubmit() {
-				console.log(111);
+				});
 			}
 		},
 	};
@@ -131,7 +121,7 @@
 <style lang="scss" scoped>
 	.container {
 		width: 100%;
-		min-height: calc(100vh - 80rpx);
+		
 		
 		.screen {
 			background-color: #ffffff;
@@ -148,45 +138,21 @@
 		}
 		
 		.items {
-			padding: 90rpx 20rpx 0 20rpx;
-			margin-bottom: 60rpx;
+			padding-top: 100rpx;
+			background-color: #ffffff;
 			
-			.card-area {
-				border-radius: 20rpx;
-				line-height: 1.8;
+			.item {
+				padding: 0 20rpx;
 				
-				.label {
-					flex: 0 0 90rpx;
-					color: $font-color-base;
-				}
-				
-				.count-into {
-					color: $uni-color-success;
-				}
-				
-				.count-out {
-					color: $uni-color-error;
-				}
-				
-				.badge {
-					margin-left: 10rpx;
-					padding: 0 10rpx;
-					line-height: 1.5;
-					color: #ffffff;
-					font-size: 28rpx;
-					border-radius: 10rpx;
-				}
-				
-				.badge-success {
-					background-color: $uni-color-success;
-				}
-				
-				.badge-warning {
-					background-color: $uni-color-warning;
+				.item-content {
+					padding: 20rpx 0;
 				}
 			}
 		}
 		
+		.loadStatus {
+			padding-top: 60rpx;
+			padding-bottom: 180rpx;
+		}
 	}
-	
 </style>

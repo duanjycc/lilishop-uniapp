@@ -338,7 +338,7 @@
 				{
 					"path": "profit/memberProfit",
 					"style": {
-						"navigationBarTitleText": "会员收益",
+						"navigationBarTitleText": "SSD收益明细",
 						"navigationStyle": "custom"
 					}
 				},
