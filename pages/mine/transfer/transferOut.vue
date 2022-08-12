@@ -115,12 +115,6 @@
 			this.acceptAddress = getApp().globalData.acceptAddress;
 			getApp().globalData.acceptAddress = '';
 			
-			if(getApp().globalData.scanInit == 1) {
-				getApp().globalData.scanInit = 2;
-				this.$nextTick(function(){
-					this.scan();
-				})
-			}
 		},
 		computed: {
 			actualPrice() {

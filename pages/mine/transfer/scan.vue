@@ -1,6 +1,6 @@
 <template>
 	<view class="saoma">
-		<qrcode-stream @decode="onDecode" @init="onInitData" />
+		<qrcode-stream :camera="camera" :torch="torchActive" @decode="onDecode" @init="onInitData" />
 	</view>
 </template>
 
@@ -13,29 +13,18 @@
 	        },
 	        data() {
 	            return {
+					torchActive: false,
+					camera: 'front',
 	            }
 	        },
 	        methods: {
 	            onDecode(result) {
-					if(getApp().globalData.scanInit == 0) {
-						getApp().globalData.scanInit = 1;
-						uni.navigateBack({
-						    delta: 1
-						});
-					} else {
-						getApp().globalData.acceptAddress = result;//扫码获取到的数据
-						uni.navigateBack({
-						    delta: 1
-						});
-					}
+					getApp().globalData.acceptAddress = result;//扫码获取到的数据
+					uni.navigateBack({
+					    delta: 1
+					});
 	            },
 	            async onInitData(promise) {
-					if(getApp().globalData.scanInit == 0) {
-						getApp().globalData.scanInit = 1;
-						uni.navigateBack({
-						    delta: 1
-						});
-					}
 	                try {
 	                    await promise
 	                } catch (error) {
