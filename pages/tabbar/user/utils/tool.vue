@@ -38,7 +38,7 @@
             <view>邀请区域</view>
           </view>
 		  
-		  <view class="interact-item" @click="navigateTo('/pages/mine/profit/area')">
+		  <view class="interact-item" v-if="storeId != null" @click="navigateTo('/pages/mine/profit/area')">
 		    <image src="/static/mine/mycommit.png" mode=""></image>
 		    <view>区域收益</view>
 		  </view>
