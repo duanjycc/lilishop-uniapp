@@ -12,8 +12,8 @@ const dev = {
 };
 // 生产环境
 const prod = {
-  common: "http://wang.wantbibi.com/common-api",
-  buyer: "http://wang.wantbibi.com/buyer-api",
+  common: "https://wang.wantbibi.com/common-api",
+  buyer: "https://wang.wantbibi.com/buyer-api",
 };
 
 //默认生产环境
