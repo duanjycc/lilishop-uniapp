@@ -1,6 +1,6 @@
 <template>
 	<view class="saoma">
-		<qrcode-stream @decode="onDecode" @init="init" />
+		<qrcode-stream @decode="onDecode" @init="onInitData" />
 	</view>
 </template>
 
@@ -22,9 +22,9 @@
 	                    delta: 1
 	                });
 	            },
-	            init(promise) {
+	            async onInitData(promise) {
 	                try {
-	                    promise
+	                    await promise
 	                } catch (error) {
 	                    if (error.name === 'NotAllowedError') {
 	                        this.error = "ERROR: 您需要授予相机访问权限"
