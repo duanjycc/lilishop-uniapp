@@ -751,9 +751,27 @@ export default {
       if (!this.flage) {
 	  	// this.flage = true;
         // this.$refs.verification.error(); //发送\
-		this.current = 1;
 		
-		this.$refs.uCode.start();
+		uni.showLoading({});
+		sendMobile(this.mobile).then((res) => {
+			uni.hideLoading();
+			if (res.data.success) {
+				this.current = 1;
+				this.$refs.uCode.start();
+			} else {
+				uni.showToast({
+					title: res.data.message,
+					duration: 2000,
+					icon: "none",
+				});
+				this.flage = false;
+			}
+		});
+		// 这里此提示会被this.start()方法中的提示覆盖
+		
+		// this.current = 1;
+		
+		// this.$refs.uCode.start();
         return false;
       }
     },
