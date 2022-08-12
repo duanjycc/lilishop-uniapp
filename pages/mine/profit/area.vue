@@ -13,35 +13,9 @@
 		<swiper :current="tabCurrentIndex" class="swiper-box" duration="300" @change="changeTab">
 			<swiper-item class="tab-content" v-for="(navItem, navIndex) in navList" :key="navIndex">
 				<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
-
-					<!-- <view class="card-area ml-20 mr-20" v-for="(item, index) in navItem.dataList" :key="index">
-						<view class="card-title d-flex justify-content-space-between align-items-center">
-							<view v-if="tabCurrentIndex == 0">{{ item.intoTime | filterDate }}</view>
-							<view v-else>{{ item.rechargeTime | filterDate }}</view>
-							
-							<view v-if="tabCurrentIndex == 0">
-								<view class="badge badge-success" v-if="item.rechargeStatus == 0">成功</view>
-								<view v-else class="badge badge-warning">转入中</view>
-							</view>
-							<view v-if="tabCurrentIndex == 1">
-								<view class="badge badge-success" v-if="item.receiptStatus == 0">成功</view>
-								<view v-else class="badge badge-warning">转出中</view>
-							</view>
-						</view>
-						<view class="card-body break-all">
-							<view class="d-flex">
-								<text class="label">数量：</text>
-								<text v-if="type == 1">{{ item.arrivalAmount }}</text>
-								<text v-else>{{ item.rechargeAmount }}</text>
-							</view>
-							<view class="d-flex">
-								<text class="label">账户：</text>
-								<text v-if="type == 1">{{ item.paymentAddress }}</text>
-								<text v-else>{{ item.intoAddress }}</text>
-							</view>
-						</view>
-					</view> -->
-					
+					<view class="card-area ml-20 mr-20" v-for="(item, index) in navItem.dataList" :key="index">
+						111
+					</view>
 					<uni-load-more :status="navItem.loadStatus"></uni-load-more>
 				</scroll-view>
 			</swiper-item>

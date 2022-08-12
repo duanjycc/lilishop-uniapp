@@ -62,7 +62,6 @@
 					beginDate: dateFormat(getMonth()),
 					endDate: dateFormat(new Date())
 				},
-				type: 1,
 				loadStatus: "加载更多",
 				pages: 1,
 				total: 0
@@ -84,9 +83,6 @@
 				this.params.endDate = this.range[1];
 				this.getInitPage();
 			},
-			type(newVal, oldVal) {
-				this.getInitPage();
-			},
 		},
 		methods: {
 			getInitPage() {
@@ -102,12 +98,11 @@
 				let self = this;
 				let params = this.params;
 				let res = null;
-				uni.showLoading({
-					title: "加载中",
-				});
-				if(self.type == 1)  res = await transferInDetails(params);
-				else res = await transferOutDetails(params);
+				
+				uni.showLoading({title: "加载中"});
+				res = await transferInDetails(params);
 				uni.hideLoading();
+				
 				if (res.data.success) {
 					self.pages = res.data.result.pages;
 					self.total = res.data.result.total;
