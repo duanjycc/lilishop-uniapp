@@ -2,7 +2,10 @@
 	<view class="container">
 		<view class="screen">
 			<uni-datetime-picker class="datetime-picker" v-model="range" type="daterange" @maskClick="maskClick" />
+			
+			<view class="bar-border"></view>
 		</view>
+		
 		<view class="items">
 			<view class="item" v-for="(item, index) in list" :key="index">
 				<view class="split-line-1" v-if="index > 0"></view>
@@ -125,7 +128,6 @@
 			position: fixed;
 			left: 0;
 			right: 0;
-			border-bottom: 1rpx $border-color-base solid;
 			
 			/deep/ .uni-date-editor--x {
 				height: 80rpx;

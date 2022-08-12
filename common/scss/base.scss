@@ -120,3 +120,10 @@
 .font-color-disabled {
 	color: $font-color-disabled;
 }
+
+.bar-border {
+	width: 100vw;
+	height: 20rpx;
+	z-index: 9;
+	background: linear-gradient(to bottom, #ffffffff 0%,  #9c9c9c55 100%);;
+}

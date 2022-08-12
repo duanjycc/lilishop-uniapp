@@ -21,7 +21,7 @@
 			</view>
 			<view class="form-group">
 				<view class="form-label">让利金额</view>
-				<input class="form-text" disabled type="text" v-model="form.monetary * form.surrenderPrice" placeholder="金额"/>
+				<input class="form-text" disabled type="text" v-model="form.surrenderPrice" placeholder="金额"/>
 			</view>
 			<view class="form-group">
 				<view class="form-label">手机号码</view>

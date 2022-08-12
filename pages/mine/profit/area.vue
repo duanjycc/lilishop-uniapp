@@ -10,6 +10,7 @@
 		<view class="screen">
 			<uni-datetime-picker class="datetime-picker" v-model="range" type="daterange" @maskClick="maskClick" />
 		</view>
+		<view class="bar-border"></view>
 		<swiper :current="tabCurrentIndex" class="swiper-box" duration="300" @change="changeTab">
 			<swiper-item class="tab-content" v-for="(navItem, navIndex) in navList" :key="navIndex">
 				<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
@@ -213,6 +214,14 @@
 			height: 80rpx;
 			border: 0;
 		}
+	}
+	
+	
+	.bar-border {
+		width: 100vw;
+		height: 20rpx;
+		z-index: 9;
+		background: linear-gradient(to bottom, #ffffffff 0%,  #9c9c9c55 100%);;
 	}
 	
 	.items {

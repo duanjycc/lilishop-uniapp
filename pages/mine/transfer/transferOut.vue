@@ -58,7 +58,7 @@
 			<view v-if="keyboardLevel == 0">
 				<view class="mt-30 text-center fs-28">本次转出</view>
 				<view class="mt-15 text-center">
-					<text class="fs-48 font-weight-500" style="margin-right: 10rpx;">{{limit || '0'}}</text>
+					<text class="fs-48 font-weight-500" style="margin-right: 10rpx;">{{transferCount || '0'}}</text>
 					<text>SSD</text>
 				</view>
 			</view>

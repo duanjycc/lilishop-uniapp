@@ -10,6 +10,7 @@
 		<view class="screen">
 			<uni-datetime-picker class="datetime-picker" v-model="range" type="daterange" @maskClick="maskClick" />
 		</view>
+		<view class="bar-border"></view>
 		<swiper :current="tabCurrentIndex" class="swiper-box" duration="300" @change="changeTab">
 			<swiper-item class="tab-content" v-for="(navItem, navIndex) in navList" :key="navIndex">
 				<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
@@ -211,7 +212,7 @@
 	.screen {
 		background-color: #ffffff;
 		height: 80rpx;
-		box-shadow: 0px 6rpx 8rpx 0px rgba(142, 142, 142, 0.6);
+		z-index: 900;
 		
 		/deep/ .uni-date-editor--x {
 			height: 80rpx;
