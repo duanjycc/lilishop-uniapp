@@ -734,6 +734,7 @@
 					"path": "myOrder",
 					"style": {
 						"navigationBarTitleText": "我的订单",
+						"navigationStyle": "custom",
 						"enablePullDownRefresh": true,
 						"app-plus": {
 							"bounce": "none"
@@ -744,45 +745,52 @@
 				{
 					"path": "invoice/invoiceDetail",
 					"style": {
-						"navigationBarTitleText": "发票详情"
+						"navigationBarTitleText": "发票详情",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "orderDetail",
 					"style": {
-						"navigationBarTitleText": "订单详情"
+						"navigationBarTitleText": "订单详情",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "evaluate/evaluateDetail",
 					"style": {
-						"navigationBarTitleText": "评价详情"
+						"navigationBarTitleText": "评价详情",
+						"navigationStyle": "custom"
 					}
 				},
 			
 				{
 					"path": "evaluate/releaseEvaluate",
 					"style": {
-						"navigationBarTitleText": "发布评价"
+						"navigationBarTitleText": "发布评价",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "evaluate/myEvaluate",
 					"style": {
-						"navigationBarTitleText": "我的评价"
+						"navigationBarTitleText": "我的评价",
+						"navigationStyle": "custom"
 					}
 				},
 				
 				{
 					"path": "afterSales/applyProgress",
 					"style": {
-						"navigationBarTitleText": "售后服务"
+						"navigationBarTitleText": "售后服务",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "afterSales/applyDetail",
 					"style": {
-						"navigationBarTitleText": "售后服务"
+						"navigationBarTitleText": "售后服务",
+						"navigationStyle": "custom"
 					}
 				},
 				{
@@ -810,26 +818,30 @@
 				{
 					"path": "afterSales/afterSalesSelect",
 					"style": {
-						"navigationBarTitleText": "申请售后"
+						"navigationBarTitleText": "申请售后",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "afterSales/afterSalesDetail",
 					"style": {
-						"navigationBarTitleText": "申请售后"
+						"navigationBarTitleText": "申请售后",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "afterSales/afterSales",
 					"style": {
 						"navigationBarTitleText": "售后管理",
+						"navigationStyle": "custom"
 						"enablePullDownRefresh": true
 					}
 				},
 				{
 					"path": "fillorder",
 					"style": {
-						"navigationBarTitleText": "填写订单"
+						"navigationBarTitleText": "填写订单",
+						"navigationStyle": "custom"
 					}
 				}
 			]
