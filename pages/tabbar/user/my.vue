@@ -167,7 +167,7 @@ export default {
         // this.footNum = res[1].data.result;
         // this.walletNum = res[2].data.result.memberWallet;
 		this.userInfo = res[0].data.result;
-		this.serviceProvider = res[0].member.serviceProvider;
+		this.serviceProvider = res[0].data.result.member.serviceProvider;
 		this.ssd = res[0].data.result.member.ssd;
 		this.point = res[0].data.result.member.point;
 		this.storeId = res[0].data.result.member.storeId;

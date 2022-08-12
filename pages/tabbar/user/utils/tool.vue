@@ -56,7 +56,7 @@
 <script>
 import { distribution } from "@/api/goods";
 export default {
-  props:['storeId'],
+  props:['storeId','serviceProvider'],
   methods: {
     navigateTo(url) {
 		console.log(url)
