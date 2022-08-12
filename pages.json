@@ -833,7 +833,7 @@
 					"path": "afterSales/afterSales",
 					"style": {
 						"navigationBarTitleText": "售后管理",
-						"navigationStyle": "custom"
+						"navigationStyle": "custom",
 						"enablePullDownRefresh": true
 					}
 				},
