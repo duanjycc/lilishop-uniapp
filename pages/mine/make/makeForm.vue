@@ -75,7 +75,7 @@
 			return {
 				userInfo: null,
 				surrenderRatioIndex: 9,
-				surrenderRatios: [0.01, 0.02, 0.03, 0.04, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1],
+				surrenderRatios: [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1],
 				surrenderRatioDescs: ['1%','2%','3%','4%','5%','6%','7%','8%','9%','10%'],
 				storeIndex: 0,
 				storeIds: [],
@@ -115,7 +115,7 @@
 			},
 			form: {
 				handler(newObj, oldObj) {
-					this.form.surrenderPrice = this.form.monetary * this.form.surrenderRatio / 100;
+					this.getSurrenderPrice();
 				},
 				immediate: true,
 				deep: true
@@ -141,6 +141,11 @@
 			}
 		},
 		methods: {
+			getSurrenderPrice() {
+				this.$nextTick(() => {
+					this.form.surrenderPrice = this.form.monetary * (this.form.surrenderRatio * 100) / 100;
+				})
+			},
 			async init() {
 				let self = this;
 				this.userInfo = this.$options.filters.isLogin();

@@ -150,6 +150,42 @@
 					padding: 20rpx 0;
 				}
 			}
+			
+			.card-area {
+				border-radius: 20rpx;
+				line-height: 1.8;
+				width: calc(100% - 40rpx);
+				
+				.label {
+					flex: 0 0 90rpx;
+					color: $font-color-base;
+				}
+				
+				.count-into {
+					color: $uni-color-success;
+				}
+				
+				.count-out {
+					color: $uni-color-error;
+				}
+				
+				.badge {
+					margin-left: 10rpx;
+					padding: 0 10rpx;
+					line-height: 1.5;
+					color: #ffffff;
+					font-size: 28rpx;
+					border-radius: 10rpx;
+				}
+				
+				.badge-success {
+					background-color: $uni-color-success;
+				}
+				
+				.badge-warning {
+					background-color: $uni-color-warning;
+				}
+			}
 		}
 		
 		.loadStatus {
