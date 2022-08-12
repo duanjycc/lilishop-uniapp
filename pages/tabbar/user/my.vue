@@ -35,7 +35,7 @@
           <view class="money">{{ ssd.toFixed(4) || 0 }}</view>
         </u-col>
 
-        <u-col text-align="center" span="4" @click="navigateTo('/pages/cart/coupon/myCoupon')">
+        <u-col text-align="center" span="4" @click="navigateTo('/pages/mine/profit/points')">
           <view>积分</view>
           <view >{{  point || 0 }}</view>
         </u-col>

@@ -111,6 +111,7 @@
 			storeIndex(oldVal, newVal) {
 				this.form.merId = this.storeIds[newVal];
 				this.form.merName = this.storeNames[newVal];
+				console.log(this.form)
 			},
 			form: {
 				handler(newObj, oldObj) {
@@ -152,8 +153,11 @@
 						storeIds.push(item.id);
 						storeNames.push(item.storeName)
 					})
-					self.storeIds = storeNames;
+					self.storeIds = storeIds;
 					self.storeNames = storeNames;
+					
+					self.form.merId = self.storeIds[self.storeIndex];
+					self.form.merName = self.storeNames[self.storeIndex];
 				}
 				self.form.surrenderPrice = self.form.monetary * self.form.surrenderRatio / 100;
 				

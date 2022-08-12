@@ -161,7 +161,7 @@
 				res = await profitArea(params);
 				uni.hideLoading();
 				
-				if (res.data.success) {
+				if (!!res && !!res.data && res.data.success) {
 					let data = res.data.result.records;
 					if (data.length < 10) {
 						this.navList[index].loadStatus = "noMore";
