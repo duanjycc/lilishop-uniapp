@@ -439,6 +439,14 @@
 						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
+				},
+				{
+					"path" : "profit/points",
+					"style" : {
+						"navigationBarTitleText": "积分收益明细",
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
 				}
             ]
 
