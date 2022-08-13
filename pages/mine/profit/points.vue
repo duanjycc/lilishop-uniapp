@@ -27,7 +27,7 @@
 					</view>
 					<view class="d-flex">
 						<text class="label-title">收益时间：</text>
-						<text>{{ item.createTime|filterDateTime }}</text>
+						<text>{{ item.createTime }}</text>
 					</view>
 				</view>
 			</view>
