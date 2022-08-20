@@ -19,6 +19,16 @@ export function getAddressList(pageNumber, pageSize) {
   });
 }
 
+/**
+ * 获取首页商品分类 左侧列表
+ * @param parent_id
+ */
+export function getCategoryList(id) {
+  return http.request({
+    url: `/goods/category/get/${id}`,
+    method: Method.GET,
+  });
+}
 
 /**
  * 获取物流公司

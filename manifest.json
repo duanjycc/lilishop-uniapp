@@ -2,8 +2,8 @@
     "name" : "惠乐猫",
     "appid" : "__UNI__6CD4639",
     "description" : "",
-    "versionName" : "4.3.0",
-    "versionCode" : 4000270,
+    "versionName" : "4.3.1",
+    "versionCode" : 4000271,
     "transformPx" : false,
     "app-plus" : {
         "compatible" : {
@@ -221,7 +221,11 @@
             "base" : ""
         },
         "sdkConfigs" : {
-            "maps" : {}
+            "maps" : {
+                "qqmap" : {
+                    "key" : "4SPBZ-YJSKJ-LZ7FO-FSBKK-C5WX2-ABFEV"
+                }
+            }
         },
         "optimization" : {
             "treeShaking" : {

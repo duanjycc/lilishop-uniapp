@@ -15,7 +15,7 @@
 			<swiper-item class="tab-content" v-for="(navItem, navIndex) in navList" :key="navIndex">
 				<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
 
-					<view class="card-area-list ml-20 mr-20" v-for="(item, index) in navItem.dataList" :key="index">
+					<view class="card-area ml-20 mr-20" v-for="(item, index) in navItem.dataList" :key="index">
 						<view class="card-title d-flex justify-content-space-between align-items-center">
 							<view v-if="tabCurrentIndex == 0">{{ item.intoTime | filterDate }}</view>
 							<view v-else>{{ item.rechargeTime | filterDate }}</view>

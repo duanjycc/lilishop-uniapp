@@ -27,7 +27,7 @@
 				<view class="form-label">手机号码</view>
 				<input class="form-text" type="text" v-model="form.vipPhone" placeholder="输入会员手机号"/>
 			</view>
-			<view class="desc fs-28 mt-20">{{ userInfo.member.ssd }}/SSD</view>
+			<view class="desc fs-28 mt-20">今日SSD价格：{{ unitPrice }} </view>
 		</view>
 		
 		<view class="tip-info fs-28" v-show="ssd > 0">本次做单大约需要 {{ ssd }}(SSD)</view>
@@ -75,8 +75,8 @@
 			return {
 				userInfo: null,
 				surrenderRatioIndex: 9,
-				surrenderRatios: [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1],
-				surrenderRatioDescs: ['1%','2%','3%','4%','5%','6%','7%','8%','9%','10%'],
+				surrenderRatios: [0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.1],
+				surrenderRatioDescs: ['10%','9%','8%','7%','6%','5%','4%','3%','2%','1%'],
 				storeIndex: 0,
 				storeIds: [],
 				storeNames: [],

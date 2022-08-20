@@ -5,7 +5,31 @@
 import {http, Method} from '@/utils/request.js';
 
 
+/**
+ * app商铺入驻
+ * @param  params
+ */
+export function settleIn(data){
+	return http.request({
+	  url: "/store/store/settleIn",
+	  method: Method.POST,
+	  needToken: true,
+	  header: { "content-type": "application/x-www-form-urlencoded" },
+	  data: data,
+	});
+}
 
+/**
+ * app商铺审核
+ * @param storeId
+ */
+export function storeAudit(id,pass) {
+  return http.request({
+    url: `/store/store/audit/${id}/${pass}`,
+    method: Method.GET,
+    loading: false,
+  });
+}
 
 /**
  * 获取店铺列表
@@ -13,7 +37,7 @@ import {http, Method} from '@/utils/request.js';
  */
 export function getStoreList(params) {
   return http.request({
-    url: '/store',
+    url: '/store/store',
     method: Method.GET,
     params,
   });

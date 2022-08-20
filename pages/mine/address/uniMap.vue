@@ -9,7 +9,7 @@ export default {
     };
   },
   mounted() {
-    this.init();
+    // this.init();
   },
   methods: {
     // 初始化地图并且调用
