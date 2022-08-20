@@ -2,34 +2,34 @@
   <view class="add-address">
     <div class="uForm">
       <u-form :border-bottom="false" :model="form" ref="uForm" :error-type="['toast']" :rule="rules">
-        <u-form-item class="border" label="会员名称" label-width="130" prop="name">
+        <u-form-item class="border" label="会员名称" label-width="130" >
          <view v-if="id">{{form.memberName}}</view>
 		 <view v-else> {{ userInfo.member.mobile }}</view>
         </u-form-item>
-        <u-form-item class="border" label="商铺名称" label-width="130" prop="name">
+        <u-form-item class="border" label="商铺名称" label-width="130" prop="storeName">
           <u-input v-model="form.storeName" clearable placeholder="请输入商铺名称" />
         </u-form-item>
 
-		<u-form-item class="border" label="经营范围" label-width="130" prop="name">
+		<u-form-item class="border" label="经营范围" label-width="130" prop="goodsManagementCategoryName">
 			<u-input v-model="form.goodsManagementCategoryName" type="select" @click="showSelMany" placeholder="经营范围" />
 			<uni-popup ref="fw_popup" type="bottom">
 				<sel-many :list="systemScopes" :defultValue="form.goodsManagementCategory" :defultName="form.goodsManagementCategoryName" @change="getIds" @close="close" :setType="true"></sel-many>
 			</uni-popup>
 		</u-form-item>
 
-		<u-form-item class="border" label="店铺地址" label-width="130" prop="name">
+		<u-form-item class="border" label="店铺地址" label-width="130" prop="storeAddressPath">
 		  <u-input v-model="form.storeAddressPath" clearable placeholder="店铺地址" @click="getLoaction"/>
 		</u-form-item>
-		<u-form-item class="border" label="经纬度" label-width="130" prop="name">
+		<u-form-item class="border" label="经纬度" label-width="130" prop="storeCenter">
 		  <view>{{form.storeCenter }}</view> 
 		</u-form-item>
 		
-		<u-form-item class="detailAddress" label="详细地址" label-width="130" prop="name">
+		<u-form-item class="detailAddress" label="详细地址" label-width="130" prop="storeAddressDetail">
 		  <u-input v-model="form.storeAddressDetail" height="200" type="textarea"   clearable placeholder="请输入详细地址" />
 		</u-form-item>
  
 
-		<u-form-item class="detailAddress" label="店铺照片" label-width="130" prop="name">
+		<u-form-item class="detailAddress" label="店铺照片" label-width="130" prop="storeLogo">
 		  <view  v-if="id">
 		    <image style=" width: 200rpx; height: 200rpx;" :src="form.storeLogo"/></image>
 		  </view>
@@ -40,7 +40,7 @@
 		  </view>
 		</u-form-item> 
 		
-		<u-form-item class="detailAddress" label="店铺简介" label-width="130" prop="name">
+		<u-form-item class="detailAddress" label="店铺简介" label-width="130" prop="storeDesc">
 		  <u-input v-model="form.storeDesc"  height="200" type="textarea"   clearable placeholder="请输入店铺简介" />
 		</u-form-item>
 			
@@ -105,6 +105,26 @@ export default {
 				trigger: ["blur", "change"],
 			  },
 			],
+			goodsManagementCategoryName:[{
+				required: true,
+				message: "经营范围不能为空",
+				trigger: ["blur", "change"],
+			}],
+			storeAddressIdPath:[{
+				required: true,
+				message: "店铺地址不能为空",
+				trigger: ["blur", "change"],
+			}],
+			storeCenter:[{
+				required: true,
+				message: "经纬度不能为空",
+				trigger: ["blur", "change"],
+			}],
+			storeAddressDetail:[{
+				required: true,
+				message: "地址详情不能为空",
+				trigger: ["blur", "change"],
+			}]
 		}
     };
 
