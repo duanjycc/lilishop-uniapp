@@ -1,6 +1,6 @@
 <template>
 	<view class="saoma">
-		<qrcode-stream :camera="camera" :torch="torchActive" @decode="onDecode" @init="onInitData" />
+		<qrcode-stream :camera="auto" :torch="torchActive" @decode="onDecode" @init="onInitData" />
 	</view>
 </template>
 
