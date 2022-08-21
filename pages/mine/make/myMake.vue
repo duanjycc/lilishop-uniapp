@@ -3,11 +3,13 @@
 		<view class="mine-header">
 			<view>
 				<view>通证</view>
-				<view class="uni-top-2">{{ userInfo.member.ssd.toFixed(2) || 0 }}</view>
+			<!-- 	<view class="uni-top-2">{{ userInfo.member.ssd.toFixed(4) || 0 }}</view> -->
+				<view class="uni-top-2">{{ ssd.toFixed(4) || 0 }}</view>
 			</view>
 			<view>
 				<view>积分</view>
-				<view class="uni-top-2">{{ userInfo.member.point.toFixed(2) || 0 }}</view>
+				<!-- <view class="uni-top-2">{{ userInfo.member.point || 0 }}</view> -->
+				<view class="uni-top-2">{{ point || 0 }}</view>
 			</view>
 		</view>
 		
@@ -40,7 +42,7 @@
 </template>
 
 <script>
-	import { getPointsData, getMemberPointSum } from "@/api/members.js";
+	import { getPointsData, getUserInfo,getMemberPointSum } from "@/api/members.js";
 	import { queryMakeAccount } from "@/api/mine-make.js";
 	export default {
 		data() {
@@ -53,7 +55,9 @@
 				userInfo: null,
 				loadStatus: "加载更多",
 				pages: 1,
-				total: 0
+				total: 0,
+				ssd: 0,
+				point: 0,
 			};
 		},
 		onShow() {
@@ -75,6 +79,16 @@
 				this.params.pageNumber = 1;
 				this.userInfo = this.$options.filters.isLogin();
 				this.getList();
+				this.getInfo();
+		
+			},
+			getInfo(){
+				getUserInfo().then((res) =>{
+					if (res.data.success) {
+						this.ssd = res.data.result.member.ssd;
+						this.point = res.data.result.member.point;
+					}
+				})
 			},
 			getList() {
 				let self = this;

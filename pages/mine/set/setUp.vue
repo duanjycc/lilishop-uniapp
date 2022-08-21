@@ -65,7 +65,7 @@ export default {
      * 清除缓存重新登录
      */
     async confirm() {
-      await logout();
+      logout();
       this.clear();
     },
 

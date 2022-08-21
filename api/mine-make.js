@@ -35,7 +35,7 @@ export function makeAccount(params) {
  */
 export function getStoreList(params) {
   return http.request({
-    url: '/store/store',
+    url: '/store/store/getMakeByPage',
     method: Method.GET,
     params,
   });

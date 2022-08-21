@@ -5,11 +5,11 @@
 				<view class="flexBox">
 					<view class="item">
 						<view class="title">可转数量</view>
-						<view class="number">{{limit || '0'}}</view>
+						<view class="number">{{ssd.toFixed(4) || '0'}}</view>
 					</view>
 					<view class="item">
 						<view class="title">冻结数量</view>
-						<view class="number">{{frozen || '0'}}</view>
+						<view class="number">{{frozenSSD.toFixed(4) || '0'}}</view>
 					</view>
 				</view>
 				<view class="donatBox">	
@@ -91,7 +91,6 @@
 				userInfo: null,
 				verificationCode: "",
 				acceptAddress: '',
-				limit: '',
 				transferCount: null,
 				secondPassword: '',
 				frozen: '',
@@ -104,16 +103,19 @@
 				password1: null,
 				password2: null,
 				serviceCharge: 0,
+				ssd: 0,
+				frozenSSD: 0,
 			};
 		},
 		onShow() {
 			this.userInfo = this.$options.filters.isLogin();
 			if(this.userInfo) {
-				this.limit = getFloat(this.userInfo.member.ssd - this.userInfo.member.frozenSSD, 4);
-				this.frozen = getFloat(this.userInfo.member.frozenSSD, 4);
+				this.ssd = getFloat(this.ssd - this.frozenSSD, 4);
+				this.frozen = getFloat(this.frozenSSD, 4);
 			}
 			this.acceptAddress = getApp().globalData.acceptAddress;
 			getApp().globalData.acceptAddress = '';
+			this.getInfo();
 			
 		},
 		computed: {
@@ -162,6 +164,14 @@
 						} 
 					})
 				}
+			},
+			getInfo(){
+				getUserInfo().then((res) =>{
+					if (res.data.success) {
+						this.ssd = res.data.result.member.ssd;
+						this.frozenSSD = res.data.result.member.frozenSSD;
+					}
+				})
 			},
 			async code() {
 				uni.showLoading({});
@@ -212,7 +222,6 @@
 				if(val.length == 6) {
 					self.secondPassword = val
 				}
-				console.log(val);
 			},
 			onBackspace(e) {
 				if (this.secondPassword.length > 0) {
@@ -246,7 +255,7 @@
 						duration: 2000
 					});
 					return false
-				} else if( +self.transferCount > +self.limit ) {
+				} else if( +self.transferCount > +self.ssd ) {
 					uni.showToast({
 						title: '输入数量不超过可捐数量',
 						icon: 'none',
