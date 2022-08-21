@@ -35,7 +35,7 @@
 		  </view>
 		  <view class="opt-view"  v-else >
 			  <view class="images-view">
-			    <u-upload :header=" { accessToken: storage.getAccessToken() }" :action="action" width="150" @on-uploaded="onUploaded" :max-count="2" :show-progress="false"></u-upload>
+			    <u-upload :header=" { accessToken: storage.getAccessToken() }" :action="action" width="150" @on-uploaded="onUploaded" :max-count="1" :show-progress="false"></u-upload>
 			  </view>
 		  </view>
 		</u-form-item> 
@@ -124,6 +124,11 @@ export default {
 				required: true,
 				message: "地址详情不能为空",
 				trigger: ["blur", "change"],
+			}],
+			storeLogo:[{
+				required: true,
+				message: "店铺图片不能为空",
+				trigger: ["blur", "change"],
 			}]
 		}
     };
@@ -143,7 +148,11 @@ export default {
 	},
 	  //图片上传
 	onUploaded(lists) {
+		
 	    let images = [];
+		if(images){
+			
+		}
 	    lists.forEach((item) => {
 	      images.push(item.response.result);
 		  this.form.storeLogo = images.join(",");

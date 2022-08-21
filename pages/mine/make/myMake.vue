@@ -25,7 +25,7 @@
 						</view>
 						<view class="mt-20 font-light d-flex justify-content-space-between">
 							<view>{{ item.createTime }}</view>
-							<view>{{ item.username }}</view>
+							<view>{{ item.vipPhone }}</view>
 						</view>
 					</view>
 				</view>

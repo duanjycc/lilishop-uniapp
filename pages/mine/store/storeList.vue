@@ -9,6 +9,7 @@
           <text>{{ item.memberName }}</text>
           <text class="pass_default" v-if="item.storeDisable ==='OPEN' " >审核通过</text>
           <text class="default" v-if="item.storeDisable ==='APPLYING' && userInfo.member.serviceProvider ==='SERVICE_PROVIDER'  "  @click="addStore(item.id)">审核</text>
+          <text class="auditing" v-if="item.storeDisable ==='APPLYING' && userInfo.member.id === item.memberId  " >审核中</text>
           <text class="no_pass_default" v-if="item.storeDisable ==='REFUSED' "  >审核失败</text>
 		  
           <view>
@@ -150,6 +151,14 @@ export default {
     }
   }
   .address {
+	  .auditing{
+		  color: #666;
+		  font-size: 22rpx;
+		  border-radius: 6rpx;
+		  align-self: center;
+		  padding: 2rpx 20rpx;
+		  float: right;
+	  }
     .default {
       border: 1px solid;
       font-size: 22rpx;
