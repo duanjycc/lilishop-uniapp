@@ -16,6 +16,19 @@ export function queryMakeAccount(params) {
   });
 }
 
+
+/**
+ * 获取积分
+ * @param params
+ */
+export function getScore(params) {
+  return http.request({
+    url: '/score',
+    method: Method.GET,
+    params,
+  });
+}
+
 /**
  * 做单
  * @param params

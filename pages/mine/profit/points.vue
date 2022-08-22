@@ -10,20 +10,20 @@
 			<view class="card-area" v-for="(item, index) in list" :key="index">
 				<view class="card-title d-flex justify-content-space-between align-items-center">
 					<view class="fs-24">
-						<text>商铺：</text> 
-						<text>{{ item.merName }}</text> 
+						<text>订单号：</text> 
+						<text>{{ item.orderId }}</text> 
 					</view>
-					<view class="count-danger fs-28">{{ item.userReturnPower }}分</view>
+					<view class="count-danger fs-28">{{ item.integral }}分</view>
 				</view>
 				
 				<view class="card-body break-all">
 					<view class="d-flex">
-						<text class="label-title">消费金额：</text>
-						<text>{{ item.monetary }}</text>
+						<text class="label-title">商铺：</text>
+						<text>{{ item.merName }}</text>
 					</view>
 					<view class="d-flex">
-						<text class="label-title">让利金额：</text>
-						<text>{{ item.surrenderPrice }}</text>
+						<text class="label-title">收益类型：</text>
+						<text>{{ item.integralType === 0 ? '会员收益': '商户收益' }}</text>
 					</view>
 					<view class="d-flex">
 						<text class="label-title">收益时间：</text>
@@ -62,7 +62,7 @@
 		return dateFormat(dat)+' '+newTime;
 	}
 	
-	import { queryMakeAccount } from "@/api/mine-make.js";
+	import { getScore } from "@/api/mine-make.js";
 	export default {
 		filters: {
 			filterDate(val) {
@@ -120,7 +120,7 @@
 				uni.showLoading({
 					title: "加载中",
 				});
-				queryMakeAccount(params).then((res) => {
+				getScore(params).then((res) => {
 					uni.hideLoading();
 					if (res.data.success) {
 						self.pages = res.data.result.pages;
