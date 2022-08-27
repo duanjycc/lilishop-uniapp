@@ -1,8 +1,8 @@
 <template>
   <div>
-    <u-navbar :border-bottom="false">
+   <!-- <u-navbar :border-bottom="false">
 			<u-search v-model="keyword" @custom='search' :show-action="true" action-text="搜索" :animation="true" @search="search" @click="search" placeholder="请输入搜索"></u-search>
-    </u-navbar>
+    </u-navbar> -->
     <div class="wrapper">
       <!-- 店铺信息模块 -->
       <div class="store flex">
@@ -14,9 +14,11 @@
             <u-icon style="margin-left:10rpx;" name="arrow-right"></u-icon>
           </div>
           <div class="flex store-message">
-            <div> <span>{{ storeInfo.collectionNum || 0 }}</span>关注 </div>
-            <div> <span>{{ storeInfo.goodsNum || 0 }}</span>件商品 </div>
+            <view class="fs-20" > {{ storeInfo.memberName  }} </view>
           </div>
+					<div class="flex store-message">
+					  <view class="fs-20" > {{ storeInfo.storeAddressDetail  }} </view>
+					</div>
         </div>
         <div class="collection">
           <div class="collection-btn" @click="whetherCollection"> {{ isCollection  ? '已关注' : '+ 关注' }}</div>
@@ -28,13 +30,13 @@
       </div>
 
       <!-- 联系客服 -->
-      <div class="kefu" @click="linkKefuDetail">
+   <!--   <div class="kefu" @click="linkKefuDetail">
         <u-icon name="kefu-ermai"></u-icon>
         联系客服
-      </div>
+      </div> -->
     </div>
     <!-- 优惠券 -->
-    <scroll-view scroll-x="true" show-scrollbar="false" class="discount" v-if="couponList.length > 0">
+   <!-- <scroll-view scroll-x="true" show-scrollbar="false" class="discount" v-if="couponList.length > 0">
       <view class="card-box" v-for="(item, index) in couponList" :key="index">
         <view class="card" @click="getCoupon(item)">
           <view class="money">
@@ -51,7 +53,7 @@
           </view>
         </view>
       </view>
-    </scroll-view>
+    </scroll-view> -->
 
     <!-- tab -->
     <u-tabs :list="tabs" :active-color="mainColor" :is-scroll="false" :current="current" @change="changeTab"></u-tabs>
@@ -354,10 +356,10 @@ export default {
       font-weight: bold;
     }
     > .store-message {
-      margin-top: 25rpx;
+      margin-top: 18rpx;
       > div {
         font-size: 26rpx;
-        margin: 0 5rpx;
+        margin: 0 2rpx;
         > span {
           font-size: 26rpx;
           font-weight: bold;

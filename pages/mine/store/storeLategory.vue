@@ -1,8 +1,16 @@
 <template>
   <view class="category-wrap">
     <u-navbar class="navbar" :is-back="false">
-      <div class="title"> 商铺分类</div>
-      <u-search class="nav-search" disabled @click.native="search" placeholder="搜索商铺" :show-action="false"></u-search>
+      <view class="title" >{{ currentPosition }}</view>
+				
+      <u-search
+        placeholder="商铺分类"
+        @search="submitSearchOrderList()"
+        @clear="submitSearchOrderList()"
+        @custom="submitSearchOrderList()"
+        v-model="params.storeName"
+      >
+      </u-search>
     </u-navbar>
     <view class="content">
       <scroll-view scroll-y scroll-with-animation class="left-aside">
@@ -11,23 +19,15 @@
         </view>
       </scroll-view>
       <scroll-view scroll-with-animation scroll-y class="right-aside" :upper-threshold="-100" :lower-threshold="-100">
-        <!-- 头部图片 -->
-        <view class="top-img" id="main-top">
-          <u-image width="500rpx" height="230rpx" @click="navigateToList(topImg.id,topImg.id)" :src="topImg.image" mode="">
-          </u-image>
-        </view>
-        <view v-for="item in categoryList" :key="item.id" class="s-list" :id="'main-' + item.id">
-          <!-- 分类标题 -->
-          <text class="s-item">{{ item.name }}</text>
-          <!-- 分类详情 -->
+        <view v-for="item in storeList" @click="storeDetail(item.id)" :key="item.id" class="s-list d-flex pb-20 pt-20" :id="'main-' + item.id">
           <view class="t-list">
-            <view @click="navigateToList(item.id, children.id)" v-if="children.parentId === item.id" class="t-item" v-for="(children, cIndex) in item.children" :key="children.id"
-              :class="{ 'margin-right': (cIndex + 1) % 3 == 0 }">
-              <u-image width="70px" height="70px" :src="children.image" :lazy-load="true">
-              </u-image>
-              <text>{{ children.name }}</text>
-            </view>
+              <u-image width="70px" height="70px" :src="item.storeLogo" :lazy-load="true"></u-image>
           </view>
+					<view>
+						<view class="s-item fs-30">{{ item.storeName }}</view>
+						<view class="s-item fs-20">{{ item.memberName }}</view>
+						<view class="fs-20"> {{ item.storeAddressDetail }}</view>
+					</view>
         </view>
       </scroll-view>
     </view>
@@ -36,63 +36,109 @@
 
 <script>
 import { getCategoryList } from "@/api/goods.js";
+import { getStoreByCategoryList } from "@/api/store.js";
+import config from '@/config/config'
+import * as API_Members from "@/api/members.js";
 export default {
   data() {
     return {
       currentId: 0,
       tabList: [], //左侧标题列表
-      categoryList: [], //右侧分类数据列表
-      topImg: "", //顶部图片
+      storeList: [], //右侧分类数据列表
+			params: {
+				pageNumber: 1,
+				pageSize: 10,
+				categoryId: "",
+				storeName: "",
+			},
+			currentPosition: "",
+			loadStatus: "加载更多",
+			pages: 1,
+			total: 0,
     };
   },
   onLoad() {
     this.loadData();
     // #ifdef MP-WEIXIN
-    // 小程序默认分享
     uni.showShareMenu({ withShareTicket: true });
     // #endif
+		this.getLocation();
   },
   methods: {
-    /**
-     * 查询
-     */
-    search() {
-      uni.navigateTo({
-        url: "/pages/navigation/search/searchPage",
-      });
-    },
+	
+		getLocation(){
+			const that = this;
+			uni.getLocation({
+				type: 'wgs84',
+				geocode: true,
+				success: function (res) {
+					// uni.request({
+					//   url: `https://restapi.amap.com/v3/geocode/regeo`,
+					//   method: "GET",
+					//   data: {
+					//     key: config.aMapKey, 
+					//     location: `${res.longitude},${res.latitude}`,
+					//   },
+					//   success: ({ data }) => {
+					// 		that.currentPosition = data.regeocode.addressComponent.district;
+					//   }
+					// });
+				}
+			});
+		},
+		storeDetail(id){
+			uni.navigateTo({
+			  url: `/pages/product/shopPage?id=` + id,
+			});
+		},
 
-    /**
-     * 加载图片
-     */
     async loadData() {
       let list = await getCategoryList(0);
       this.tabList = list.data.result;
       this.currentId = list.data.result[0].id;
-      this.loadListContent(0);
+      this.loadListContent();
     },
 
     /**
      * 加载列表内容
      */
     loadListContent(index) {
-      this.topImg = this.tabList[index];
-      this.categoryList = this.tabList[index].children;
+			this.loadStoreList();
     },
+		
+		submitSearchOrderList(storeName){
+			this.loadStoreList();
+		},
+		
+		loadStoreList(){
+			let self = this;
+			let params = this.params;
+			uni.showLoading({
+				title: "加载中",
+			});
+			getStoreByCategoryList(params).then((res) => {
+				uni.hideLoading();
+				if (res.data.success) {
+					self.pages = res.data.result.pages;
+					this.storeList = res.data.result.records;
+					if (this.storeList.length < self.params.pageSize) {
+						self.loadStatus = "没有更多";
+					//	self.list.push(...data);
+					} else {
+						//self.list.push(...data);
+						self.loadStatus = "加载更多";
+					}
+				}
+			});
+		},
     /**
      * 一级分类点击
      */
     tabtap(item, i) {
       if (item.id != this.currentId) {
-        this.currentId = item.id;
-        this.loadListContent(i);
+				this.params.categoryId = item.id;
+        this.loadListContent();
       }
-    },
-
-    navigateToList(sid, tid) {
-      uni.navigateTo({
-        url: `/pages/navigation/search/searchPage?category=${tid}`,
-      });
     },
   },
 };
@@ -118,6 +164,10 @@ uni-scroll-view .uni-scroll-view::-webkit-scrollbar {
 /* #endif */
 .s-list {
   box-shadow: 0 4rpx 12rpx 0 rgba(0, 0, 0, 0.05);
+}
+.item {
+  display: flex;
+	justify-content: start;
 }
 .nav-search {
   padding-left: 30rpx !important;
@@ -180,15 +230,14 @@ uni-scroll-view .uni-scroll-view::-webkit-scrollbar {
   .s-item {
     display: flex;
     align-items: center;
-    height: 70rpx;
+    height: 50rpx;
     padding-top: 16rpx;
     font-weight: 500;
   }
   .t-list {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
-    padding-top: 12rpx;
+    padding: 12rpx 20rpx 0 0;
   }
   .margin-right {
     margin-right: 0 !important;
@@ -215,5 +264,7 @@ uni-scroll-view .uni-scroll-view::-webkit-scrollbar {
       margin-bottom: 20rpx !important;
     }
   }
+	
+	
 }
 </style>

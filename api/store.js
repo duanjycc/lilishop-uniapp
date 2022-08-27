@@ -20,6 +20,20 @@ export function settleIn(data){
 }
 
 /**
+ * 根据分类获取商铺
+ * @param params
+ */
+export function getStoreByCategoryList(params) {
+  return http.request({
+    url: "/store/store/by/category",
+    method: Method.GET,
+    params,
+  });
+}
+
+
+
+/**
  * app商铺审核
  * @param storeId
  */
