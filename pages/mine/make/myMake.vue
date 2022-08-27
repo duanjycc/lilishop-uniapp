@@ -113,12 +113,12 @@
 			},
 			
 			handleAdd() {
-				uni.showToast({
-					icon:"none",
-					duration: 3000,
-					title: '做单更新中，请稍后'
-				})
-				return;
+				// uni.showToast({
+				// 	icon:"none",
+				// 	duration: 3000,
+				// 	title: '做单更新中，请稍后'
+				// })
+				// return;
 				uni.navigateTo({
 					url:'makeForm?makeId=1'
 				})
