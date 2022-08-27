@@ -26,16 +26,27 @@
 				}
 			}
 		},
+		// {
+		// 	"path": "pages/tabbar/cart/cartList",
+		// 	"style": {
+		// 		"navigationBarTitleText": "购物车",
+		// 		"navigationStyle": "custom",
+		// 		"navigationBarBackgroundColor": "#fff",
+		// 		"enablePullDownRefresh":true    //实现下拉刷新样式
+
+		// 	}
+		// },
 		{
-			"path": "pages/tabbar/cart/cartList",
+			"path": "pages/mine/store/storeLategory",
 			"style": {
-				"navigationBarTitleText": "购物车",
+				"navigationBarTitleText": "商铺分类",
 				"navigationStyle": "custom",
 				"navigationBarBackgroundColor": "#fff",
 				"enablePullDownRefresh":true    //实现下拉刷新样式
-
+		
 			}
-		}, {
+		},
+		 {
 			"path": "pages/tabbar/category/category",
 			"style": {
 				"navigationBarTitleText": "分类",
@@ -44,8 +55,6 @@
 				"disableScroll": true,
 					"bounce": "none",
 					"scrollIndicator": "none"
-					
-				
 			}
 		},
 				
@@ -888,18 +897,24 @@
 				"text": "首页"
 			},
 			{
+				"pagePath": "pages/mine/store/storeLategory",
+				"iconPath": "static/tabbar/category.png",
+				"selectedIconPath": "static/tabbar/category-s.png",
+				"text": "商铺分类"
+			},
+			{
 				"pagePath": "pages/tabbar/category/category",
 				"iconPath": "static/tabbar/category.png",
 				"selectedIconPath": "static/tabbar/category-s.png",
 				"text": "分类"
 			},
 		
-			{
-				"pagePath": "pages/tabbar/cart/cartList",
-				"iconPath": "static/tabbar/cart.png",
-				"selectedIconPath": "static/tabbar/cart-s.png",
-				"text": "购物车"
-			},
+			// {
+			// 	"pagePath": "pages/tabbar/cart/cartList",
+			// 	"iconPath": "static/tabbar/cart.png",
+			// 	"selectedIconPath": "static/tabbar/cart-s.png",
+			// 	"text": "购物车"
+			// },
 			{
 				"pagePath": "pages/tabbar/user/my",
 				"iconPath": "static/tabbar/mine.png",
