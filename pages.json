@@ -472,6 +472,31 @@
 						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
+				},
+				{
+					"path" : "posters/list",
+					"style" :  {
+						"navigationBarTitleText": "挂单",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path" : "posters/poster",
+					"style" : {
+						"navigationBarTitleText": "挂单详情",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom"
+					}
+				
+				},
+				{
+					"path" : "posters/poster_form",
+					"style" : {
+						"navigationBarTitleText": "挂单录入",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom"
+					}
 				}
             ]
 

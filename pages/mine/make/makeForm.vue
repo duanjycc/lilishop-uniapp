@@ -2,7 +2,7 @@
 	<view class="container pb-120">
 		<view class="content mb-100">
 			<view class="form-group">
-				<view class="form-label">消费金额</view>
+				<view class="form-label">类型</view>
 				<input class="form-text" type="number" v-model="form.monetary" placeholder="金额"/>
 			</view>
 			<view class="form-group">
@@ -32,7 +32,7 @@
 		
 		<view class="tip-info fs-28" v-show="ssd > 0">本次做单大约需要 {{ ssd }}(SSD)</view>
 		<view class="btn-submit" @click="handleSubmit">确认让利</view>
-		<u-keyboard class="passwrod-panel" @change="onChange" ref="uKeyboard" v-model="showKeyboard" @backspace="onBackspace" mode="number" :dot-enabled="false" :tooltip="false" default="">
+		<u-keyboard class="password-panel" @change="onChange" ref="uKeyboard" v-model="showKeyboard" @backspace="onBackspace" mode="number" :dot-enabled="false" :tooltip="false" default="">
 			<view class="mt-40 mb-40 text-center" style="text-align: center;">
 				{{ keyboardTitle }}
 			</view>
@@ -368,7 +368,7 @@
 			color: $main-color;
 		}
 		
-		.passwrod-panel {
+		.password-panel {
 			
 			.close {
 				position: absolute;

@@ -17,12 +17,23 @@
          <view class="interact-item" @click="navigateTo('/pages/mine/transfer/transferOut')">
             <image src="/static/mine/myhistory.png" mode=""></image>
             <view>转出</view>
-          </view>
+		</view>
 		  
-			<view class="interact-item" @click="navigateTo('/pages/mine/store/storeList')">
-			  <image src="/static/mine/mycommit.png" mode=""></image>
-			  <view>商铺管理</view>
-			</view>
+		<view class="interact-item" @click="navigateTo('/pages/mine/store/storeList')">
+			<image src="/static/mine/mycommit.png" mode=""></image>
+			<view>商铺管理</view>
+		</view>
+		
+		  
+		<view class="interact-item" @click="navigateTo('/pages/mine/store/storeList')">
+			<image src="/static/mine/mycommit.png" mode=""></image>
+			<view>商铺管理</view>
+		</view>
+		
+		<view class="interact-item" @click="navigateTo('/pages/mine/posters/list')">
+			<image src="/static/mine/mycommit.png" mode=""></image>
+			<view>挂单</view>
+		</view>
 
           <view class="interact-item" @click="navigateTo('/pages/mine/set/feedBack')">
             <image src="/static/mine/feedback.png" mode=""></image>

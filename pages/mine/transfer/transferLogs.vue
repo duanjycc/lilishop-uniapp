@@ -32,12 +32,12 @@
 						<view class="card-body break-all">
 							<view class="d-flex">
 								<text class="label">数量：</text>
-								<text v-if="type == 1">{{ item.arrivalAmount }}</text>
+								<text v-if="tabCurrentIndex == 0">{{ item.arrivalAmount }}</text>
 								<text v-else>{{ item.rechargeAmount }}</text>
 							</view>
 							<view class="d-flex">
 								<text class="label">账户：</text>
-								<text v-if="type == 1">{{ item.paymentAddress }}</text>
+								<text v-if="tabCurrentIndex == 0">{{ item.paymentAddress }}</text>
 								<text v-else>{{ item.intoAddress }}</text>
 							</view>
 						</view>

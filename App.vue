@@ -212,6 +212,7 @@ export default {
 <style lang="scss">
 @import "uview-ui/index.scss";
 @import "./common/scss/base.scss";
+@import "./uni.scss";
 // -------适配底部安全区  苹果x系列刘海屏
 
 // #ifdef MP-WEIXIN
