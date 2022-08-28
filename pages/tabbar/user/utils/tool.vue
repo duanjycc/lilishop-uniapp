@@ -31,7 +31,7 @@
 		</view>
 		
 		<view class="interact-item" @click="navigateTo('/pages/mine/posters/list')">
-			<image src="/static/mine/mycommit.png" mode=""></image>
+			<image src="/static/mine/shensu.png" mode=""></image>
 			<view>挂单</view>
 		</view>
 
