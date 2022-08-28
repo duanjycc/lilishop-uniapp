@@ -29,10 +29,15 @@
 			<image src="/static/mine/mycommit.png" mode=""></image>
 			<view>商铺管理</view>
 		</view>
-		
+
 		<view class="interact-item" @click="navigateTo('/pages/mine/posters/list')">
 			<image src="/static/mine/shensu.png" mode=""></image>
 			<view>挂单</view>
+		</view>
+
+		<view class="interact-item" @click="navigateTo('/pages/mine/posters/list')">
+			<image src="/static/mine/sign.png" mode=""></image>
+			<view>推广员</view>
 		</view>
 
           <view class="interact-item" @click="navigateTo('/pages/mine/set/feedBack')">
