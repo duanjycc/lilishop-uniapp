@@ -31,7 +31,7 @@
     <div class="pointBox box">
       <u-row text-align="center" gutter="16" class="point">
         <u-col text-align="center" span="4" @click="navigateTo('/pages/mine/profit/memberProfit')">
-          <view>SSD卷</view>
+          <view>SSD券</view>
           <view class="money">{{ ssd.toFixed(4) || 0 }}</view>
         </u-col>
 
