@@ -59,7 +59,7 @@
 				tabCurrentIndex: 0, 
 				navList: [
 					{
-						text: "我要买",
+						text: "买入",
 						loadStatus: "more",
 						dataList: [],
 						params: {
@@ -72,7 +72,7 @@
 						}
 					},
 					{
-						text: "我要卖",
+						text: "卖出",
 						loadStatus: "more",
 						dataList: [],
 						params: {

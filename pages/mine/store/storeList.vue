@@ -8,7 +8,7 @@
           <text>{{ item.storeName }}</text>
           <text>{{ item.memberName }}</text>
           <text class="pass_default" v-if="item.storeDisable ==='OPEN' " >审核通过</text>
-          <text class="default" v-if="item.storeDisable ==='APPLYING' && userInfo.member.serviceProvider ==='SERVICE_PROVIDER'  "  @click="addStore(item.id)">审核</text>
+          <text class="default" v-if="item.storeDisable ==='APPLYING' && userInfo.member.serviceProvider ==='SERVICE_PROVIDER' && serviceProviderCode === item.storeAddressIdPath.split(',')[2] "  @click="addStore(item.id)">审核</text>
           <text class="auditing" v-if="item.storeDisable ==='APPLYING' && userInfo.member.id === item.memberId  " >审核中</text>
           <text class="no_pass_default" v-if="item.storeDisable ==='REFUSED' "  >审核失败</text>
 		  
@@ -38,7 +38,8 @@ export default {
     return {
       storeList: [], //地址列表
       showAction: false, //是否显示下栏框
-	  userInfo:null,
+			userInfo:null,
+			serviceProviderCode:null,
       removeList: [
         {
           text: "确定",
@@ -64,9 +65,11 @@ export default {
     this.routerVal = val;
   },
   onShow() {
-	this.userInfo = this.$options.filters.isLogin();
+		this.getServiceProvider();
+		this.userInfo = this.$options.filters.isLogin();
     this.addressList = [];
     this.getAddressList();
+
   },
   onHide() {},
   methods: {
@@ -77,6 +80,14 @@ export default {
         delta: 1,
       });
     },
+		getServiceProvider(){
+			API_Store.getServiceProvider().then((res) =>{
+				if (res.data.success) {
+					this.serviceProviderCode = res.data.result;
+					console.log( this.serviceProviderCode)
+				}
+			});
+		},
     //获取地址列表
     getAddressList() {
       uni.showLoading();

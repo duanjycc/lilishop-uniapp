@@ -119,12 +119,11 @@ export default {
 						title: '选择地图应用',
 						itemList: ['腾讯地图', '百度地图', '高德地图'],
 						success: function (res) {
-							console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
 							switch(res.tapIndex){
 								//下面是拼接url,不同系统以及不同地图都有不同的拼接字段
 								case 0:
 									//注意referer=xxx的xxx替换成你在腾讯地图开发平台申请的key
-									url = `qqmap://map/geocoder?coord=${latitude},${longitude}&referer=xxx`;
+									url = `qqmap://map/geocoder?coord=${latitude},${longitude}&referer=4SPBZ-YJSKJ-LZ7FO-FSBKK-C5WX2-ABFEV`;
 									break;
 								case 1:
 									url = `baidumap://map/marker?location=${latitude},${longitude}&title=${name}&coord_type=gcj02&src=andr.baidu.openAPIdemo`;

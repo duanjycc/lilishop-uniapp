@@ -20,6 +20,18 @@ export function settleIn(data){
 }
 
 /**
+ * 查询当前用户是那个区服务商
+ * @param params
+ */
+export function getServiceProvider() {
+  return http.request({
+    url: "/passport/member/service/provider",
+    method: Method.GET,
+		needToken: true,
+  });
+}
+
+/**
  * 根据分类获取商铺
  * @param params
  */

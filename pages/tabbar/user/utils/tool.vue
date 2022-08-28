@@ -6,34 +6,29 @@
       <div class="paddingBox">
         <view class="interact-container">
 
-		  <view v-if="storeId != null" class="interact-item" @click="navigateTo('/pages/mine/make/myMake')">
-		    <image src="/static/mine/couponcenter.png" mode=""></image>
-		    <view>商户做单</view>
-		  </view>
-         <view class="interact-item" @click="navigateTo('/pages/mine/transfer/transferInto')">
+					<view v-if="storeId != null" class="interact-item" @click="navigateTo('/pages/mine/make/myMake')">
+						<image src="/static/mine/couponcenter.png" mode=""></image>
+						<view>商户做单</view>
+					</view>
+          <view class="interact-item" @click="navigateTo('/pages/mine/transfer/transferInto')">
             <image src="/static/mine/mypoint.png" mode=""></image>
             <view>转入</view>
           </view>
-         <view class="interact-item" @click="navigateTo('/pages/mine/transfer/transferOut')">
+          <view class="interact-item" @click="navigateTo('/pages/mine/transfer/transferOut')">
             <image src="/static/mine/myhistory.png" mode=""></image>
             <view>转出</view>
-		</view>
+					</view>
 		  
-		<view class="interact-item" @click="navigateTo('/pages/mine/store/storeList')">
-			<image src="/static/mine/mycommit.png" mode=""></image>
-			<view>商铺管理</view>
-		</view>
+					<view class="interact-item" @click="navigateTo('/pages/mine/store/storeList')">
+						<image src="/static/mine/mycommit.png" mode=""></image>
+						<view>商铺管理</view>
+					</view>
 		
-		  
-		<view class="interact-item" @click="navigateTo('/pages/mine/store/storeList')">
-			<image src="/static/mine/mycommit.png" mode=""></image>
-			<view>商铺管理</view>
-		</view>
-		
-		<view class="interact-item" @click="navigateTo('/pages/mine/posters/list')">
-			<image src="/static/mine/shensu.png" mode=""></image>
-			<view>挂单</view>
-		</view>
+
+					<view class="interact-item" @click="navigateTo('/pages/mine/posters/list')">
+						<image src="/static/mine/shensu.png" mode=""></image>
+						<view>挂单</view>
+					</view>
 
           <view class="interact-item" @click="navigateTo('/pages/mine/set/feedBack')">
             <image src="/static/mine/feedback.png" mode=""></image>
@@ -53,15 +48,15 @@
             <view>邀请区域</view>
           </view>
 		  
-		  <view class="interact-item" v-if="serviceProvider != null" @click="navigateTo('/pages/mine/profit/area')">
-		    <image src="/static/mine/mycommit.png" mode=""></image>
-		    <view>区域收益</view>
-		  </view>
+					<view class="interact-item" v-if="serviceProvider != null" @click="navigateTo('/pages/mine/profit/area')">
+						<image src="/static/mine/mycommit.png" mode=""></image>
+						<view>区域收益</view>
+					</view>
 		  
-		  <view class="interact-item" @click="navigateTo('/pages/mine/set/setUp')">
-		    <image src="/static/mine/setting.png" mode=""></image>
-		    <view>设置</view>
-		  </view>
+					<view class="interact-item" @click="navigateTo('/pages/mine/set/setUp')">
+						<image src="/static/mine/setting.png" mode=""></image>
+						<view>设置</view>
+					</view>
         </view>
       </div>
     </view>
