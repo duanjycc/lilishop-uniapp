@@ -55,18 +55,19 @@
 				<image src="../../../static/icons/close.png" mode=""></image>
 			</view>
 			<view v-if="keyboardLevel == 0">
-				<view class="mt-15 text-center">
-					挂单数量
-					<text class="fs-42 font-weight-500" style="margin-right: 10rpx;">
+				<view class="mt-15 text-center" v-if="submitStatus == 1">
+					数量
+					<text class="fs-42 font-weight-500" style="margin-right: 10rpx;color: red;">
 						{{ form.salesVolume }}
 					</text>
-					<text>个</text>
-				</view>
-				<view class="mt-15 text-center">
-					<text class="fs-42 font-weight-500" style="margin-right: 10rpx;">
+					<text>个</text>, 挂单金额
+					<text class="fs-42 font-weight-500" style="margin-right: 10rpx;color: red;">
 						{{ form.price }}
 					</text>
 					<text>元</text>
+				</view>
+				<view class="text-center" style="color: red;"  v-if="submitStatus == 2">
+					请输入输入密码“撤销”当前挂单
 				</view>
 			</view>
 			<u-message-input class="mt-30" mode="box" :maxlength="6" :dot-fill="true" v-model="secondPassword" :disabled-keyboard="true" @finish="finish"></u-message-input>
