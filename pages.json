@@ -923,10 +923,11 @@
 			},
 			{
 				"pagePath": "pages/mine/store/storeLategory",
-				"iconPath": "static/tabbar/category.png",
-				"selectedIconPath": "static/tabbar/category-s.png",
+				"iconPath": "static/tabbar/store.png",
+				"selectedIconPath": "static/tabbar/store-s.png",
 				"text": "商铺分类"
 			},
+
 			{
 				"pagePath": "pages/tabbar/category/category",
 				"iconPath": "static/tabbar/category.png",

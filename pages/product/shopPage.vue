@@ -1,103 +1,54 @@
 <template>
   <div>
-   <!-- <u-navbar :border-bottom="false">
-			<u-search v-model="keyword" @custom='search' :show-action="true" action-text="搜索" :animation="true" @search="search" @click="search" placeholder="请输入搜索"></u-search>
-    </u-navbar> -->
     <div class="wrapper">
       <!-- 店铺信息模块 -->
       <div class="store flex">
-        <u-image border-radius="10" width="150" height="150" :src="storeInfo.storeLogo || config.logo" mode="aspectFit">
+        <u-image border-radius="10" width="150" height="150" :src="storeInfo.storeLogo" mode="aspectFit">
         </u-image>
         <div class="box">
-          <div class="store-name" @click="getStoreLicencePhoto">
+          <div class="store-name" >
             {{ storeInfo.storeName || ''}}
-            <u-icon style="margin-left:10rpx;" name="arrow-right"></u-icon>
+            <!-- <u-icon style="margin-left:10rpx;" name="arrow-right"></u-icon> -->
           </div>
           <div class="flex store-message">
             <view class="fs-20" > {{ storeInfo.memberName  }} </view>
+						 <a :href="'tel:' + storeInfo.memberName" style="text-decoration:  none;"> <u-icon style="margin-left:10rpx;" name="phone"></u-icon></a>
           </div>
 					<div class="flex store-message">
-					  <view class="fs-20" > {{ storeInfo.storeAddressDetail  }} </view>
+					  <view class="fs-20" > {{ storeInfo.storeAddressDetail  }} <u-icon @click="goMap()"  style="margin-left:10rpx;" name="address"></u-icon> </view> 
 					</div>
-        </div>
+        </div>	
         <div class="collection">
           <div class="collection-btn" @click="whetherCollection"> {{ isCollection  ? '已关注' : '+ 关注' }}</div>
         </div>
       </div>
-      <!-- 店铺简介 -->
-      <div class="store-desc wes-2">
-        {{storeInfo.storeDesc}}
-      </div>
-
-      <!-- 联系客服 -->
-   <!--   <div class="kefu" @click="linkKefuDetail">
-        <u-icon name="kefu-ermai"></u-icon>
-        联系客服
-      </div> -->
     </div>
-    <!-- 优惠券 -->
-   <!-- <scroll-view scroll-x="true" show-scrollbar="false" class="discount" v-if="couponList.length > 0">
-      <view class="card-box" v-for="(item, index) in couponList" :key="index">
-        <view class="card" @click="getCoupon(item)">
-          <view class="money">
-            <view>
-              <span v-if="item.couponType == 'DISCOUNT'">{{ item.couponDiscount }}折</span>
-              <span v-else>{{ item.price }}元</span>
-            </view>
-
-          </view>
-          <view class="xian"></view>
-          <view class="text">
-            <text>{{'领取优惠券'}}</text>
-            <text>满{{ item.consumeThreshold | unitPrice }}元可用</text>
-          </view>
-        </view>
-      </view>
-    </scroll-view> -->
-
-    <!-- tab -->
-    <u-tabs :list="tabs" :active-color="mainColor" :is-scroll="false" :current="current" @change="changeTab"></u-tabs>
-    <!-- menu -->
-
-    <!-- 商品 -->
-    <div class="contant" v-if="current == 0">
-		
-      <u-empty style='margin-top:100rpx' v-if="goodsList.length == 0" class="empty" text='暂无商品信息'></u-empty>
-			<goodsTemplate v-else :res="goodsList" :storeName="false" />
-    </div>
-    <!-- 全部分类 -->
-    <div class="category" v-if="current == 1">
-      <div class="category-item" v-for="(item,index) in categoryList" :key="index">
-        <div class="flex" @click="getCategoryGoodsList(item)">
-          <div>{{item.labelName}}</div>
-          <div>
-            <u-icon color="#999" name="arrow-right"></u-icon>
-          </div>
-        </div>
-        <!-- 分类子级 -->
-        <div class="child-list" v-if="item.children && item.children.length!=0">
-          <div class="child" @click="getCategoryGoodsList(child)" :key='i' v-for="(child,i) in item.children">{{child.labelName}}
-          </div>
-        </div>
-      </div>
-    </div>
+	
+		<div>
+		  <view class="detail-box">
+		    <view class="goods-detail">
+		      <view class="detail_padding">
+		        <div class="goods-detail-box">
+		          <div class="goods-detail-item goods-active">商铺介绍</div>
+		        </div>
+		        <u-empty class="empty" text="暂无商铺介绍" mode="data"	v-if="!storeInfo.storeDesc"></u-empty>
+		        <u-parse class="vhtml" :lazy-load="true"	:use-cache="true" :show-with-animation="true"	>
+							{{storeInfo.storeDesc}}
+						</u-parse>
+		      </view>
+		    </view>
+		  </view>
+		</div>
+	
     <u-back-top :scroll-top="scrollTop"></u-back-top>
   </div>
 </template>
 
 <script>
 import { getStoreBaseInfo, getStoreCategory } from "@/api/store.js";
-import goodsTemplate from '@/components/m-goods-list/list'
-import {
-  receiveCoupons,
-  deleteStoreCollection,
-  collectionGoods,
-  getGoodsIsCollect,
-} from "@/api/members.js";
+import {  receiveCoupons,  deleteStoreCollection,  collectionGoods,  getGoodsIsCollect,} from "@/api/members.js";
 import config from "@/config/config";
 import storage from "@/utils/storage";
-import { getGoodsList } from "@/api/goods.js";
-import { getAllCoupons } from "@/api/promotions.js";
 export default {
   data() {
     return {
@@ -105,32 +56,17 @@ export default {
       scrollTop: 0,
       mainColor: this.$mainColor, //主色调
       current: 0, //初始tabs的索引
-      tabs: [{ name: "全部商品" }, { name: "分类查看" }], // 标签
       storeId: "",
-      keyword: "",
       storeInfo: {}, //店铺详情
       isCollection: false, //是否关注
-      goodsList: [], //推荐货物
-      couponList: [], //优惠券列表
-      categoryList: [],
-      couponParams: { pageNumber: 1, pageSize: 50, storeId: "" },
-      goodsParams: { pageNumber: 1, pageSize: 10, storeId: "" },
     };
   },
-  watch: {
-    current(val) {
-      val == 0 ? ()=>{ this.goodsList = []; this.getGoodsData()} : this.getCategoryData();
-    },
-  },
-	components:{goodsTemplate},
 
   /**
    * 加载
    */
   async onLoad(options) {
     this.storeId = options.id;
-    this.goodsParams.storeId = options.id;
-    this.couponParams.storeId = options.id;
   },
   onPageScroll(e) {
     this.scrollTop = e.scrollTop;
@@ -149,76 +85,15 @@ export default {
   // 下拉加载
   onReachBottom() {
     this.goodsParams.pageNumber++;
-    this.getGoodsData();
   },
 
   methods: {
-    getStoreLicencePhoto() {
-      uni.navigateTo({
-        url: `/pages/product/licencePhoto?id=${this.storeId}`,
-      });
-    },
-    /**
-     * 初始化信息
-     */
     init() {
-      this.goodsList = [];
-      this.categoryList = [];
-      this.couponList = [];
-      this.goodsParams.pageNumber = 1;
-      if (this.$options.filters.isLogin("auth")) {
-        this.enableGoodsIsCollect();
-      }
       // 店铺信息
       this.getStoreData();
-      // 商品信息
-      this.getGoodsData();
-      // 优惠券信息
-      this.getCouponsData();
-      // 店铺分类
-      this.getCategoryData();
-    },
-    /**
-     * 联系客服
-     */
-    linkKefuDetail() {
-      // // 客服
-      // // #ifdef MP-WEIXIN
-
-      // const params = {
-      //   // originalPrice: this.goodsDetail.original || this.goodsDetail.price,
-      //   uuid: storage.getUuid(),
-      //   token: storage.getAccessToken(),
-      //   sign: this.storeInfo.yzfSign,
-      //   mpSign: this.storeInfo.yzfMpSign,
-      // };
-      // uni.navigateTo({
-      //   url:
-      //     "/pages/product/customerservice/index?params=" +
-      //     encodeURIComponent(JSON.stringify(params)),
-      // });
-      // // #endif
-      // // #ifndef MP-WEIXIN
-      // const sign = this.storeInfo.yzfSign;
-      // uni.navigateTo({
-      //   url:
-      //     "/pages/tabbar/home/web-view?src=https://yzf.qq.com/xv/web/static/chat/index.html?sign=" +
-      //     sign,
-      // });
-      // // #endif
-			
-			uni.navigateTo({
-			   url: `/pages/tabbar/home/web-view?IM=${this.storeId}`,
-			 });
+			this.enableGoodsIsCollect();
     },
 
-    /** 获取店铺分类 */
-    async getCategoryData() {
-      let res = await getStoreCategory(this.storeId);
-      if (res.data.success) {
-        this.categoryList = res.data.result;
-      }
-    },
     /**是否收藏店铺 */
     async enableGoodsIsCollect() {
       let res = await getGoodsIsCollect("STORE", this.storeId);
@@ -226,29 +101,59 @@ export default {
         this.isCollection = res.data.result;
       }
     },
+		goMap(){
+			let that = this;
+			let local = that.storeInfo.storeCenter.split(",");
+			
+			that.toMapAPP(local[0], local[1], that.storeInfo.storeAddressDetail);
+		},
 
-    /**商品分类中商品集合 */
-    getCategoryGoodsList(val) {
-      uni.navigateTo({
-        url: `/pages/product/shopPageGoods?title=${val.labelName}&id=${val.id}&storeId=${this.storeId}`,
-      });
-    },
 
-    /**
-     * 搜索
-     */
-    search() {
-			console.log("点击")
-      uni.navigateTo({
-        url: `/pages/navigation/search/searchPage?storeId=${this.storeId}&keyword=${this.keyword}`,
-      });
-    },
+		toMapAPP(latitude, longitude, name) {
+			let url = '';
+			
+			uni.getSystemInfo({
+				success: function (res) {
+					let osname= res.osName;
+					uni.showActionSheet({
+						title: '选择地图应用',
+						itemList: ['腾讯地图', '百度地图', '高德地图'],
+						success: function (res) {
+							console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+							switch(res.tapIndex){
+								//下面是拼接url,不同系统以及不同地图都有不同的拼接字段
+								case 0:
+									//注意referer=xxx的xxx替换成你在腾讯地图开发平台申请的key
+									url = `qqmap://map/geocoder?coord=${latitude},${longitude}&referer=xxx`;
+									break;
+								case 1:
+									url = `baidumap://map/marker?location=${latitude},${longitude}&title=${name}&coord_type=gcj02&src=andr.baidu.openAPIdemo`;
+									break;
+								case 2:
+									if(osname === 'Android'){
+										url = `androidamap://viewMap?sourceApplication=appname&poiname=${name}&lat=${latitude}&lon=${longitude}&dev=0`;
+									}else{
+										url = `iosamap://viewMap?sourceApplication=applicationName&poiname=${name}&lat=${latitude}&lon=${longitude}&dev=0`;
+									}
+									break;
+								default:
+									break;
+							}
+							if(url){
+								url = encodeURI(url)
+								window.location.href = url;
+							}
+						},
+						fail: function (res) {
+							console.log(res.errMsg);
+						}
+					});
+				}
+			});
+		},
 
-    /** 点击tab */
-    changeTab(index) {
-      this.current = index;
-    },
 
+		
     /**
      * 店铺信息
      */
@@ -257,24 +162,6 @@ export default {
       res.data.success
         ? (this.storeInfo = res.data.result)
         : uni.reLaunch({ url: "/" });
-    },
-
-    /** 加载商品 */
-    async getGoodsData() {
-      let res = await getGoodsList(this.goodsParams);
-      if (res.data.success) {
-        this.goodsList.push(...res.data.result.content);
-				console.log(this.goodsList)
-      }
-    },
-
-    /** 加载优惠券 */
-    async getCouponsData() {
-      this.couponParams.storeId = this.storeId;
-      let res = await getAllCoupons(this.couponParams);
-      if (res.data.success) {
-        this.couponList.push(...res.data.result.records);
-      }
     },
 
     /**
@@ -305,36 +192,14 @@ export default {
         });
       }
     },
-
-    /**
-     * 领取
-     */
-    getCoupon(item) {
-      if (!this.$options.filters.isLogin("auth")) {
-        uni.showToast({
-          icon: "none",
-          duration: 3000,
-          title: "请先登录！",
-        });
-
-        this.$options.filters.navigateToLogin("redirectTo");
-        return false;
-      }
-      receiveCoupons(item.id).then((res) => {
-        if (res.data.success) {
-          uni.showToast({
-            icon: "none",
-            duration: 3000,
-            title: "领取成功！",
-          });
-        }
-      });
-    },
+    
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "product/product.scss";
+	
 .wrapper {
   background: #fff;
   padding: 32rpx;
@@ -501,5 +366,87 @@ export default {
   border-radius: 10rpx;
   font-size: 24rpx;
   color: #999;
+}
+
+.param-list {
+  padding: 40rpx 0 80rpx 0;
+}
+.param-item {
+  display: flex;
+  justify-content: center;
+  border-bottom: none;
+
+  > .param-left,
+  > .param-right {
+    padding: 16rpx 0;
+    font-size: 24rpx;
+    color: #666;
+    border: 1px solid rgb(220, 223, 230);
+    border-bottom: none;
+  }
+  > .param-left {
+    text-align: center;
+    border-right: none;
+    flex: 3;
+  }
+
+  > .param-right {
+    padding: 0 10rpx;
+    align-items: center;
+    display: flex;
+    flex: 7;
+  }
+}
+.param-item:nth-last-of-type(1) {
+  > .param-left,
+  > .param-right {
+    border-bottom: 1px solid rgb(220, 223, 230);
+  }
+}
+.empty {
+  margin: 40rpx 0;
+}
+.goods-detail /deep/ .vhtml {
+  overflow: hidden;
+
+  width: 100%;
+}
+.vhtml {
+  /deep/ img {
+    display: block !important;
+  }
+}
+
+/deep/ img {
+  width: 100%;
+}
+.goods-detail-box {
+  display: flex;
+  justify-content: space-between;
+  // padding: 0 80rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+  > .goods-active {
+    font-weight: 700;
+    &::before {
+      position: absolute;
+      left: 47%;
+      bottom: 15px;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
+      content: "";
+      display: block;
+      width: 100rpx;
+      height: 6rpx;
+
+      background-image: linear-gradient(90deg, $price-color, $price-light-color);
+    }
+  }
+  > .goods-detail-item {
+    color: #262626;
+    position: relative;
+  }
+}
+.detail_padding {
 }
 </style>

@@ -72,17 +72,17 @@ export default {
 				type: 'wgs84',
 				geocode: true,
 				success: function (res) {
-					// uni.request({
-					//   url: `https://restapi.amap.com/v3/geocode/regeo`,
-					//   method: "GET",
-					//   data: {
-					//     key: config.aMapKey, 
-					//     location: `${res.longitude},${res.latitude}`,
-					//   },
-					//   success: ({ data }) => {
-					// 		that.currentPosition = data.regeocode.addressComponent.district;
-					//   }
-					// });
+					uni.request({
+					  url: `https://restapi.amap.com/v3/geocode/regeo`,
+					  method: "GET",
+					  data: {
+					    key: config.aMapKey, 
+					    location: `${res.longitude},${res.latitude}`,
+					  },
+					  success: ({ data }) => {
+							that.currentPosition = data.regeocode.addressComponent.district;
+					  }
+					});
 				}
 			});
 		},

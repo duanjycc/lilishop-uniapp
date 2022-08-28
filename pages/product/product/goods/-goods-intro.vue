@@ -22,59 +22,11 @@
         </view>
       </view>
     </view>
-
-    <view class="detail-box">
-      <view class="goods-detail">
-        <view class="detail_padding">
-          <div class="goods-detail-box">
-            <div class="goods-detail-item goods-active">商品参数</div>
-          </div>
-          <!-- <u-divider>商品参数</u-divider> -->
-          <div class="param-list" v-if="goodsParams.length == 0">
-            <u-empty text="暂无商品参数" mode="list"></u-empty>
-          </div>
-          <div
-            class="params-group"
-            v-for="(group, groupIndex) in goodsParams"
-            :key="groupIndex"
-          >
-            <view style="font-weight: bold; margin-left: 10px">{{
-              group.groupName
-            }}</view>
-            <div class="param-list">
-              <div
-                class="param-item"
-                v-for="(param, index) in group.goodsParamsItemDTOList"
-                :key="index"
-              >
-                <div class="param-left">{{ param.paramName }}</div>
-                <div class="param-right">{{ param.paramValue }}</div>
-              </div>
-            </div>
-          </div>
-        </view>
-      </view>
-    </view>
   </div>
 </template>
 
 <script>
-import { getGoodsMessage } from "@/api/goods";
-export default {
-  data() {
-    return {
-      goodsDetail: "",
-    };
-  },
-  props: ["res", "goodsId", "goodsParams"],
-  async mounted() {
-    let res = await getGoodsMessage(this.goodsId);
-    if (res.data.success) {
-      this.goodsDetail = res.data.result;
-    }
-  },
-};
-</script>
+
 
 <style lang="scss" scoped>
 @import "../product.scss";

@@ -84,15 +84,16 @@ export function getCoupons(params) {
   });
 }
 
+
 /**
- * 领取优惠券
- * @param couponId
+ * 根据所选区域查询邀请人
+ * @param regionCode
  */
-export function receiveCoupons(couponId) {
+export function queryInvitationUser(regionCode) {
   return http.request({
-    url: `/promotion/coupon/receive/${couponId}`,
+    url: `/my/invitation/queryInvitationUser/${regionCode}`,
     method: Method.GET,
-    needToken: true,
+    needToken: false,
   });
 }
 

@@ -484,6 +484,9 @@
 	content: "\e622";
 }
 
+.uicon-address:before {
+	content: "\e646";
+}
 .uicon-phone-fill:before {
 	content: "\e64f";
 }
