@@ -107,13 +107,12 @@
         </div>
       </div>
 
-<!--      <div
-        v-if="current != 1"
-        class="user-password-tips"
-        @click="enableUserPwdBox = !enableUserPwdBox"
-      >
-        {{ !enableUserPwdBox ? "帐号密码" : "手机号" }}登录
-      </div> -->
+	<div
+		v-if="current != 1"
+		class="user-password-tips"
+		@click="enableUserPwdBox = !enableUserPwdBox">
+		{{ !enableUserPwdBox ? "帐号密码" : "手机号" }}登录
+	</div>
 
       <!-- 循环出当前可使用的第三方登录模式 -->
      <!-- <div class="flex login-list">
@@ -689,12 +688,16 @@ export default {
         });
         return false;
       }
+	  if (this.enableUserPwdBox) {
+	    this.submitUserLogin();
+	    return;
+	  }
 
-      if (!this.flage) {
-        this.$refs.verification.error(); //发送
+      // if (!this.flage) {
+      //   this.$refs.verification.error(); //发送
 
-        return false;
-      }
+      //   return false;
+      // }
     },
 
     // 提交用户登录
@@ -702,16 +705,17 @@ export default {
       const params = JSON.parse(JSON.stringify(this.userData));
       params.password = md5(params.password);
       try {
+		console.log(params);
         let res = await userLogin(params);
         if (res.data.success) {
           console.log("zhixing ")
           this.getUserInfoMethods(res);
         } else {
-          this.$refs.verification.getCode();
+          // this.$refs.verification.getCode();
           this.flage = false;
         }
       } catch (error) {
-        this.$refs.verification.getCode();
+        // this.$refs.verification.getCode();
       }
     },
 
