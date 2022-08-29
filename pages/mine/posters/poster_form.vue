@@ -317,13 +317,12 @@
 	}
 	
 	.content {
-		margin: 20rpx 0; 
 		width: 100%;
 		background-color: #ffffff;
 		border-radius: 20rpx;
 		
 		.item {
-			padding: 30rpx;
+			padding: 40rpx 30rpx;
 			display: flex;
 			align-items: center;
 			

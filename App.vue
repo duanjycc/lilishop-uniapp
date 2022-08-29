@@ -13,7 +13,8 @@ import storage from "@/utils/storage";
 
 export default {
 	globalData: {
-		acceptAddress: ''
+		acceptAddress: '',
+		promoter: null,
 	},
 	data() {
 		return {
