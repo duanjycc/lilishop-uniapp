@@ -30,6 +30,11 @@
 						<view>挂单</view>
 					</view>
 
+		<view class="interact-item" @click="navigateTo('/pages/mine/posters/list')">
+			<image src="/static/mine/sign.png" mode=""></image>
+			<view>推广员</view>
+		</view>
+
           <view class="interact-item" @click="navigateTo('/pages/mine/set/feedBack')">
             <image src="/static/mine/feedback.png" mode=""></image>
             <view>意见反馈</view>

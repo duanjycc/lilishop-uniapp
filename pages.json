@@ -497,7 +497,24 @@
 						"enablePullDownRefresh": false,
 						"navigationStyle": "custom"
 					}
+				},
+				{
+					"path" : "regional/promoters",
+					"style" : {
+						"navigationBarTitleText": "区域推广员管理",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom"
+					}
 				}
+                ,{
+                    "path" : "promoters/promoters",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "区域推广员管理",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
             ]
 
 		},
