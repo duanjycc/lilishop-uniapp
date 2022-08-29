@@ -126,7 +126,7 @@
 									icon: "none",
 								});
 								this.flage = false;
-								this.$refs.verification.getCode();
+								// this.$refs.verification.getCode();
 							}
 						})
 					} else {
@@ -150,9 +150,7 @@
 							icon: "none",
 						});
 						setTimeout(() => {
-							uni.navigateBack({
-								delta: 1,
-							});
+							uni.navigateBack();
 						}, 1000);
 					}
 				});
@@ -187,14 +185,14 @@
 			end() {
 				
 				this.flage = false;
-					this.$refs.verification.getCode()
+					// this.$refs.verification.getCode()
 			},
 
 			/**判断是否是当前用户的手机号 */
 			isUserPhone() {
 				let flage = false;
 				let user = this.$options.filters.isLogin();
-				if (user.mobile != this.codeForm.mobile) {
+				if (user.member.mobile != this.codeForm.mobile) {
 					uni.showToast({
 						title: "请输入当前绑定手机号",
 						icon: "none",
@@ -210,7 +208,7 @@
 			getCode() {
 				if (this.isUserPhone()) {
 					if (this.tips == "重新获取") {
-						this.$refs.verification.error(); //发送
+						// this.$refs.verification.error(); //发送
 					}
 					if (!this.$u.test.mobile(this.codeForm.mobile)) {
 						uni.showToast({
@@ -219,17 +217,39 @@
 						});
 						return false;
 					}
-					if (!this.flage) {
-						this.$refs.verification.error(); //发送
-						return false;
+					if (this.$refs.uCode.canGetCode) {
+						uni.showLoading({
+							title: "正在获取验证码",
+						});
+						sendMobile(this.codeForm.mobile, "FIND_USER").then((res) => {
+							uni.hideLoading();
+							// 这里此提示会被this.start()方法中的提示覆盖
+							if (res.data.success) {
+								this.start();
+							} else {
+								uni.showToast({
+									title: res.data.message,
+									duration: 2000,
+									icon: "none",
+								});
+								this.flage = false;
+								// this.$refs.verification.getCode();
+							}
+						})
+					} else {
+						this.$u.toast("请倒计时结束后再发送");
 					}
+					// if (!this.flage) {
+					// 	this.$refs.verification.error(); //发送
+					// 	return false;
+					// }
 				}
 			},
 			start() {
 				this.$u.toast("验证码已发送");
 				this.flage = true;
 
-				this.$refs.verification.hide();
+				// this.$refs.verification.hide();
 			},
 		},
 	};

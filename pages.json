@@ -287,7 +287,17 @@
 				{
 					"path": "set/securityCenter/editPassword",
 					"style": {
-						"navigationBarTitleText": "修改密码",
+						"navigationBarTitleText": "修改账户密码",
+						"navigationStyle": "custom",
+						"app-plus": {
+
+						}
+					}
+				},
+				{
+					"path": "set/securityCenter/editPayPassword",
+					"style": {
+						"navigationBarTitleText": "修改支付密码",
 						"navigationStyle": "custom",
 						"app-plus": {
 
