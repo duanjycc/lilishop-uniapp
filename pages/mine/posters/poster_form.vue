@@ -85,12 +85,12 @@
 			return {
 				typeItems: [
 					{
-						text: '我要买',
+						text: '买单',
 						value: '0',
 						checked: 'true'
 					},
 					{ 
-						text: '我要卖',
+						text: '卖单',
 						value: '1'
 					}
 				],

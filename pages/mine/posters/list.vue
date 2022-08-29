@@ -59,7 +59,7 @@
 				tabCurrentIndex: 0, 
 				navList: [
 					{
-						text: "买入",
+						text: "买单",
 						loadStatus: "more",
 						dataList: [],
 						params: {
@@ -72,7 +72,7 @@
 						}
 					},
 					{
-						text: "卖出",
+						text: "卖单",
 						loadStatus: "more",
 						dataList: [],
 						params: {
@@ -111,7 +111,7 @@
 			getInitPage() {
 				this.navList = [
 					{
-						text: "我要买",
+						text: "买单",
 						loadStatus: "more",
 						dataList: [],
 						params: {
@@ -124,7 +124,7 @@
 						}
 					},
 					{
-						text: "我要卖",
+						text: "卖单",
 						loadStatus: "more",
 						dataList: [],
 						params: {
