@@ -161,6 +161,10 @@ export default {
 				this.storeId = res[0].data.result.member.storeId;
 				this.unitPrice = res[1].data.result;
 				this.promoters = res[2].data.result;
+				console.log(this.promoters);
+				
+				getApp().globalData.isServiceProvider = !!this.serviceProvider;
+				getApp().globalData.isPromoters = this.promoters;
       });
     },
   },

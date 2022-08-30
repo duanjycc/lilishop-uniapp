@@ -89,42 +89,41 @@
 			return {
 				tabCurrentIndex: 0, 
 				range: [this.dateToStr(getMonth()) , this.dateToStr(new Date())],
-				navList: [
-					{
-						text: "区域收益",
-						loadStatus: "more",
-						dataList: [],
-						params: {
-							pageNumber: 1,
-							pageSize: 10,
-							status: 1,
-							incomeType: 0,
-						}
-					},
-					{
-						text: "子区域收益",
-						loadStatus: "more",
-						dataList: [],
-						params: {
-							pageNumber: 1,
-							pageSize: 10,
-							status: 2,
-							incomeType: 1,
-						}
-					},
-					{
-						text: "合伙人收益",
-						loadStatus: "more",
-						dataList: [],
-						params: {
-							pageNumber: 1,
-							pageSize: 10,
-							status: 2,
-							incomeType: 2,
-						}
-					},
-				]
+				nav1: {
+					text: "区域收益",
+					loadStatus: "more",
+					dataList: [],
+					params: {
+						pageNumber: 1,
+						pageSize: 10,
+						incomeType: 0,
+					}
+				},
+				nav2: {
+					text: "子区域收益",
+					loadStatus: "more",
+					dataList: [],
+					params: {
+						pageNumber: 1,
+						pageSize: 10,
+						incomeType: 1,
+					}
+				},
+				nav3: {
+					text: "合伙人收益",
+					loadStatus: "more",
+					dataList: [],
+					params: {
+						pageNumber: 1,
+						pageSize: 10,
+						incomeType: 2,
+					}
+				},
+				navList: []
 			};
+		},
+		onLoad() {
+			this.initData();
 		},
 		onShow() {
 			this.navList[this.tabCurrentIndex].params.pageNumber = 1
@@ -140,42 +139,19 @@
 			},
 		},
 		methods: {
+			initData() {
+				let isServiceProvider = getApp().globalData.isServiceProvider;
+				let isPromoters = getApp().globalData.isPromoters;
+				if(isServiceProvider && !isPromoters) {
+					this.navList = [this.nav1, this.nav2]
+				} else if(!isServiceProvider && isPromoters) {
+					this.navList = [this.nav2, this.nav3]
+				} else {
+					this.navList = [this.nav1, this.nav2, this.nav3]
+				}
+				this.getInitPage();
+			},
 			getInitPage() {
-				this.navList = [
-					{
-						text: "区域收益",
-						loadStatus: "more",
-						dataList: [],
-						params: {
-							pageNumber: 1,
-							pageSize: 10,
-							status: 1,
-							incomeType: 0,
-						}
-					},
-					{
-						text: "子区域收益",
-						loadStatus: "more",
-						dataList: [],
-						params: {
-							pageNumber: 1,
-							pageSize: 10,
-							status: 2,
-							incomeType: 1,
-						}
-					},
-					{
-						text: "合伙人收益",
-						loadStatus: "more",
-						dataList: [],
-						params: {
-							pageNumber: 1,
-							pageSize: 10,
-							status: 2,
-							incomeType: 2,
-						}
-					},
-				];
 				this.getData();
 			},
 			handleTabClick(index) {

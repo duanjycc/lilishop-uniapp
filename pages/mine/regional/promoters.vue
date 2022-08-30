@@ -74,7 +74,6 @@
 				});
 				listOfPromoters(params).then((res) => {
 					uni.hideLoading();
-					
 					if (res.data.success) {
 						self.pages = res.data.result.pages;
 						let data = res.data.result.records;
