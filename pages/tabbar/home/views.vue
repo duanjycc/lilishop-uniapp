@@ -125,7 +125,7 @@ export default {
       getFloorData().then((res) => {
         if (res.data.success) {
           this.pageData = JSON.parse(res.data.result.pageData);
-		  console.log(this.pageData);
+					console.log(this.pageData.list);
         }
       });
     },

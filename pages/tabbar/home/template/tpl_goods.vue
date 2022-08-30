@@ -10,7 +10,7 @@
         </div>
       </div>
     </u-sticky>
-    <div class="goods-list">
+    <div class="goods-list" v-if="selected.val !='店铺'">
       <div v-if="item.___index != undefined  ?   (selected.index == item.___index) : ( selected.val == item.type)"
         @click="handleClick(item)" class="goods-item" v-for="(item, item_index) in res.list[0].listWay"
         :key="item_index">
@@ -29,33 +29,82 @@
         </div>
       </div>
     </div>
+		
+		<div class="goods-list" v-if="selected.val =='店铺'">
+		  <div 
+		    @click="handleClick(item)" class="goods-item" v-for="(item, item_index) in storeList"
+		    :key="item_index">
+		    <div class="goods-img">
+		      <u-image :src="item.img" height="350rpx" mode="aspectFit" width="100%">
+		        <u-loading slot="loading"></u-loading>
+		      </u-image>
+		    </div>
+		    <div class="store-goods-desc">
+		      <div class="store-goods-title">
+		        {{ item.title }}
+		      </div>
+		      <div class="store-goods-bottom">
+		        <div class="store-goods-price" >{{ item.distance.toFixed(2)   || 0  }} km</div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		
   </div>
 </template>
 <script>
+import { getAppByPage } from "@/api/store.js";
 export default {
   title: "商品分类以及商品",
   data() {
     return {
       selected: {
         index: 0,
-        val: "",
+        val: "店铺",
       },
+			params: {
+			  pageNumber: 1,
+			  pageSize: 1000,
+				longitude: null,
+				latitude:null,
+			},
+			storeList:[],
     };
   },
   props: ["res"],
   watch: {
     res: {
       handler(val) {
-        // 监听父级的值 如果有值将值赋给selected
-        if (val) {
-          this.selected.val = this.res.list[0].listWay[0].type;
-        }
+	
+				 this.getStoreList();
       },
       immediate: true,
     },
   },
-  mounted() {},
+  mounted(){},
   methods: {
+		getStoreList(){
+			let that = this;
+			uni.getLocation({
+				type: 'wgs84',
+				geocode: true,
+				success: function (res1) {
+					console.log( res1 ) 
+					that.params.longitude = res1.longitude,
+					that.params.latitude = 	res1.latitude,
+					getAppByPage(
+					  that.params
+					).then((res2) => {
+						res2.data.result.records.forEach((item)  =>{
+							that.storeList.push({"img": item.storeLogo,"title":item.storeName,"price":0,"distance":item.distance})
+						})
+					});
+					
+				}
+			});
+
+		},
     handleClick(item) {
       uni.navigateTo({
         url: `/pages/product/goods?id=${item.id}&goodsId=${item.goodsId}`,
@@ -162,6 +211,33 @@ $w_94: 94%;
     font-weight: bold;
     > .goods-price {
       line-height: 2;
+      color: $main-color;
+    }
+  }
+}
+
+.store-goods-desc {
+  border-bottom-left-radius: 20rpx;
+  border-bottom-right-radius: 20rpx;
+  width: $w_94;
+  background: #fff;
+  padding: 8rpx 0 8rpx 8rpx;
+  margin: 0 auto;
+	display: flex;
+  > .store-goods-title {
+    font-size: 24rpx;
+    height: 70rpx;
+    display: -webkit-box;
+    font-weight: 500;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  > .store-goods-bottom {
+    display: flex;
+    > .store-goods-price {
+      line-height: 1;
       color: $main-color;
     }
   }
