@@ -170,6 +170,7 @@ import storage from "@/utils/storage.js"; //缓存
 // import wechatH5Login from "./wechatH5Login.vue";
 import { webConnect } from "@/api/connect.js";
 import { md5 } from "@/utils/md5.js";
+	import {checkPassword } from "@/api/login";
 
 export default {
   //components: { myVerification, verifyCode, wechatH5Login },
@@ -408,6 +409,7 @@ export default {
   methods: {
     //联合信息返回登录
     stateLogin(state) {
+		let self = this;
       loginCallback(state).then((res) => {
         let data = res.data;
         if (data.success) {
@@ -422,16 +424,32 @@ export default {
             storage.setUserInfo(user.data.result);
             storage.setHasLogin(true);
           });
-          getCurrentPages().length > 1
-            ? uni.navigateBack({
-                delta: getCurrentPages().length - 2,
-              })
-            : uni.switchTab({
-                url: "/pages/tabbar/home/index",
-              });
+		  
+		  getCurrentPages().length > 1
+		  	? uni.navigateBack({
+		  		delta: getCurrentPages().length - 2,
+		  	})
+		  	: uni.switchTab({
+		  	  url: "/pages/tabbar/home/index",
+		  	});
         }
       });
     },
+	getCheckPassword() {
+		checkPassword().then((res) => {
+			uni.hideLoading();
+			if (res.data.success) { 
+				if(res.data.result) {
+					whetherNavigate();
+					
+				} else {
+					uni.navigateTo({
+						url: '/pages/mine/set/securityCenter/editPayPassword'
+					})
+				}
+			}
+		});
+	},
     /** 根据参数显示登录模块 */
     methodFilter(code) {
       let way = [];
@@ -600,6 +618,7 @@ export default {
 
     // 登录成功之后获取用户信息
     getUserInfoMethods(res) {
+		let self = this;
       console.log(res);
       if (res.data.success) {
         storage.setAccessToken(res.data.result.accessToken);
@@ -617,7 +636,7 @@ export default {
               title: "登录成功!",
               icon: "none",
             });
-            whetherNavigate();
+            self.getCheckPassword();
           } else {
             uni.switchTab({
               url: "/pages/tabbar/home/index",
