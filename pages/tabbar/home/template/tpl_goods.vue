@@ -97,7 +97,7 @@ export default {
 					  that.params
 					).then((res2) => {
 						res2.data.result.records.forEach((item)  =>{
-							that.storeList.push({"img": item.storeLogo,"title":item.storeName,"price":0,"distance":item.distance})
+							that.storeList.push({"id":item.id,"img": item.storeLogo,"title":item.storeName,"price":0,"distance":item.distance})
 						})
 					});
 					
@@ -106,9 +106,15 @@ export default {
 
 		},
     handleClick(item) {
-      uni.navigateTo({
-        url: `/pages/product/goods?id=${item.id}&goodsId=${item.goodsId}`,
-      });
+    	if(this.selected.val =='店铺'){
+    				uni.navigateTo({
+    				  url: `/pages/product/shopPage?id=` + item.id,
+    				});
+			}else{
+				uni.navigateTo({
+					url: `/pages/product/goods?id=${item.id}&goodsId=${item.goodsId}`,
+				});
+			}
     },
     closeGoods(val, index) {
       this.res.list[0].listWay.splice(index, 1);
