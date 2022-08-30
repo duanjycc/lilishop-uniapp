@@ -282,6 +282,18 @@ export function getUserInfo() {
   });
 }
 
+/**
+ * 检测是否区域推广员
+ * @returns {AxiosPromise}
+ */
+export function getPromoters() {
+  return http.request({
+    url: "/passport/member/check/promoters",
+    method: Method.GET,
+    needToken: true,
+  });
+}
+
 
 /**
  * 根据类型获取配置
