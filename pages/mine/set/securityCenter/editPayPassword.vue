@@ -163,7 +163,6 @@
 			// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 			this.$refs.validateCodeForm.setRules(this.codeRules);
 		},
-
 		methods: {
 			
 			onChange(val) {
@@ -205,8 +204,19 @@
 									duration: 1000
 								});
 								setTimeout(() => {
-									uni.navigateBack();
-								}, 1000)
+									let delta = 1;
+									if(getCurrentPages().length == 2 && getCurrentPages()[getCurrentPages().length - 2].route == "pages/passport/login") {
+										uni.switchTab({
+										  url: "/pages/tabbar/home/index",
+										});
+									}
+									if(getCurrentPages().length > 2 && getCurrentPages()[getCurrentPages().length - 2].route == "pages/passport/login") {
+										delta = 2;
+									}
+									uni.navigateBack({
+										delta: delta
+									});
+								})
 							} 
 							
 							self.showKeyboard = false;
@@ -222,7 +232,6 @@
 							icon: 'none',
 							duration: 3000
 						});
-						self.$forceUpdate();
 					}
 				}
 			},
@@ -286,23 +295,23 @@
 						return false;
 					}
 					if (this.$refs.uCode.canGetCode) {
-						// uni.showLoading({
-						// 	title: "正在获取验证码",
-						// });
-						// sendMobile(this.codeForm.mobile, "FIND_USER").then((res) => {
-						// 	uni.hideLoading();
-						// 	// 这里此提示会被this.start()方法中的提示覆盖
-						// 	if (res.data.success) {
-						// 		this.start();
-						// 	} else {
-						// 		uni.showToast({
-						// 			title: res.data.message,
-						// 			duration: 2000,
-						// 			icon: "none",
-						// 		});
-						// 		this.flage = false;
-						// 	}
-						// })
+						uni.showLoading({
+							title: "正在获取验证码",
+						});
+						sendMobile(this.codeForm.mobile, "FIND_USER").then((res) => {
+							uni.hideLoading();
+							// 这里此提示会被this.start()方法中的提示覆盖
+							if (res.data.success) {
+								this.start();
+							} else {
+								uni.showToast({
+									title: res.data.message,
+									duration: 2000,
+									icon: "none",
+								});
+								this.flage = false;
+							}
+						})
 					} else {
 						this.$u.toast("请倒计时结束后再发送");
 					}

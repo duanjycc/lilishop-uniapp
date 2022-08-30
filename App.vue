@@ -15,6 +15,8 @@ export default {
 	globalData: {
 		acceptAddress: '',
 		promoter: null,
+		isPromoters: false,//是否为推广员
+		isServiceProvider: false,//是否为服务商
 	},
 	data() {
 		return {

@@ -29,6 +29,11 @@
 						<image src="/static/mine/shensu.png" mode=""></image>
 						<view>挂单</view>
 					</view>
+					
+					<view class="interact-item" v-show="!!serviceProvider" @click="navigateTo('/pages/mine/regional/promoters')">
+						<image src="/static/mine/sign.png" mode=""></image>
+						<view>推广员</view>
+					</view>
 
           <view class="interact-item" @click="navigateTo('/pages/mine/set/feedBack')">
             <image src="/static/mine/feedback.png" mode=""></image>
