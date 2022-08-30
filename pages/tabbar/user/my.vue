@@ -81,14 +81,13 @@
     </div>
     <!-- 常用工具 -->
 
-    <tool :storeId="storeId" :serviceProvider="serviceProvider"/>
+    <tool :storeId="storeId" :serviceProvider="serviceProvider" :promoters="promoters"/>
 
   </view>
 </template>
 <script>
 import tool from "@/pages/tabbar/user/utils/tool.vue";
-import { getCouponsNum, getFootprintNum } from "@/api/members.js";
-import { getUserWallet,getUserInfo,queryConfigureByType } from "@/api/members";
+import { getUserWallet,getUserInfo,queryConfigureByType,getPromoters} from "@/api/members";
 export default {
   components: {
     tool,
@@ -98,13 +97,14 @@ export default {
       coverTransform: "translateY(0px)",
       coverTransition: "0s",
       moving: false,
-	  ssd: 0,
-	  point: 0,
+			ssd: 0,
+			point: 0,
       userInfo: {},
-	  storeId: null,
-	  serviceProvider: null,
+			storeId: null,
+			serviceProvider: null,
       unitPrice: 0,
-	  walletNum: 0,
+			walletNum: 0,
+			promoters: null,
       footNum: "",
       walletNum: "",
     };
@@ -133,18 +133,14 @@ export default {
 
   mounted() {},
   methods: {
-    /**
-     * 统一跳转接口,拦截未登录路由
-     * navigator标签现在默认没有转场动画，所以用view
-     */
     navigateTo(url) {
       uni.navigateTo({
         url,
       });
     },
-	member(){
-		
-	},
+		member(){
+			
+		},
     userDetail() {
       this.userInfo.id
         ? this.navigateTo("/pages/mine/set/personMsg")
@@ -154,25 +150,17 @@ export default {
       uni.stopPullDownRefresh();
 
       Promise.all([
-		  //优惠券
-        //getCouponsNum(),
-		 //浏览数量
-        //getFootprintNum(), 
-		//预存款
-        //getUserWallet(), 
-		getUserInfo(),
-		queryConfigureByType({'type': 'unitPrice'}),
-      ]).then((res) => {
-        // this.couponNum = res[0].data.result;
-        // this.footNum = res[1].data.result;
-        // this.walletNum = res[2].data.result.memberWallet;
-		this.userInfo = res[0].data.result;
-		this.serviceProvider = res[0].data.result.member.serviceProvider;
-		this.ssd = res[0].data.result.member.ssd;
-		this.point = res[0].data.result.member.point;
-		this.storeId = res[0].data.result.member.storeId;
-		this.unitPrice = res[1].data.result;
-	
+				getUserInfo(),
+				queryConfigureByType({'type': 'unitPrice'}),
+				getPromoters(),
+			]).then((res) => {
+				this.userInfo = res[0].data.result;
+				this.serviceProvider = res[0].data.result.member.serviceProvider;
+				this.ssd = res[0].data.result.member.ssd;
+				this.point = res[0].data.result.member.point;
+				this.storeId = res[0].data.result.member.storeId;
+				this.unitPrice = res[1].data.result;
+				this.promoters = res[2].data.result;
       });
     },
   },

@@ -30,11 +30,6 @@
 						<view>挂单</view>
 					</view>
 
-		<view class="interact-item" @click="navigateTo('/pages/mine/regional/promoters')">
-			<image src="/static/mine/sign.png" mode=""></image>
-			<view>推广员</view>
-		</view>
-
           <view class="interact-item" @click="navigateTo('/pages/mine/set/feedBack')">
             <image src="/static/mine/feedback.png" mode=""></image>
             <view>意见反馈</view>
@@ -53,7 +48,7 @@
             <view>邀请区域</view>
           </view>
 		  
-					<view class="interact-item" v-if="serviceProvider != null" @click="navigateTo('/pages/mine/profit/area')">
+					<view class="interact-item" v-if="serviceProvider != null || promoters == true" @click="navigateTo('/pages/mine/profit/area')">
 						<image src="/static/mine/mycommit.png" mode=""></image>
 						<view>区域收益</view>
 					</view>
@@ -71,7 +66,7 @@
 <script>
 import { distribution } from "@/api/goods";
 export default {
-  props:['storeId','serviceProvider'],
+  props:['storeId','serviceProvider','promoters'],
   methods: {
     navigateTo(url) {
 		console.log(url)
