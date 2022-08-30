@@ -247,7 +247,7 @@
 							icon: 'none',
 							duration: 3000
 						});
-						self.keyboardLevel == 1;
+						self.keyboardLevel = 1;
 						self.password1 = '';
 						self.password2 = '';
 					}

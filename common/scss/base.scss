@@ -177,3 +177,18 @@
 		background-color: $uni-color-warning;
 	}
 }
+
+.password-panel {
+			
+	.close {
+		position: absolute;
+		left: 0;
+		top: 10rpx;
+		
+		image {
+			padding: 30rpx 20rpx;
+			width: 40rpx;
+			height: 40rpx;
+		}
+	}
+}

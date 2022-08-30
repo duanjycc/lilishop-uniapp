@@ -2,13 +2,13 @@
 	<view class="box">
 		<view class="box-tips">
 			<h2 class='h2'>
-				{{verificationTitle[validateFlage==false ? 0 : 1].title}}
+				{{verificationTitle[showKeyboard==false ? 0 : 1].title}}
 			</h2>
 			<view class="verification">{{verificationTitle[step].desc}}</view>
 		</view>
 		<view class="form">
 			<u-form :model="codeForm" ref="validateCodeForm">
-				<view v-if="!validateFlage">
+				<view>
 					<u-form-item label-width="120" label="手机号" prop="mobile">
 						<u-input maxlength="11" v-model="codeForm.mobile" placeholder="请输入您的手机号" />
 					</u-form-item>
@@ -25,17 +25,15 @@
 						business="FIND_USER" />
 				</view>
 				
-				<view v-if="validateFlage">
-					<u-form-item label-width="120" label="设置密码">
-						<u-input type="password" v-model="newPassword" placeholder="设置密码" />
-					</u-form-item>
-				
-					<u-form-item label-width="120" label="确认密码">
-						<u-input type="password" v-model="confirmPassword" placeholder="确认密码" />
-					</u-form-item>
-				
-					<view class="submit" @click="handlePaymentPassword">设置密码</view>
-				</view>
+				<u-keyboard class="password-panel" @change="onChange" ref="uKeyboard" v-model="showKeyboard" @backspace="onBackspace" mode="number" :dot-enabled="false" :tooltip="false" default="">
+					<view class="mt-40 mb-40 text-center" style="text-align: center;">
+						{{ keyboardTitle }}
+					</view>
+					<view class="close" @click="handleClose">
+						<image src="@/static/icons/close.png" mode=""></image>
+					</view>
+					<u-message-input class="mt-30" mode="box" :maxlength="6" :dot-fill="true" v-model="password" :disabled-keyboard="true" @finish="finish"></u-message-input>
+				</u-keyboard>
 			</u-form>
 		</view>
 	</view>
@@ -63,15 +61,14 @@
 		data() {
 			return {
 				uuid,
-				validateFlage: false, //是否进行了手机号验证
 				verificationTitle: [{
 						title: "安全验证",
 						desc: "请输入当前手机号进行安全验证",
 					},
 					{
-						title: "修改密码",
-						desc: "请输入新密码",
-					},
+						title: "设置密码",
+						desc: "",
+					}
 				],
 				step: 0, //当前验证步骤
 				flage: false, //是否验证码验证
@@ -82,6 +79,9 @@
 				},
 				newPassword: "", //新密码
 				confirmPassword: "", //确认密码
+				showKeyboard: false,
+				keyboardTitle: '请设置密码',
+				keyboardLevel: 1,
 				password: "", //密码
 				tips: "", //提示
 				seconds: 69, // 60s等待时间
@@ -133,6 +133,14 @@
 					}
 				}
 			},
+			keyboardLevel(newVal, oldVal) {
+				if(newVal == 1) {
+					this.keyboardTitle = "设置密码"
+				}
+				else if(newVal == 2) {
+					this.keyboardTitle = "确认密码"
+				}
+			},
 		},
 		onLoad() {
 			let self = this;
@@ -157,39 +165,69 @@
 		},
 
 		methods: {
-			handlePaymentPassword() {
-				let self = this;
-				if(self.newPassword == self.confirmPassword) {
-					
-					uni.showLoading({
-						title: "正在设置密码",
-					});
-					paymentPassword({
-						'paymentPassword': md5(self.newPassword)
-					}).then((res) => {
-						uni.hideLoading();
-						if (res.data.success) { 
-							uni.showToast({
-								title: '设置成功',
-								icon: 'none',
-								duration: 1000
-							});
-							setTimeout(() => {
-								uni.navigateBack();
-							}, 1000)
-							
-						}
-					});
-					
-				} else {
-					self.newPassword = '';
-					self.confirmPassword = '';
-					uni.showToast({
-						title: '两次密码输入不一样，重新输入',
-						icon: 'none',
-						duration: 3000
-					});
+			
+			onChange(val) {
+				if (this.password.length < 6) {
+					this.password += val;
 				}
+				if (this.password.length >= 6) {
+					this.finish();
+				}
+			},
+			onBackspace(e) {
+				if (this.password.length > 0) {
+					this.password = this.password.substring(0, this.password.length - 1);
+				}
+			},
+			finish() {
+				let self = this;
+				let password = self.password;
+				if(self.keyboardLevel == 1) {
+					self.newPassword = password;
+					self.keyboardLevel = 2;
+					self.password='';
+				}
+				else {
+					self.confirmPassword = password;
+					if(self.newPassword == self.confirmPassword) {
+						
+						uni.showLoading({
+							title: "正在设置密码",
+						});
+						paymentPassword({
+							'paymentPassword': md5(self.confirmPassword)
+						}).then((res) => {
+							uni.hideLoading();
+							if (res.data.success) { 
+								uni.showToast({
+									title: '设置成功',
+									icon: 'none',
+									duration: 1000
+								});
+								setTimeout(() => {
+									uni.navigateBack();
+								}, 1000)
+							} 
+							
+							self.showKeyboard = false;
+						});
+						
+					} else {
+						self.keyboardLevel = 1;
+						self.password = '';
+						self.newPassword = '';
+						self.confirmPassword = '';
+						uni.showToast({
+							title: '两次密码输入不一样，重新输入',
+							icon: 'none',
+							duration: 3000
+						});
+						self.$forceUpdate();
+					}
+				}
+			},
+			handleClose() {
+				this.showKeyboard = false;
 			},
 			// 验证码验证
 			verification(val) {
@@ -198,11 +236,12 @@
 
 			// 验证手机号
 			validatePhone() {
-				this.$refs.validateCodeForm.validate((valid) => {
+				let self = this;
+				self.$refs.validateCodeForm.validate((valid) => {
 					if (valid) {
-						resetByMobile(this.codeForm).then((res) => {
+						resetByMobile(self.codeForm).then((res) => {
 							if (res.data.success) {
-								this.validateFlage = !this.validateFlage;
+								self.showKeyboard = !self.showKeyboard;
 								// 登录成功
 								uni.showToast({
 									title: "验证成功!",
@@ -247,23 +286,23 @@
 						return false;
 					}
 					if (this.$refs.uCode.canGetCode) {
-						uni.showLoading({
-							title: "正在获取验证码",
-						});
-						sendMobile(this.codeForm.mobile, "FIND_USER").then((res) => {
-							uni.hideLoading();
-							// 这里此提示会被this.start()方法中的提示覆盖
-							if (res.data.success) {
-								this.start();
-							} else {
-								uni.showToast({
-									title: res.data.message,
-									duration: 2000,
-									icon: "none",
-								});
-								this.flage = false;
-							}
-						})
+						// uni.showLoading({
+						// 	title: "正在获取验证码",
+						// });
+						// sendMobile(this.codeForm.mobile, "FIND_USER").then((res) => {
+						// 	uni.hideLoading();
+						// 	// 这里此提示会被this.start()方法中的提示覆盖
+						// 	if (res.data.success) {
+						// 		this.start();
+						// 	} else {
+						// 		uni.showToast({
+						// 			title: res.data.message,
+						// 			duration: 2000,
+						// 			icon: "none",
+						// 		});
+						// 		this.flage = false;
+						// 	}
+						// })
 					} else {
 						this.$u.toast("请倒计时结束后再发送");
 					}
