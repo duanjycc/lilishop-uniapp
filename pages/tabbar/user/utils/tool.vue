@@ -48,7 +48,7 @@
             <image src="/static/mine/distribution.png" mode=""></image>
             <view>绑定邀请人</view>
           </view>
-          <view class="interact-item" @click="navigateTo('/pages/mine/invitations/InvitationArea')">
+          <view class="interact-item" v-show="!!serviceProvider" @click="navigateTo('/pages/mine/invitations/InvitationArea')">
             <image src="/static/mine/kanjia.png" mode=""></image>
             <view>邀请区域</view>
           </view>

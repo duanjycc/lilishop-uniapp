@@ -6,7 +6,7 @@
 				<view class="uni-top-2">{{ total }}</view>
 			</view>
 			<view v-if="isBind">
-				<view>谁邀请我</view>
+				<view>邀请我的人</view>
 				<view class="uni-top-2">{{ userInfo.member.inviteeMobile }}</view>
 			</view>
 			<view v-else class="bind" @click="handleBind">绑定邀请人</view>
