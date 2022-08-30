@@ -68,6 +68,17 @@ export function getStoreList(params) {
     params,
   });
 }
+/**
+ * app获取店铺列表
+ * @param params
+ */
+export function getAppByPage(params) {
+  return http.request({
+    url: '/store/store/getAppByPage',
+    method: Method.GET,
+    params,
+  });
+}
 
 /**
  * 获取店铺基本信息
