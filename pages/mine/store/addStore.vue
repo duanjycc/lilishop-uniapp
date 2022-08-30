@@ -156,18 +156,27 @@ export default {
 			this.$refs.unMap.init();
 		},
 		showSel(){
-			this.showSelect = true;
 			let regionCode = this.form.storeAddressIdPath.split(",");
 			this.loadInvitationUser(regionCode[2]);
-			// this.loadInvitationUser("1401797451706269727");
+			this.showSelect = true;
 		},
 		loadInvitationUser(regionCode){
+			this.invitationList =[];
 			queryInvitationUser(regionCode).then((res) => {
 				 	if (res.data.success) {
 						let list = res.data.result;
-						list.forEach((item)  =>{
-							this.invitationList.push(item)
-						})
+						if(list.length > 0){
+							list.forEach((item)  =>{
+								this.invitationList.push(item)
+							})
+						}else{
+							this.showSelect = false;
+							uni.showToast({
+								title: '该区域暂无推广员，为空这默认为该区域服务商为推广员',
+								icon: 'none',
+								duration: 2000
+							 });
+						}
 					}
 			});
 		},
