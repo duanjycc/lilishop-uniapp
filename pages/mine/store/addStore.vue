@@ -30,7 +30,7 @@
 	 
 	 
 			<u-form-item class="invitationPhone" label="邀请人" label-width="130" prop="invitationPhone">
-				<u-input v-model="invitationLabel" clearable placeholder="默认为选择地址的服务商" @click="showSel()"/>
+				<u-input v-model="invitationLabel" type="select" clearable placeholder="默认为选择地址的服务商" @click="showSel()"/>
 				<u-select
 						v-model="showSelect"
 						:list="invitationList"
@@ -158,7 +158,6 @@ export default {
 		showSel(){
 			let regionCode = this.form.storeAddressIdPath.split(",");
 			this.loadInvitationUser(regionCode[2]);
-			this.showSelect = true;
 		},
 		loadInvitationUser(regionCode){
 			this.invitationList =[];
@@ -166,6 +165,7 @@ export default {
 				 	if (res.data.success) {
 						let list = res.data.result;
 						if(list.length > 0){
+							this.showSelect = true;
 							list.forEach((item)  =>{
 								this.invitationList.push(item)
 							})
@@ -181,8 +181,12 @@ export default {
 			});
 		},
 		examinationType(e) {
-			this.invitationLabel= e[0].label;
-			this.form.invitationPhone = e[0].value;
+			if(this.invitationList.length == 0) return;
+			   let data  = e[0];
+			   if(!e[0].label)  data = this.invitationList[0]
+			   this.invitationLabel= data.label;
+			   this.form.invitationPhone = data.value;
+			
 		},
 	  //图片上传
 		onUploaded(lists) {
