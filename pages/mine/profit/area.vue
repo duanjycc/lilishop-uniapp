@@ -112,6 +112,17 @@
 							incomeType: 1,
 						}
 					},
+					{
+						text: "合伙人收益",
+						loadStatus: "more",
+						dataList: [],
+						params: {
+							pageNumber: 1,
+							pageSize: 10,
+							status: 2,
+							incomeType: 2,
+						}
+					},
 				]
 			};
 		},
@@ -151,6 +162,17 @@
 							pageSize: 10,
 							status: 2,
 							incomeType: 1,
+						}
+					},
+					{
+						text: "合伙人收益",
+						loadStatus: "more",
+						dataList: [],
+						params: {
+							pageNumber: 1,
+							pageSize: 10,
+							status: 2,
+							incomeType: 2,
 						}
 					},
 				];

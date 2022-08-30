@@ -98,7 +98,9 @@
           ></u-checkbox>
         </u-checkbox-group>
         <div class="tips">
-          未注册的手机号验证后将自动创建用户账号，登录即代表您已同意<span
+          <text v-if="enableUserPwdBox">首次登录请切换至‘手机短信验证码登录’，登录即代表您已同意</text>
+          <text v-else>未注册的手机号验证后将自动创建用户账号，登录即代表您已同意</text>
+		  <span
             @click="navigateToPrivacy('privacy')"
             >《隐私协议》</span>
              <span @click="navigateToPrivacys('user')">
@@ -111,7 +113,7 @@
 		v-if="current != 1"
 		class="user-password-tips"
 		@click="enableUserPwdBox = !enableUserPwdBox">
-		{{ !enableUserPwdBox ? "帐号密码" : "手机号" }}登录
+		{{ !enableUserPwdBox ? "帐号密码" : "手机短信验证码" }}登录
 	</div>
 
       <!-- 循环出当前可使用的第三方登录模式 -->

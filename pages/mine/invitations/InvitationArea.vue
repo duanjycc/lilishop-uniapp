@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="header">
 			<view>
-				<view class="title">{{ userInfo.member.myRegion || 暂无 }}</view>
+				<view class="title">{{ userInfo.member.myRegion || "暂无" }}</view>
 				<view class="sub-title" v-if="!!userInfo.member.myParentRegion">（上级区域是 {{ userInfo.member.myParentRegion }}）</view>
 			</view>
 		</view>
