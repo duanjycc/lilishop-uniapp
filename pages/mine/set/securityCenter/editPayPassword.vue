@@ -294,27 +294,8 @@
 						});
 						return false;
 					}
-					if (this.$refs.uCode.canGetCode) {
-						uni.showLoading({
-							title: "正在获取验证码",
-						});
-						sendMobile(this.codeForm.mobile, "FIND_USER").then((res) => {
-							uni.hideLoading();
-							// 这里此提示会被this.start()方法中的提示覆盖
-							if (res.data.success) {
-								this.start();
-							} else {
-								uni.showToast({
-									title: res.data.message,
-									duration: 2000,
-									icon: "none",
-								});
-								this.flage = false;
-							}
-						})
-					} else {
-						this.$u.toast("请倒计时结束后再发送");
-					}
+					
+					this.flage = true;
 				}
 			},
 			start() {
