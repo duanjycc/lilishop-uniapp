@@ -8,10 +8,10 @@ const dev = {
 	// buyer: "https://wang.wantbibi.com/buyer-api",
  
 	// common: "http://8.136.107.94:7003",
-	// buyer: "http://8.136.107.94:7002",
+	buyer: "http://8.136.107.94:7002",
  
 	// common: "http://192.168.0.106:8890",
-	buyer: "http://192.168.0.103:8888",
+	// buyer: "http://192.168.0.103:8888",
 };
 // 生产环境
 const prod = {
