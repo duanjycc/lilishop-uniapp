@@ -123,8 +123,8 @@ export default {
 			let local = self.storeInfo.storeCenter.split(",");
 			let addressName = self.storeInfo.storeAddressDetail;
 			if (addressName && addressName != '') {
-				var lng = local[1];
-				var lat = local[0];
+				var lng = local[0];
+				var lat = local[1];
 				
 				// 高德地图
 				uni.getSystemInfo({
@@ -142,7 +142,7 @@ export default {
 							} else {
 								window.location.href = `https://apis.map.qq.com/uri/v1/marker?marker=coord:(${lat},${lng})&addr:${addressName}`
 							}
-						}, 3000);
+						}, 2500);
 					}
 				})
 				
@@ -150,7 +150,7 @@ export default {
 				uni.showToast({
 					title: '暂不知道该地点位置',
 					icon: 'none',
-					duration: 3000,
+					duration: 300,
 				});
 			}
 			setTimeout(function() {
