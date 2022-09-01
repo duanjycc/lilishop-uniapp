@@ -18,7 +18,6 @@
             </div>
           </view>
         </view>
-
       </view>
       <view style="height: 100px"></view>
     </view>
@@ -26,7 +25,6 @@
       <u-icon name="plus-circle"></u-icon>
       商铺入驻
     </button>
-    <u-action-sheet :list="removeList" :tips="tips" v-model="showAction" @click="deleteAddressMessage"></u-action-sheet>
   </view>
 </template>
 
@@ -45,9 +43,6 @@ export default {
           text: "确定",
         },
       ],
-      tips: {
-        text: "确定要删除该收货人信息吗？",
-      },
       removeId: "", //删除的地址id
       routerVal: "",
       params: {
@@ -69,8 +64,13 @@ export default {
 		this.userInfo = this.$options.filters.isLogin();
     this.addressList = [];
     this.getAddressList();
-
   },
+	onReachBottom() {
+	 if(this.pages > this.params.pageNumber) {
+		this.params.pageNumber++;
+		this.getAddressList();
+	 }
+	},
   onHide() {},
   methods: {
     async selectAddressData(val) {
@@ -93,8 +93,7 @@ export default {
       uni.showLoading();
 
       API_Store.getStoreList(
-        this.params.pageNumber,
-        this.params.pageSize
+        this.params
       ).then((res) => {
         // res.data.result.records.forEach((item) => {
         //   item.consigneeAddressPath = item.consigneeAddressPath.split(",");
