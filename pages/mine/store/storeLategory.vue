@@ -137,6 +137,7 @@ export default {
     tabtap(item, i) {
       if (item.id != this.currentId) {
 				this.params.categoryId = item.id;
+				this.currentId = item.id;
         this.loadListContent();
       }
     },

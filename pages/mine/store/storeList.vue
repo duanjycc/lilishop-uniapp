@@ -3,8 +3,10 @@
 
     <u-empty class="empty" v-if="storeList.length == 0" text="暂无商铺" mode="address"></u-empty>
     <view class="list" v-else>
-      <view class="item c-content" v-for="(item, index) in storeList" :key="index">
-        <view class="basic" >
+      <view class="item c-content" v-for="(item, index) in storeList" 
+			:key="index"
+			:data-index='index'>
+        <view class="basic" @click="addStore(item.id)">
           <text>{{ item.storeName }}</text>
           <text>{{ item.memberName }}</text>
           <text class="pass_default" v-if="item.storeDisable ==='OPEN' " >审核通过</text>
@@ -38,11 +40,6 @@ export default {
       showAction: false, //是否显示下栏框
 			userInfo:null,
 			serviceProviderCode:null,
-      removeList: [
-        {
-          text: "确定",
-        },
-      ],
       removeId: "", //删除的地址id
       routerVal: "",
       params: {
@@ -52,7 +49,6 @@ export default {
     };
   },
   onPullDownRefresh() {
-    //下拉刷新
     this.addressList = [];
     this.getAddressList();
   },
@@ -75,7 +71,6 @@ export default {
   methods: {
     async selectAddressData(val) {
       await API_Trade.setAddressId(val.id, this.routerVal.way);
-
       uni.navigateBack({
         delta: 1,
       });
@@ -84,23 +79,14 @@ export default {
 			API_Store.getServiceProvider().then((res) =>{
 				if (res.data.success) {
 					this.serviceProviderCode = res.data.result;
-					console.log( this.serviceProviderCode)
 				}
 			});
 		},
     //获取地址列表
     getAddressList() {
       uni.showLoading();
-
-      API_Store.getStoreList(
-        this.params
-      ).then((res) => {
-        // res.data.result.records.forEach((item) => {
-        //   item.consigneeAddressPath = item.consigneeAddressPath.split(",");
-        // });
+      API_Store.getStoreList(this.params).then((res) => {
         this.storeList = res.data.result.records;
-        //console.log(this.addressList);
-
         uni.hideLoading();
       });
     },
@@ -161,6 +147,7 @@ export default {
     }
   }
   .address {
+
 	  .auditing{
 		  color: #666;
 		  font-size: 22rpx;

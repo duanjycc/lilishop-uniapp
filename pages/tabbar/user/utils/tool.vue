@@ -74,7 +74,6 @@ export default {
   props:['storeId','serviceProvider','promoters'],
   methods: {
     navigateTo(url) {
-		console.log(url)
       uni.navigateTo({
         url,
       });

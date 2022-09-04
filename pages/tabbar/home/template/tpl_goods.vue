@@ -92,9 +92,8 @@ export default {
 				type: 'wgs84',
 				geocode: true,
 				success: function (res1) {
-					console.log( res1 ) 
-					that.params.longitude = res1.longitude,
-					that.params.latitude = 	res1.latitude,
+					that.params.longitude = res1.longitude.toFixed(6),
+					that.params.latitude = 	res1.latitude.toFixed(6),
 					getAppByPage(
 					  that.params
 					).then((res2) => {
@@ -102,7 +101,6 @@ export default {
 							that.storeList.push({"id":item.id,"img": item.storeLogo,"title":item.storeName,"price":0,"distance":item.distance})
 						})
 					});
-					
 				}
 			});
 

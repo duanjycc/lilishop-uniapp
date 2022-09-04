@@ -4,7 +4,7 @@
       <u-form :border-bottom="false" :model="form" ref="uForm" :error-type="['toast']" :rule="rules">
         <u-form-item class="border" label="会员名称" label-width="130" >
          <view v-if="id">{{form.memberName}}</view>
-		 <view v-else> {{ userInfo.member.mobile }}</view>
+				 <view v-else> {{ userInfo.member.mobile }}</view>
         </u-form-item>
         <u-form-item class="border" label="商铺名称" label-width="130" prop="storeName">
           <u-input v-model="form.storeName" clearable placeholder="请输入商铺名称" />
@@ -38,13 +38,14 @@
 			</u-form-item>
 		
 			<u-form-item class="detailAddress" label="店铺照片" label-width="130" prop="storeLogo">
-				<view  v-if="id">
-					<image style=" width: 200rpx; height: 200rpx;" :src="form.storeLogo"/></image>
-				</view>
-				<view class="opt-view"  v-else >
+				<view  v-if="id == null || form.storeDisable === 'REFUSED' ">
 					<view class="images-view">
 						<u-upload :header=" { accessToken: storage.getAccessToken() }" :action="action" width="150" @on-uploaded="onUploaded" :max-count="1" :show-progress="false"></u-upload>
 					</view>
+					
+				</view>
+				<view class="opt-view"  v-else >
+					<image style=" width: 200rpx; height: 200rpx;" :src="form.storeLogo"/></image>
 				</view>
 			</u-form-item> 
 			
@@ -52,12 +53,23 @@
 				<u-input v-model="form.storeDesc"  height="200" type="textarea"   clearable placeholder="请输入店铺简介" />
 			</u-form-item>
 				
-			<div  v-if="id" >
-				<div class="saveAuditBtn" @click="audit('pass')">通过</div>
-				<div class="saveAuditBtn" style="background-color: #cc3636;" @click="audit('noPass')">不通过</div>
+			<div  v-if="id">
+				<div v-if="form.storeDisable === 'REFUSED' ">
+					<div class="updateBtn" @click="save">修改</div>
+				</div>
+				<div v-else>
+					<div v-if=" serviceProvider != null">
+						<div v-if="form.storeDisable === 'OPEN' ">
+							<div class="backBtn" style="background-color: #cc3636;" @click="reject">驳回</div>
+						</div>
+						<div v-else>
+							<div class="saveAuditBtn" @click="audit('pass')">通过</div>
+							<div class="saveAuditBtn" style="background-color: #cc3636;" @click="audit('noPass')">不通过</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="saveBtn" v-else @click="save">保存</div>
-      <!--  <div class="saveBtn" v-if="id" @click="audit('noPass')">不通过</div> -->
       </u-form>
       <uniMap ref="unMap"  @close="closeMap" @callback="callBackAddress" />
     </div>
@@ -66,10 +78,10 @@
 <script>
 import storage from "@/utils/storage.js";
 import { getCategoryList } from "@/api/goods.js";
-import { settleIn,getStoreBaseInfo,storeAudit } from "@/api/store.js";
+import { settleIn,getStoreBaseInfo,storeAudit ,reject} from "@/api/store.js";
 import selMany from "@/components/m-city/sel-many.vue";
 import { upload } from "@/api/common.js";
-import { feedBack ,queryInvitationUser} from "@/api/members.js";
+import { feedBack ,queryInvitationUser,getUserInfo} from "@/api/members.js";
 import uniMap from "../address/uniMap";
 import permision from "@/js_sdk/wa-permission/permission.js";
 
@@ -90,6 +102,7 @@ export default {
 			showSelect: false,
 			invitationList: [],
 			invitationLabel:null,
+			serviceProvider: null,
 			id:null,
 			form: {
 				memberName:"",
@@ -151,6 +164,14 @@ export default {
 		async loadData() {
 			let list = await getCategoryList(0);
 			this.systemScopes = list.data.result;
+			this.getUserInfo();
+		},
+		getUserInfo(){
+			getUserInfo().then((res) =>{
+				if (res.data.success) {
+					this.serviceProvider= res.data.result.member.serviceProvider;
+				}
+			});
 		},
 		getLoaction(){
 			this.$refs.unMap.init();
@@ -162,22 +183,22 @@ export default {
 		loadInvitationUser(regionCode){
 			this.invitationList =[];
 			queryInvitationUser(regionCode).then((res) => {
-				 	if (res.data.success) {
-						let list = res.data.result;
-						if(list.length > 0){
-							this.showSelect = true;
-							list.forEach((item)  =>{
-								this.invitationList.push(item)
-							})
-						}else{
-							this.showSelect = false;
-							uni.showToast({
-								title: '该区域暂无推广员，为空这默认为该区域服务商为推广员',
-								icon: 'none',
-								duration: 2000
-							 });
-						}
+				if (res.data.success) {
+					let list = res.data.result;
+					if(list.length > 0){
+						this.showSelect = true;
+						list.forEach((item)  =>{
+							this.invitationList.push(item)
+						})
+					}else{
+						this.showSelect = false;
+						uni.showToast({
+							title: '该区域暂无推广员，为空这默认为该区域服务商为推广员',
+							icon: 'none',
+							duration: 2000
+						 });
 					}
+				}
 			});
 		},
 		examinationType(e) {
@@ -244,6 +265,7 @@ export default {
         });
       }
     },
+
     // 如果拒绝权限 提示区设置
     refuseMapOuther() {
       uni.showModal({
@@ -297,7 +319,7 @@ export default {
         this.form.storeAddressDetail = address.formatted_address; //地址详情
         this.form.storeAddressIdPath = val.data.result.id; // 地址id分割
         this.form.storeAddressPath = val.data.result.name; //地址名称， '，'分割
-        this.form.storeCenter = val.longitude +"," +val.latitude; //纬度
+        this.form.storeCenter = val.longitude.toFixed(6) +"," +val.latitude.toFixed(6); //纬度
 				
         uni.hideLoading();
       }
@@ -305,24 +327,37 @@ export default {
       this.mapFlage = !this.mapFlage; //关闭地图
     },
 
-    // 保存当前 地址
     save() {
       this.$refs.uForm.validate((valid) => {
         if (valid) {
-          let pages = getCurrentPages(); //获取页面栈
-          let beforePage = pages[pages.length - 2]; //上个页面
-          // 如果没有id则为新增地址
-          if (!this.form.id) {
-            settleIn(this.form).then((res) => {
-              if (res.data.success) {
-                uni.navigateBack();
-              }
-            });
-          } 
+          // let pages = getCurrentPages(); //获取页面栈
+          // let beforePage = pages[pages.length - 2]; //上个页面
+					settleIn(this.form).then((res) => {
+						if (res.data.success) {
+							uni.navigateBack();
+						}
+					});
         }
       });
     },
-    
+    reject(){
+			reject(this.form.storeId).then((res)=>{
+				if (res.data.success) {
+					uni.navigateBack();
+				}
+			});
+		},
+		// updateStore(id){
+		// 	console.log( id) 
+		// 	this.$refs.uForm.validate((valid) =>{
+				
+		// 	})
+		// 	// storeAudit(id, 0).then((res) => {
+		// 	//   if (res.data.success) {
+		// 	//       uni.navigateBack();
+		// 	//   }
+		// 	// });
+		// },
   },
   mounted() {},
 
@@ -331,9 +366,8 @@ export default {
       title: "加载中",
     });
     this.routerVal = option;
-    // 如果当前是编辑地址,则需要查询出地址详情信息
     if (option.id) {
-	  this.id = option.id
+			this.id = option.id
       getStoreBaseInfo(option.id).then((res) => {
         const params = res.data.result;
         this.$set(this, "form", params);
@@ -359,7 +393,6 @@ export default {
 .saveBtn,
 	.selectAddress {
 	  height: 70rpx;
-
 	  line-height: 70rpx;
 	  text-align: center;
 	  font-size: 30rpx;
@@ -369,10 +402,9 @@ export default {
 	  margin: 40rpx auto 0 auto;
 	  border-radius: 20rpx;
 	}
-	
+
 .saveAuditBtn{
 	height: 70rpx;
-	
 	line-height: 70rpx;
 	text-align: center;
 	font-size: 30rpx;
@@ -383,7 +415,32 @@ export default {
 	border-radius: 20rpx;
 	float: left;
 	margin-left: 65rpx;
-
+}
+.updateBtn{
+	height: 70rpx;
+	line-height: 70rpx;
+	text-align: center;
+	font-size: 30rpx;
+	background: $aider-light-color;
+	color: #fff;
+	width: 85%;
+	margin: 40rpx auto 0 auto;
+	border-radius: 30rpx;
+	float: left;
+	margin-left: 65rpx;
+}
+.backBtn{
+	height: 70rpx;
+	line-height: 70rpx;
+	text-align: center;
+	font-size: 30rpx;
+	background: $aider-light-color;
+	color: #fff;
+	width: 85%;
+	margin: 40rpx auto 0 auto;
+	border-radius: 30rpx;
+	float: left;
+	margin-left: 65rpx;
 }
 .selectAddress {
   margin-top: 40rpx;
