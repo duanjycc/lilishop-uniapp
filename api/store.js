@@ -58,6 +58,18 @@ export function storeAudit(id,pass) {
 }
 
 /**
+ * app商铺驳回
+ * @param id
+ */
+export function reject(id) {
+  return http.request({
+    url: `/store/store/reject/${id}`,
+    method: Method.GET,
+    loading: false,
+  });
+}
+
+/**
  * 获取店铺列表
  * @param params
  */
