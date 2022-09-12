@@ -148,21 +148,9 @@ export function getPages(val) {
  * 跳转到登录页面
  */
 export function navigateToLogin(type = "navigateTo") {
-  /**
-   * 此处进行条件编译判断
-   * 微信小程序跳转到微信小程序登录页面
-   * H5/App跳转到普通登录页面
-   */
-  // #ifdef MP-WEIXIN
-  uni[type]({
-    url: "/pages/passport/wechatMPLogin",
-  });
-  // #endif
-  // #ifndef MP-WEIXIN
   uni[type]({
     url: "/pages/passport/login",
   });
-  //  #endif
 }
 
 /**

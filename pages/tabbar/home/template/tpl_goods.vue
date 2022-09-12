@@ -30,7 +30,7 @@
       </div>
     </div>
 		
-		<div class="goods-list" v-if="selected.val =='店铺'">
+		<div class="goods-list" v-if="selected.val ==='店铺'">
 		  <div 
 		    @click="handleClick(item)" class="goods-item" v-for="(item, item_index) in storeList"
 		    :key="item_index">
@@ -78,7 +78,6 @@ export default {
   watch: {
     res: {
       handler(val) {
-	
 				 this.getStoreList();
       },
       immediate: true,
@@ -89,27 +88,25 @@ export default {
 		getStoreList(){
 			let that = this;
 			uni.getLocation({
-				type: 'wgs84',
-				geocode: true,
+				type: 'gcj02',
 				success: function (res1) {
 					that.params.longitude = res1.longitude.toFixed(6),
 					that.params.latitude = 	res1.latitude.toFixed(6),
-					getAppByPage(
-					  that.params
-					).then((res2) => {
+					
+					getAppByPage( that.params ).then((res2) => {
 						res2.data.result.records.forEach((item)  =>{
 							that.storeList.push({"id":item.id,"img": item.storeLogo,"title":item.storeName,"price":0,"distance":item.distance})
 						})
 					});
 				}
 			});
-
 		},
+
     handleClick(item) {
-    	if(this.selected.val =='店铺'){
-    				uni.navigateTo({
-    				  url: `/pages/product/shopPage?id=` + item.id,
-    				});
+    	if(this.selected.val ==='店铺'){
+				uni.navigateTo({
+					url: `/pages/product/shopPage?id=` + item.id,
+				});
 			}else{
 				uni.navigateTo({
 					url: `/pages/product/goods?id=${item.id}&goodsId=${item.goodsId}`,

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 	<view class="saoma">
 		<qrcode-stream :camera="auto" :torch="torchActive" @decode="onDecode" @init="onInitData" />
 	</view>
@@ -53,4 +53,4 @@
 	        height: 100vh;
 			background-color: #000000;
 	    }
-	</style>
+	</style> -->

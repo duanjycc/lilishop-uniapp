@@ -250,17 +250,17 @@ export default {
 		// #endif
 		
 		
-    //#ifdef H5
-    let isWXBrowser = /micromessenger/i.test(navigator.userAgent);
-    if (isWXBrowser) {
-      webConnect("WECHAT").then((res) => {
-        let data = res.data;
-        if (data.success) {
-          window.location = data.result;
-        }
-      });
-    }
-    //#endif
+    // //#ifdef H5
+    // let isWXBrowser = /micromessenger/i.test(navigator.userAgent);
+    // if (isWXBrowser) {
+    //   webConnect("WECHAT").then((res) => {
+    //     let data = res.data;
+    //     if (data.success) {
+    //       window.location = data.result;
+    //     }
+    //   });
+    // }
+    // //#endif
   },
 
   mounted() {

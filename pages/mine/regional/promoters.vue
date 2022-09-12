@@ -20,7 +20,7 @@
 				</uni-td>
 			</uni-tr>
 		</uni-table>
-		
+		<uni-tr ><uni-tr><uni-td></uni-td><uni-td></uni-td><uni-td></uni-td></uni-tr></uni-tr>
 		
 		<uni-load-more :status="loadStatus"></uni-load-more>
 		
@@ -38,7 +38,7 @@
 				list: [], //积分数据集合
 				params: {
 					pageNumber: 1,
-					pageSize: 10,
+					pageSize: 15,
 				},
 				loadStatus: "more",
 				pages: 1,
@@ -62,7 +62,7 @@
 				this.pages = 1,
 				this.loadStatus = "more";
 				this.list = [];
-				this.params.pageSize = 10;
+				this.params.pageSize = 100;
 				this.params.pageNumber = 1;
 				this.getList();
 			},
