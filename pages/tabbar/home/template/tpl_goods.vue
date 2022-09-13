@@ -67,7 +67,7 @@ export default {
       },
 			params: {
 			  pageNumber: 1,
-			  pageSize: 1000,
+			  pageSize: 30,
 				longitude: null,
 				latitude:null,
 			},
@@ -83,6 +83,7 @@ export default {
       immediate: true,
     },
   },
+
   mounted(){},
   methods: {
 		getStoreList(){

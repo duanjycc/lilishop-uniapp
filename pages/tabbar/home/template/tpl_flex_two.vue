@@ -9,7 +9,7 @@
 			</div>
 			<div class="item item-2">
 				<view>
-					<view class="fs-28 mb-10">昨日销毁量</view>
+					<view class="fs-28 mb-10">今日销毁量</view>
 					<view class="fs-48 font-weight-700">{{ yesterdayCount }}</view>
 				</view>
 			</div>

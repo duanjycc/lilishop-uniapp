@@ -1,6 +1,6 @@
 <template>
 	<view class="container pb-120">
-		<view class="content mb-100">
+		<view class="content mb-70">
 			<view class="form-group">
 				<view class="form-label">类型</view>
 				<input class="form-text" type="number" v-model="form.monetary" placeholder="金额"/>
@@ -31,6 +31,18 @@
 		</view>
 		
 		<view class="tip-info fs-28" v-show="ssd > 0">本次做单大约需要 {{ ssd }}(SSD)</view>
+		<view class="tips">
+			<u-checkbox-group :icon-size="24" width="45rpx">
+				<u-checkbox
+					shape="circle"
+					v-model="enablePrivacy"
+					active-color="#FF5E00"
+				></u-checkbox>
+			</u-checkbox-group>
+			<text >本单属额外赠送，绝无虚假消费或加价淸费行为，如有以上行为，本人愿意承担一切后果！ </text>
+		</view>
+		
+		
 		<view class="btn-submit" @click="handleSubmit">确认让利</view>
 		<u-keyboard class="password-panel" @change="onChange" ref="uKeyboard" v-model="showKeyboard" @backspace="onBackspace" mode="number" :dot-enabled="false" :tooltip="false" default="">
 			<view class="mt-40 mb-40 text-center" style="text-align: center;">
@@ -48,6 +60,8 @@
 					<text>SSD</text>
 				</view>
 			</view>
+			
+			
 			<u-message-input class="mt-30" mode="box" :maxlength="6" :dot-fill="true" v-model="secondPassword" :disabled-keyboard="true" @finish="finish"></u-message-input>
 		</u-keyboard>
 	</view>
@@ -80,6 +94,7 @@
 				storeIndex: 0,
 				storeIds: [],
 				storeNames: [],
+				enablePrivacy: false,
 				form: {
 					monetary: null,
 					merId: 0,
@@ -283,6 +298,14 @@
 			},
 			handleSubmit() {
 				let self = this;
+				if (!self.enablePrivacy) {
+				  uni.showToast({
+				    title: "请同意做单声明！",
+				    duration: 2000,
+				    icon: "none",
+				  });
+				  return false;
+				}
 				if(self.checkStatus()) {
 					uni.showLoading({
 						title: "加载中...",
@@ -316,8 +339,18 @@
 		.content {
 			width: 100%;
 			padding: 20rpx 40rpx;
+			
+	
 		}
-		
+		.tips {
+		  font-size: 12px;
+		  margin-top: 32rpx;
+			margin-left: 120rpx;
+		  width: 546rpx;
+		  > span {
+		    color: $light-color;
+		  }
+		}
 		.form-group {
 			display: flex;
 			align-items: center;
