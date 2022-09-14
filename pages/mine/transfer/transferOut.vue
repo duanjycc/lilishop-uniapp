@@ -203,12 +203,13 @@
 						url: '/pages/mine/transfer/scan'
 					})
 				//#endif
-				
-				// uni.scanCode({
-				// 	success: (res) => {
-				// 		this.addressCode = res.result
-				// 	}
-				// })
+				//#ifndef H5
+				uni.scanCode({
+					success: (res) => {
+						this.acceptAddress = res.result
+					}
+				})
+				//#endif
 			},
 			getInputVerification(val) {
 				var self = this;
@@ -241,14 +242,7 @@
 					});
 					return false
 				}
-				else if (!self.acceptAddress) {
-					uni.showToast({
-						title: '通行证不能为空',
-						icon: 'none',
-						duration: 2000
-					});
-					return false
-				} else if (0 > +self.transferCount) {
+				else if (0 > +self.transferCount) {
 					uni.showToast({
 						title: '数量需要大于0',
 						icon: 'none',
