@@ -230,7 +230,7 @@
 				}
 			},
 			handle_all() {
-				this.transferCount = this.limit;
+				this.transferCount = this.ssd.toFixed(4);
 			},
 			checkStatus() {
 				var self = this;
