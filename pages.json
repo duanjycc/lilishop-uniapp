@@ -917,6 +917,9 @@
 		"backgroundColor": "#fff",
 		"color": "#FFFFFF",
 		"app-plus": {
+			//#ifdef H5
+			"navigationStyle": "custom",
+			//#endif
 			// 全局关闭回弹功能
 			"bounce": "none"
 

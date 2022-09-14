@@ -7,7 +7,7 @@
 				</view>
 				<view class="attention">单笔充值最小到账数量:0.00000001,低于该数量充币将不会到账</view>
 				<view class="title-box" v-if="isShow">
-					<tki-qrcode style="margin: 0 auto;" ref="qrcode" :cid="cid" :val="val" :size="size" background="#fff" :loadMake="loadMake" @result="qrR" />
+					<tki-qrcode v-if="isShow" style="margin: 0 auto;" ref="qrcode" :cid="cid" :val="val" :size="size" background="#fff" :loadMake="loadMake"/>
 				</view>
 				<view class="title-text">扫描二维码付款</view>
 				<view class="text">
@@ -36,7 +36,7 @@
 		},
 		data: function() {
 			return {
-				cid: '',
+				cid: 'qrcode',
 				val: '',
 				size: 450,
 				result: '',
@@ -57,7 +57,6 @@
 					this.isShow = true
 				}
 			},
-			qrR(e) { },	
 			copy() {
 				var self = this;
 				uni.setClipboardData({
