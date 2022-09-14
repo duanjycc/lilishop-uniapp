@@ -32,14 +32,14 @@
 		
 		<view class="tip-info fs-28" v-show="ssd > 0">本次做单大约需要 {{ ssd }}(SSD)</view>
 		<view class="tips">
-			<u-checkbox-group :icon-size="24" width="45rpx">
+			<!-- <u-checkbox-group :icon-size="24" width="45rpx"> -->
 				<u-checkbox
 					shape="circle"
 					v-model="enablePrivacy"
 					active-color="#FF5E00"
 				></u-checkbox>
-			</u-checkbox-group>
-			<text >本单属额外赠送，绝无虚假消费或加价淸费行为，如有以上行为，本人愿意承担一切后果！ </text>
+		<!-- 	</u-checkbox-group> -->
+			<text >本单属额外赠送，绝无虚假消费或加价消费行为，如有以上行为，本人愿意承担一切后果！ </text>
 		</view>
 		
 		
