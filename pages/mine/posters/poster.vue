@@ -26,9 +26,14 @@
 			<view class="label">价格：</view>
 			<view class="value">{{ data.price }}</view>
 		</view>
+		<!-- #ifdef H5 -->
 		<a :href="'tel:'+ data.phoneNumber" style="text-decoration: none">
 			<button class="btn-submit">联系他</button>
 		</a>
+		<!-- #endif -->
+		<!-- #ifndef H5 -->
+		<button class="btn-submit" @click="handleTel(data.phoneNumber)">联系他</button>
+		<!-- #endif -->
 	</view>
 </template>
 
@@ -50,6 +55,15 @@
 			}
 		},
 		methods: {
+			handleTel(tel) {
+				uni.makePhoneCall({
+					phoneNumber: tel, //电话号码
+					success: function(e) {
+					},
+					fail: function(e) {
+					}
+				})
+			},
 			copyValue(val) {
 				uni.setClipboardData({
 					data: val,

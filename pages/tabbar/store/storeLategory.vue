@@ -58,11 +58,12 @@ export default {
     };
   },
   onLoad() {
-		this.getLocation();
     this.loadData();
+	this.getLocation();
   },
   methods: {
 		getLocation(){
+			let self = this;
 			uni.getLocation({
 				type: 'gcj02',
 				geocode: true,
@@ -75,7 +76,7 @@ export default {
 					    location: `${res.longitude},${res.latitude}`,
 					  },
 					  success: ({ data }) => {
-							this.currentPosition = data.regeocode.addressComponent.district;
+							self.currentPosition = data.regeocode.addressComponent.district;
 					  }
 					});
 				}

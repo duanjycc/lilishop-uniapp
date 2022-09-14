@@ -12,7 +12,14 @@
 					</div>
 					<div class="flex store-message">
 						<view class="fs-20" > {{ storeInfo.memberName  }} </view>
-						<a :href="'tel:' + storeInfo.memberName" style="text-decoration:  none;"> <u-icon style="margin-left:10rpx;" name="phone"></u-icon></a>
+						<!-- #ifdef H5 -->
+						<a :href="'tel:' + storeInfo.memberName" style="text-decoration:  none;">
+							<u-icon style="margin-left:10rpx;" name="phone"></u-icon>
+						</a>
+						<!-- #endif -->
+						<!-- #ifndef H5 -->
+						<u-icon style="margin-left:10rpx;" name="phone" @click="handleTel(storeInfo.memberName)"></u-icon>
+						<!-- #endif -->
 					</div>
 					<div class="flex store-message">
 						<view class="fs-20" > {{ storeInfo.storeAddressDetail  }} <u-icon @click="goMap()"  style="margin-left:10rpx;" name="address"></u-icon> </view>
@@ -92,6 +99,15 @@ export default {
 			// 店铺信息
 			this.getStoreData();
 			this.enableGoodsIsCollect();
+		},
+		handleTel(tel) {
+			uni.makePhoneCall({
+				phoneNumber: tel, //电话号码
+				success: function(e) {
+				},
+				fail: function(e) {
+				}
+			})
 		},
 		/**是否收藏店铺 */
 		async enableGoodsIsCollect() {
