@@ -58,18 +58,13 @@ export default {
     };
   },
   onLoad() {
-    this.loadData();
-    // #ifdef MP-WEIXIN
-    uni.showShareMenu({ withShareTicket: true });
-    // #endif
 		this.getLocation();
+    this.loadData();
   },
   methods: {
-	
 		getLocation(){
-			const that = this;
 			uni.getLocation({
-				type: 'wgs84',
+				type: 'gcj02',
 				geocode: true,
 				success: function (res) {
 					uni.request({
@@ -80,7 +75,7 @@ export default {
 					    location: `${res.longitude},${res.latitude}`,
 					  },
 					  success: ({ data }) => {
-							that.currentPosition = data.regeocode.addressComponent.district;
+							this.currentPosition = data.regeocode.addressComponent.district;
 					  }
 					});
 				}
