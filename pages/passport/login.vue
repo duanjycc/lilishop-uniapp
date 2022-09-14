@@ -89,7 +89,7 @@
         </div>
       </div>
 
-      <div class="flex" v-show="current != 1">
+      <div class="flex align-items-center" v-show="current != 1">
         <u-checkbox-group :icon-size="24" width="45rpx">
           <u-checkbox
             shape="circle"
