@@ -3,7 +3,7 @@
 
     <u-empty class="empty" v-if="storeList.length == 0" text="暂无商铺" mode="address"></u-empty>
     <view class="list" v-else>
-      <view class="item c-content" v-for="(item, index) in storeList" 
+      <view class="item c-content" v-for="(item, index) in storeList"
 			:key="index"
 			:data-index='index'>
         <view class="basic" @click="addStore(item.id)">
@@ -13,7 +13,7 @@
           <text class="default" v-if="item.storeDisable ==='APPLYING' && userInfo.member.serviceProvider ==='SERVICE_PROVIDER' && serviceProviderCode === item.storeAddressIdPath.split(',')[2] "  @click="addStore(item.id)">审核</text>
           <text class="auditing" v-if="item.storeDisable ==='APPLYING' && userInfo.member.id === item.memberId  " >审核中</text>
           <text class="no_pass_default" v-if="item.storeDisable ==='REFUSED' "  >审核失败</text>
-		  
+
           <view>
             <div class="region">
               <span>{{item.storeAddressDetail}}</span>
@@ -140,7 +140,7 @@ export default {
   .alifont {
     display: inline-block;
   }
-  
+
   .region {
     span {
       margin: 0 4rpx !important;
@@ -185,37 +185,37 @@ export default {
       .item:hover {
         background: #ededed;
       }
-  
+
       .item {
         margin-top: 20rpx;
         font-size: $font-base;
         color: #666;
-  
+
         .basic {
           padding: 30rpx;
           line-height: 1.5em;
           //border-bottom: 1px solid $border-color-light;
-  
+
           :nth-child(2) {
             margin: 0 20rpx;
           }
-  
+
           :nth-child(4) {
             color: $font-color-light;
             font-size: $font-sm;
-  
+
             margin-top: 10rpx;
-  
+
             text:nth-child(2) {
               margin: 0;
             }
-  
+
             view {
               font-size: 28rpx;
             }
           }
         }
-  
+
         .edit {
           display: flex;
           justify-content: space-between;
@@ -225,7 +225,7 @@ export default {
           font-size: $font-sm;
           color: $font-color-light;
           padding: 0 30rpx;
-  
+
           .unchecked {
             width: 28rpx;
             height: 28rpx;
@@ -238,7 +238,7 @@ export default {
             top: -2rpx;
             left: 0;
           }
-  
+
           view:nth-child(1) {
             view:nth-child(1) {
               font-size: $font-base;
@@ -247,36 +247,36 @@ export default {
               vertical-align: middle;
             }
           }
-  
+
           view:nth-child(2) {
             text {
               margin-left: 5rpx;
             }
-  
+
             .alifont {
               font-size: 32rpx;
             }
-  
+
             .icon-bianji-copy {
               font-size: 28rpx;
               position: relative;
               top: 2rpx;
               left: 0;
             }
-  
+
             .icon-lajitong {
               position: relative;
               top: 4rpx;
             }
           }
-  
+
           .mr-40 {
             margin-right: 40rpx;
           }
         }
       }
     }
-  
+
     .btn {
       background: $light-color;
       position: fixed;
@@ -286,7 +286,7 @@ export default {
       left: 30rpx;
       font-size: 30rpx;
       line-height: 80rpx;
-  
+
       .u-icon {
         margin-right: 10rpx;
       }
