@@ -50,15 +50,15 @@ export default {
 			routerVal: "",
 			params: {
 				pageNumber: 1,
-				pageSize: 2,
+				pageSize: 20,
 			},
 			pages: 1,
 			loadStatus: 'more'
 		};
 	},
 	onPullDownRefresh() {
-		this.addressList = [];
-		this.getAddressList();
+		this.storeList = [];
+		this.initData();
 	},
 	onLoad: function (val) {
 		this.routerVal = val;
@@ -66,7 +66,7 @@ export default {
 	onShow() {
 		this.getServiceProvider();
 		this.userInfo = this.$options.filters.isLogin();
-		this.addressList = [];
+		this.storeList = [];
 		this.getAddressList();
 	},
 	onReachBottom() {
@@ -81,8 +81,8 @@ export default {
 		initData() {
 			this.pages = 1,
 			this.loadStatus = "more";
-			this.addressList = [];
-			this.params.pageSize = 10;
+			this.storeList = [];
+			this.params.pageSize = 20;
 			this.params.pageNumber = 1;
 			this.getAddressList();
 		},
