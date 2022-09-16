@@ -6,7 +6,7 @@
  */
 import { mapMutations } from "vuex";
 import APPUpdate from "@/plugins/APPUpdate";
-import { getClipboardData } from "@/js_sdk/h5-copy/h5-copy.js";
+// import { getClipboardData } from "@/js_sdk/h5-copy/h5-copy.js";
 import config from "@/config/config";
 import storage from "@/utils/storage";
 // 悬浮球
@@ -73,7 +73,7 @@ export default {
 
    onShow() {
     // #ifndef H5
-      this.getClipboard();
+    //  this.getClipboard();
 		// #endif
     // #ifdef APP-PLUS
   
@@ -154,36 +154,36 @@ export default {
     /**
      * 获取粘贴板数据
      */
-    async getClipboard() {
-      let res = await getClipboardData();
+ //    async getClipboard() {
+ //      let res = await getClipboardData();
 	
-      /**
-       * 解析粘贴板数据
-       */
+ //      /**
+ //       * 解析粘贴板数据
+ //       */
 		
-      if (res.indexOf(config.shareLink) != -1 && (res!= this.$store.state.shareLink)) {
-        this.$store.state.shareLink = res
-        uni.showModal({
-          title: "提示",
-          content: "检测到一个分享链接是否跳转？",
-          confirmText: "跳转",
-          success: function (callback) {
-            if (callback.confirm) {
-              const path = res.split(config.shareLink)[1];
-              if (path.indexOf("tabbar") != -1) {
-                uni.switchTab({
-                  url: path,
-                });
-              } else {
-                uni.navigateTo({
-                  url: path,
-                });
-              }
-            }
-          },
-        });
-      }
-    },
+ //      if (res.indexOf(config.shareLink) != -1 && (res!= this.$store.state.shareLink)) {
+ //        this.$store.state.shareLink = res
+ //        uni.showModal({
+ //          title: "提示",
+ //          content: "检测到一个分享链接是否跳转？",
+ //          confirmText: "跳转",
+ //          success: function (callback) {
+ //            if (callback.confirm) {
+ //              const path = res.split(config.shareLink)[1];
+ //              if (path.indexOf("tabbar") != -1) {
+ //                uni.switchTab({
+ //                  url: path,
+ //                });
+ //              } else {
+ //                uni.navigateTo({
+ //                  url: path,
+ //                });
+ //              }
+ //            }
+ //          },
+ //        });
+ //      }
+ //    },
 
     /**
      * h5中打开app获取跳转app的链接并跳转
