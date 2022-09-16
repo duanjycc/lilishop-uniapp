@@ -11,8 +11,7 @@
 				</u-form-item>
 
 				<u-form-item class="border" label="经营范围" label-width="130" prop="goodsManagementCategoryName">
-					<u-input v-model="form.goodsManagementCategoryName" type="select" @click="showSelMany"
-						placeholder="经营范围" />
+					<u-input v-model="form.goodsManagementCategoryName" type="select" @click="showSelMany()" placeholder="经营范围" />
 					<uni-popup ref="fw_popup" type="bottom">
 						<sel-many :list="systemScopes" :defultValue="form.goodsManagementCategory"
 							:defultName="form.goodsManagementCategoryName" @change="getIds" @close="close"
@@ -161,14 +160,16 @@
 			};
 
 		},
+		onload(){
+			this.getCategoryList();
+		},
 		onShow() {
 			this.userInfo = this.$options.filters.isLogin();
 			this.loadData();
+			this.getCategoryList();
 		},
 		methods: {
-			async loadData() {
-				let list = await getCategoryList(0);
-				this.systemScopes = list.data.result;
+			loadData() {
 				this.getUserInfo();
 			},
 			getUserInfo() {
@@ -178,8 +179,14 @@
 					}
 				});
 			},
+			getCategoryList(){
+				getCategoryList(0).then((res) =>{
+						if (res.data.success) {
+							this.systemScopes = res.data.result;
+						}
+				})
+			},
 			getLoaction() {
-				console.log("3333333333333333333333333")
 				this.$refs.unMap.init();
 			},
 			showSel() {
@@ -224,7 +231,11 @@
 				});
 			},
 			showSelMany() {
-				this.$refs.fw_popup.open();
+				this.getCategoryList();
+				setTimeout(()=>{
+						this.$refs.fw_popup.open();
+				},300)
+		
 			},
 			getIds(ids, names) {
 				this.form.goodsManagementCategoryName = names;
