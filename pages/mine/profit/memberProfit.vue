@@ -11,7 +11,8 @@
 				<view class="card-title d-flex justify-content-space-between align-items-center">
 					<view class="fs-24">
 						<text>订单号：</text> 
-						<text>{{ item.orderId }}</text> 
+						<text v-if="item.orderId === null">空投收益暂无订单号</text> 
+						<text v-else>{{ item.orderId }}</text> 
 					</view>
 					<view class="count-danger fs-28">{{ item.quantity }}个</view>
 				</view>
@@ -63,7 +64,7 @@
 		},
 		data() {
 			return {
-				range: [getMonth() , Date.now()],
+				range: [this.dateToStr(getMonth()) , this.dateToStr(new Date())],
 				list: [], //积分数据集合
 				params: {
 					pageNumber: 1,
@@ -123,7 +124,15 @@
 						}
 					}
 				});
-			}
+			},
+			dateToStr(date) {
+				var year = date.getFullYear();//年
+				var month = date.getMonth();//月
+				var day = date.getDate();//日
+				return year + "-" +
+					((month + 1) > 9 ? (month + 1) : "0" + (month + 1)) + "-" +
+					(day > 9 ? day : ("0" + day))
+			 }
 		},
 	};
 </script>

@@ -345,18 +345,18 @@ export default {
       }
       // #endif
 
-      // #ifndef H5
-      uni.setClipboardData({
-        data: sn,
-        success: function () {
-          uni.showToast({
-            title: "复制成功!",
-            duration: 2000,
-            icon: "none",
-          });
-        },
-      });
-      // #endif
+      //// #ifndef H5
+      // uni.setClipboardData({
+      //   data: sn,
+      //   success: function () {
+      //     uni.showToast({
+      //       title: "复制成功!",
+      //       duration: 2000,
+      //       icon: "none",
+      //     });
+      //   },
+      // });
+     // // #endif
     },
 
     /**

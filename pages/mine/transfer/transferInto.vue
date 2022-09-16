@@ -63,7 +63,7 @@
 					data: self.text,
 					success: function() {
 					}
-				});
+				 });
 				uni.showToast({
 					title: '复制成功',
 					icon: 'none',

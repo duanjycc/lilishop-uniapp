@@ -54,27 +54,28 @@
 		var newDate = year +"-"+ mon +"-"+ data;
 		return newDate;
 	}
-	function dateTimeFormat(dat){
-		var hours = dat.getHours()  < 10 ? "0"+(dat.getHours()) : dat.getHours();
-		var minutes = dat.getMinutes()  < 10 ? "0"+(dat.getMinutes()) : dat.getMinutes();
-		var seconds = dat.getSeconds()  < 10 ? "0"+(dat.getSeconds()) : dat.getSeconds();
-		var newTime = hours +":"+ minutes +":"+ seconds;
-		return dateFormat(dat)+' '+newTime;
-	}
+	// function dateTimeFormat(dat){
+	// 	var hours = dat.getHours()  < 10 ? "0"+(dat.getHours()) : dat.getHours();
+	// 	var minutes = dat.getMinutes()  < 10 ? "0"+(dat.getMinutes()) : dat.getMinutes();
+	// 	var seconds = dat.getSeconds()  < 10 ? "0"+(dat.getSeconds()) : dat.getSeconds();
+	// 	var newTime = hours +":"+ minutes +":"+ seconds;
+	// 	return dateFormat(dat)+' '+newTime;
+	// }
 	
 	import { getScore } from "@/api/mine-make.js";
 	export default {
 		filters: {
 			filterDate(val) {
 				return dateFormat(new Date(val));
-			},
-			filterDateTime(val) {
-				return dateTimeFormat(new Date(val));
 			}
+			// ,
+			// filterDateTime(val) {
+			// 	return dateTimeFormat(new Date(val));
+			// }
 		},
 		data() {
 			return {
-				range: [getMonth() , Date.now()],
+				range: [this.dateToStr(getMonth()) , this.dateToStr(new Date())],
 				list: [], //积分数据集合
 				params: {
 					pageNumber: 1,
@@ -134,7 +135,17 @@
 						}
 					}
 				});
-			}
+			},		
+			dateToStr(date) {
+
+				var year = date.getFullYear();//年
+				var month = date.getMonth();//月
+				var day = date.getDate();//日
+				return year + "-" +
+					((month + 1) > 9 ? (month + 1) : "0" + (month + 1)) + "-" +
+					(day > 9 ? day : ("0" + day))
+			 }
+		
 		},
 	};
 </script>
