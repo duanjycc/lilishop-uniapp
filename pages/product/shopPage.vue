@@ -116,6 +116,7 @@ export default {
 				this.isCollection = res.data.result;
 			}
 		},
+		//#ifdef H5
 		goMap() {
 			console.log('打开地图');
 			let self = this
@@ -130,6 +131,59 @@ export default {
 				}
 			});
 		},
+		//#endif
+		//#ifndef H5
+		goMap() {
+			let self = this;
+			let local = self.storeInfo.storeCenter.split(",");
+			let longitude = local[0];
+			let latitude = local[1];
+			let address = self.storeInfo.storeAddressDetail;
+			uni.showLoading({
+				title: '跳转中'
+			});
+			// 获取定位信息
+			uni.getLocation({
+				type: 'wgs84', 
+				success: function(res) {
+					if (res.errMsg == "getLocation:ok") {
+						uni.openLocation({
+							latitude: Number(latitude),
+							longitude: Number(longitude),
+							address: address,
+							scale: 18,
+							success: function() {
+								console.log('success');
+							}
+						});
+					}
+				},
+				fail: function(res) {
+					console.log(res)
+					if (res.errMsg == "getLocation:fail auth deny") {
+						uni.showModal({
+							content: '检测到您没打开获取信息功能权限，是否去设置打开？',
+							confirmText: "确认",
+							cancelText: '取消',
+							success: (res) => {
+								if (res.confirm) {
+									uni.openSetting({
+										success: (res) => {
+										}
+									})
+								} else {
+									return false;
+								}
+							}
+						})
+					}
+				}
+			});
+			setTimeout(function() {
+				uni.hideLoading();
+			}, 3000);
+		},
+		//#endif
 		guide(signMap) {
 			let self = this;
 			uni.showLoading({
