@@ -113,8 +113,13 @@
 				this.ssd = getFloat(this.ssd - this.frozenSSD, 4);
 				this.frozen = getFloat(this.frozenSSD, 4);
 			}
-			this.acceptAddress = getApp().globalData.acceptAddress;
-			getApp().globalData.acceptAddress = '';
+			// #ifdef H5
+			let acceptAddress = getApp().globalData.acceptAddress;
+			if(acceptAddress) {
+				this.acceptAddress = acceptAddress;
+				getApp().globalData.acceptAddress = '';
+			}
+			// #endif
 			this.getInfo();
 			
 		},
