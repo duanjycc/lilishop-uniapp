@@ -160,9 +160,6 @@
 			};
 
 		},
-		onload(){
-			this.getCategoryList();
-		},
 		onShow() {
 			this.userInfo = this.$options.filters.isLogin();
 			this.loadData();
@@ -231,11 +228,7 @@
 				});
 			},
 			showSelMany() {
-				this.getCategoryList();
-				setTimeout(()=>{
-						this.$refs.fw_popup.open();
-				},300)
-		
+				this.$refs.fw_popup.open();
 			},
 			getIds(ids, names) {
 				this.form.goodsManagementCategoryName = names;
