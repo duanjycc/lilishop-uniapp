@@ -177,9 +177,11 @@
 				});
 			},
 			getCategoryList(){
+				let self = this;
 				getCategoryList(0).then((res) =>{
 						if (res.data.success) {
-							this.systemScopes = res.data.result;
+							self.systemScopes = res.data.result;
+							console.log( self.systemScopes )
 						}
 				})
 			},
