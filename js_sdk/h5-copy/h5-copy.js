@@ -22,21 +22,21 @@ export  function h5Copy(content) {
 /**
  * 获取系统剪贴板内容
  */
- export function getClipboardData() {
-  return new Promise((success, fail) => {
-    // #ifndef H5
-    uni.getClipboardData({
-      success: ({ data }) => success(data),
-      fail
-    })
-    // #endif
+//  export function getClipboardData() {
+//   return new Promise((success, fail) => {
+//     // #ifndef H5
+//     uni.getClipboardData({
+//       success: ({ data }) => success(data),
+//       fail
+//     })
+//     // #endif
 
-    // #ifdef H5
-    try {
-      navigator.clipboard.readText().then(success).catch(fail)
-    } catch (error) {
-      fail(error)
-    }
-    // #endif
-  })
-}
+//     // #ifdef H5
+//     try {
+//       navigator.clipboard.readText().then(success).catch(fail)
+//     } catch (error) {
+//       fail(error)
+//     }
+//     // #endif
+//   })
+// }
