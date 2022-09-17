@@ -58,7 +58,7 @@
 				</u-form-item>
 
 				<div v-if="id">
-					<div v-if="form.storeDisable === 'REFUSED' ">
+					<div v-if="form.storeDisable === 'REFUSED' || form.storeDisable === 'OPEN' ">
 						<div class="updateBtn" @click="save">修改</div>
 					</div>
 					<div v-else>
@@ -164,6 +164,7 @@
 			this.userInfo = this.$options.filters.isLogin();
 			this.loadData();
 			this.getCategoryList();
+			console.log( this.userInfo )
 		},
 		methods: {
 			loadData() {
@@ -181,7 +182,6 @@
 				getCategoryList(0).then((res) =>{
 						if (res.data.success) {
 							self.systemScopes = res.data.result;
-							console.log( self.systemScopes )
 						}
 				})
 			},
