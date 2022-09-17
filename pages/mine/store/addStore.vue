@@ -64,7 +64,7 @@
 					<div v-else>
 						<div v-if=" serviceProvider != null">
 							<div v-if="form.storeDisable === 'OPEN' ">
-								<div class="backBtn" style="background-color: #cc3636;" @click="reject">驳回</div>
+								<div class="backBtn" style="background-color: #cc3636;" @click="reject()">驳回</div>
 							</div>
 							<div v-else>
 								<div class="saveAuditBtn" @click="audit('pass')">通过</div>
@@ -262,7 +262,7 @@
 				// #endif
 			},
 			audit(operation) {
-				let id = this.$route.query.id;
+				let id = this.form.storeId;
 				if (operation === "pass") {
 					storeAudit(id, 0).then((res) => {
 						if (res.data.success) {
