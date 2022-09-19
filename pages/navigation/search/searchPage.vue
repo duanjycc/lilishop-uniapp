@@ -567,7 +567,7 @@ export default {
        */
       if (this.hotKeywordList.length != 0) {
         //
-        this.defaultKeyword = this.hotKeywordList[0];
+        this.defaultKeyword = "请输入搜索";
       } else {
         this.defaultKeyword = "请输入搜索商品";
       }

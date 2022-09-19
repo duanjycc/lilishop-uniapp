@@ -82,9 +82,8 @@
 </template>
 <script>
 	import storage from "@/utils/storage.js";
-	import { getCategoryList } from "@/api/goods.js";
-	import { settleIn, getStoreBaseInfo, storeAudit, reject } from "@/api/store.js";
-	import selMany from "@/components/m-city/sel-many.vue";
+	import { settleIn, getStoreBaseInfo, storeAudit, reject, getCategoryList } from "@/api/store.js";
+	import selMany from "../sel-many.vue";
 	import { upload } from "@/api/common.js";
 	import { feedBack,queryInvitationUser, getUserInfo } from "@/api/members.js";
 	import uniMap from "../address/uniMap";
@@ -130,7 +129,7 @@
 						required: true,
 						message: "店铺名称不能为空",
 						trigger: ["blur", "change"],
-					}, ],
+					}],
 					goodsManagementCategoryName: [{
 						required: true,
 						message: "经营范围不能为空",
@@ -164,7 +163,6 @@
 			this.userInfo = this.$options.filters.isLogin();
 			this.loadData();
 			this.getCategoryList();
-			console.log( this.userInfo )
 		},
 		methods: {
 			loadData() {
@@ -179,7 +177,7 @@
 			},
 			getCategoryList(){
 				let self = this;
-				getCategoryList(0).then((res) =>{
+				getCategoryList().then((res) =>{
 						if (res.data.success) {
 							self.systemScopes = res.data.result;
 						}

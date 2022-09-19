@@ -143,9 +143,9 @@
 				let isServiceProvider = getApp().globalData.isServiceProvider;
 				let isPromoters = getApp().globalData.isPromoters;
 				if(isServiceProvider && !isPromoters) {
-					this.navList = [this.nav1, this.nav2]
+					this.navList = [this.nav1, this.nav2,this.nav3]
 				} else if(!isServiceProvider && isPromoters) {
-					this.navList = [this.nav2, this.nav3]
+					this.navList = [this.nav2, this.nav3,this.nav3]
 				} else {
 					this.navList = [this.nav1, this.nav2, this.nav3]
 				}

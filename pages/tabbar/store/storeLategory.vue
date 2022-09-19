@@ -35,8 +35,7 @@
 </template>
 
 <script>
-import { getCategoryList } from "@/api/goods.js";
-import { getStoreByCategoryList } from "@/api/store.js";
+import { getStoreByCategoryList ,getCategoryList} from "@/api/store.js";
 import config from '@/config/config'
 import * as API_Members from "@/api/members.js";
 export default {
@@ -89,7 +88,7 @@ export default {
 		},
 
     async loadData() {
-      let list = await getCategoryList(0);
+      let list = await getCategoryList();
       this.tabList = list.data.result;
       this.currentId = list.data.result[0].id;
       this.loadListContent();
