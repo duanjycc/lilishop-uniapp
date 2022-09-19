@@ -20,6 +20,18 @@ export function settleIn(data){
 }
 
 /**
+ * 获取商铺分类
+ */
+export function getCategoryList() {
+  return http.request({
+    url: `/goods/category`,
+    method: Method.GET,
+    loading: false,
+  });
+}
+
+
+/**
  * 查询当前用户是那个区服务商
  * @param params
  */
