@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="head-info d-flex align-items-center justify-content-center">
-			今日SSD推荐价格 0
+			今日SSD推荐价格 ￥ {{unitPrice}}
 		</view>
 		
 		<view class="content">
@@ -21,11 +21,19 @@
 				<view class="label-input">买卖数量</view>
 				<input class="form-text" type="number" v-model="form.salesVolume" placeholder="请输入SSD数量"/>
 			</view>
+			<view :class="outIshow">
+				<view class="item">
+					<view class="label-input">接收地址</view>
+					<input class="form-text" type="number" v-model="form.acceptAddress" placeholder="接收通证地址"/>
+				</view>
+			</view>
 			<view class="split-line-1"></view>
 			<view class="item">
 				<view class="label-input">价格</view>
 				<input class="form-text" type="number" v-model="form.price" placeholder="请输入价格"/>
 			</view>
+
+			
 			<view class="split-line-1"></view>
 			<view class="item">
 				<view class="label-input">手机号</view>
@@ -40,6 +48,26 @@
 			<view class="item">
 				<view class="label-input">联系人</view>
 				<input class="form-text" v-model="form.contacts" placeholder="请输入联系人"/>
+			</view>
+			<view class="split-line-1"></view>
+			
+			<view :class="inIsShow">
+				<view class="item">
+					<view class="label-input">银行卡号</view>
+					<input class="form-text" type="number" v-model="form.bankNo" placeholder="银行卡号"/>
+				</view>
+				<view class="split-line-1"></view>
+				<view class="item">
+					<view class="label-input" >支付宝二维码</view>
+					<u-upload :fileList="alipayFileArray" :header=" { accessToken: storage.getAccessToken() }" :action="action" width="150"
+						@on-uploaded="alipayloaded" :max-count="1" :show-progress="false"></u-upload>
+				</view>
+				<view class="split-line-1"></view>
+				<view class="item">
+					<view class="label-input">微信收款二维码</view>
+					<u-upload :fileList="wxFileArray" :header=" { accessToken: storage.getAccessToken() }" :action="action" width="150"
+						@on-uploaded="weChatUploaded" :max-count="1" :show-progress="false"></u-upload>
+				</view>
 			</view>
 			
 		</view>
@@ -77,12 +105,24 @@
 
 <script>
 	import { md5 } from '@/utils/md5.js';
-	import {checkPassword, paymentPassword } from "@/api/login";
+	import storage from "@/utils/storage.js";
+	import { upload } from "@/api/common.js";
+	import { getUserInfo } from "@/api/members";
+	import { queryConfigureByType } from "@/api/mine-common.js";
+	import { checkPassword, paymentPassword } from "@/api/login";
 	import { insertPendingOrder, deletePendingOrder, updatePendingOrder, pendingOrderInformation } from "@/api/mine-poster.js";
 	
 	export default {
 		data() {
 			return {
+				unitPrice: 0,
+				alipayFileArray:[],
+				wxFileArray:[],
+				ssd: 0,
+				action: upload, //图片上传地址
+				storage,
+				inIsShow:"domhide",
+				outIshow:"domshow",
 				typeItems: [
 					{
 						text: '买单',
@@ -101,7 +141,11 @@
 					wechatNumber: null,
 					salesVolume: null,
 					price: null,
-					business: 0
+					business: 0,
+					acceptAddress:"",
+					bankNo:null,
+					alipayCollectionCodeUrl:null,
+					wxCollectionCodeUrl:null,
 				},
 				
 				secondPassword: '',
@@ -116,18 +160,50 @@
 		},
 		onLoad() {
 			this.getData();
+			this.getUnitPricee();
+			this.getInfo();
 		},
 		methods: {
+			getUnitPricee(){
+				let self = this;
+				queryConfigureByType({
+					'type': 'unitPrice'
+				}).then((res) => {
+					if (res.data.success) {
+						self.unitPrice = res.data.result;
+					} 
+				})
+			},
 			getData() {
 				let self = this;
 				pendingOrderInformation().then((res) => {
 					if(res.data.success && res.data.result) {
 						self.form = res.data.result;
+						this.showChange(this.form.business);
+						this.alipayFileArray.push({"url":self.form.alipayCollectionCodeUrl});
+						this.wxFileArray.push({"url":self.form.wxCollectionCodeUrl});
+					}
+				})
+			},
+			getInfo(){
+				getUserInfo().then((res) =>{
+					if (res.data.success) {
+						this.ssd = res.data.result.member.ssd;
 					}
 				})
 			},
 			typeChange: function(evt) {
 				this.form.business = evt.target.value;
+				this.showChange(this.form.business);
+			},
+			showChange(business){
+				if(business === '1' ){
+					this.inIsShow = 'domshow';
+					this.outIshow ='domhide';
+				}else{
+					this.inIsShow = 'domhide';
+					this.outIshow ='domshow';
+				}
 			},
 			handleClose() {
 				this.showKeyboard = false;
@@ -139,6 +215,22 @@
 				if (this.secondPassword.length >= 6) {
 					this.finish();
 				}
+			},
+			//图片上传
+			alipayloaded(lists) {
+				let images = [];
+				lists.forEach((item) => {
+					images.push(item.response.result);
+					this.form.alipayCollectionCodeUrl = images.join(",");
+				});
+			},
+			//图片上传
+			weChatUploaded(lists) {
+				let images = [];
+				lists.forEach((item) => {
+					images.push(item.response.result);
+					this.form.wxCollectionCodeUrl = images.join(",");
+				});
 			},
 			handleDel() {
 				let self = this;
@@ -182,47 +274,45 @@
 			},
 			checkStatus() {
 				if (!this.form.salesVolume || this.form.salesVolume <= 0) {
-					uni.showToast({
-						title: '数量不能为空',
-						icon: 'none',
-						duration: 2000
-					});
+					this.showMsg('数量不能为空');
 					return false
-				}
-				else if (!this.form.price || this.form.price <= 0) {
-					uni.showToast({
-						title: '价格不能为空',
-						icon: 'none',
-						duration: 2000
-					});
+				}else if(this.form.business==0 && (!this.form.acceptAddress)){
+					this.showMsg('买单接收地址不能为空');
 					return false
-				}
-				else if (!this.form.phoneNumber) {
-					uni.showToast({
-						title: '手机号不能为空',
-						icon: 'none',
-						duration: 2000
-					});
+				}else if(this.form.business==1 && this.form.salesVolume > this.ssd){
+					this.showMsg('卖单数量不能大于拥有的SSD数量');
 					return false
-				}
-				else if (!this.form.wechatNumber) {
-					uni.showToast({
-						title: '微信不能为空',
-						icon: 'none',
-						duration: 2000
-					});
+				}else if(!this.form.price || this.form.price <= 0 || ((this.form.price > (this.unitPrice * 1.2) || this.form.price < (this.unitPrice * 0.8) ))){
+					this.showMsg('价格范围不能超过当日推荐价格上下的 20%');
 					return false
-				} 
-				else if (!this.form.contacts) {
-					uni.showToast({
-						title: '联系人不能为空',
-						icon: 'none',
-						duration: 2000
-					});
+				}else if(this.form.business==1 && (!this.form.bankNo)){
+					this.showMsg('卖单-银行卡号不能为空');
+					return false
+				}else if(this.form.business==1 && (!this.form.alipayCollectionCodeUrl)){
+					this.showMsg('卖单-支付宝收款码不能为空');
+					return false
+				}else if(this.form.business==1 && (!this.form.wxCollectionCodeUrl)){
+					this.showMsg('卖单-微信收款码不能为空');
+					return false
+				} else if (!this.form.phoneNumber) {
+					this.showMsg('手机号不能为空');
+					return false
+				}else if (!this.form.wechatNumber) {
+					this.showMsg('微信不能为空');
+					return false
+				}else if (!this.form.contacts) {
+					this.showMsg('联系人不能为空');
 					return false
 				} else {
 					return true
 				}
+			},
+			showMsg(title){
+				uni.showToast({
+					title: title,
+					icon: 'none',
+					duration: 2000
+				});
 			},
 			finish() {
 				let self = this;
@@ -235,7 +325,6 @@
 				else if(self.keyboardLevel == 2) {
 					self.password2 = secondPassword;
 					if(self.password1 == self.password2) {
-						
 						uni.showLoading({
 							title: "正在设置密码",
 						});
@@ -291,7 +380,6 @@
 			},
 			delSubmit() {
 				let self = this;
-				
 				self.submitStatus = 0;
 				self.form.secondPassword = md5(self.secondPassword);
 				uni.showLoading({
@@ -315,6 +403,9 @@
 		background-color: #fff;
 		height: 80rpx;
 	}
+	.domhide{display: none;}
+	
+	.domshow{display: block;}
 	
 	.content {
 		width: 100%;
@@ -335,7 +426,7 @@
 			}
 			
 			.label-input {
-				font-size: 32rpx;
+				font-size: 28rpx;
 				font-weight: 700;
 				width: 200rpx;
 			}
@@ -378,12 +469,7 @@
 		
 	}
 	
-	
-	
-	
-	
 	.password-panel {
-		
 		.close {
 			position: absolute;
 			left: 0;

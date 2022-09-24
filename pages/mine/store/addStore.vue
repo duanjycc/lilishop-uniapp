@@ -357,17 +357,6 @@
 					}
 				});
 			},
-			// updateStore(id){
-			// 	console.log( id) 
-			// 	this.$refs.uForm.validate((valid) =>{
-
-			// 	})
-			// 	// storeAudit(id, 0).then((res) => {
-			// 	//   if (res.data.success) {
-			// 	//       uni.navigateBack();
-			// 	//   }
-			// 	// });
-			// },
 		},
 		mounted() {},
 

@@ -31,7 +31,7 @@
 					<view class="item">
 						<view class="title">转出数量</view>
 						<view class="t-info">
-							<input class="it" type="number" v-model="transferCount" />
+							<input class="it" type="text" v-model="transferCount" />
 							<text class="all" @click="handle_all()">转出全部</text>
 						</view>
 						<view class="td">

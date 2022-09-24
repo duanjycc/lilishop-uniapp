@@ -26,6 +26,41 @@
 			<view class="label">价格：</view>
 			<view class="value">{{ data.price }}</view>
 		</view>
+		
+		<view :class="outIshow">
+			
+			<view class="item d-flex justify-content-space-between">
+				<view class="d-flex">
+					<view class="label">接收地址:</view>
+					<view class="value">{{ data.acceptAddress }}</view>
+				</view>
+				<view class="copy" @click="copyValue(data.acceptAddress)">复制</view>
+			</view>
+		</view>
+		
+		<view :class="inIsShow">
+			<view class="item d-flex justify-content-space-between">
+				<view class=" d-flex">
+					<view class="label">银行卡号:  </view>
+					<view class="value">{{ data.bankNo }}</view>
+				</view>
+				<view class="copy" @click="copyValue(data.bankNo)">复制</view>
+			</view>
+			
+			
+			<view class="split-line-1"></view>
+			<view class="item d-flex">
+				<view class="label" >支付宝收款二维码  </view>
+				<u-upload :fileList="alipayFileArray"  width="150" :deletable="false" :max-count="1" :show-progress="false"></u-upload>
+			</view>
+			
+			<view class="item d-flex">
+				<view class="label">微信收款二维码  </view>
+				<u-upload :fileList="wxFileArray"   width="150" :deletable="false" :max-count="1" :show-progress="false"></u-upload>
+			</view>
+		</view>
+		
+		
 		<!-- #ifdef H5 -->
 		<a :href="'tel:'+ data.phoneNumber" style="text-decoration: none">
 			<button class="btn-submit">联系他</button>
@@ -45,7 +80,12 @@
 		data() {
 			return {
 				username: null,
-				data: null
+				data: {},
+				alipayFileArray:[],
+				wxFileArray:[],
+				inIsShow:"domhide",
+				outIshow:"domshow",
+				contacts:null
 			}
 		},
 		onLoad(options) {
@@ -62,6 +102,13 @@
 					},
 					fail: function(e) {
 					}
+				})
+			},
+			imgPreview(){
+				uni.previewImage({
+					indicator:"number",
+					loop:true,
+					urls: this.imgList
 				})
 			},
 			copyValue(val) {
@@ -85,14 +132,29 @@
 				contactInformation(params).then((res) => {
 					if(res.data.success) {
 						self.data = res.data.result;
+						this.alipayFileArray.push({"url":self.data.alipayCollectionCodeUrl});
+						this.wxFileArray.push({"url":self.data.wxCollectionCodeUrl});
+						this.showChange(self.data.business)
 					}
 				})
-			}
+			},
+			showChange(business){
+				if(business === '1' ){
+					this.inIsShow = 'domshow';
+					this.outIshow ='domhide';
+				}else{
+					this.inIsShow = 'domhide';
+					this.outIshow ='domshow';
+				}
+			},
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.domhide{display: none;}
+	.domshow{display: block;}
+	
 	.container {
 		min-height: 100vh;
 		background-color: #ffffff;
