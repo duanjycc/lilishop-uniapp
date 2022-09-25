@@ -39,10 +39,10 @@
             <image src="/static/mine/feedback.png" mode=""></image>
             <view>意见反馈</view>
           </view>
-          <view class="interact-item" @click="navigateTo('/pages/mine/address/addressManage')">
-            <image src="/static/mine/myaddress.png" mode=""></image>
-            <view>地址管理</view>
-          </view>
+      <!--    <view class="interact-item" @click="navigateTo('/pages/mine/member/storeMember')">
+            <image src="/static/mine//myfavorite.png" mode=""></image>
+            <view>商铺会员</view>
+          </view> -->
         
          <view class="interact-item" @click="navigateTo('/pages/mine/invitations/InvitationList')">
             <image src="/static/mine/distribution.png" mode=""></image>

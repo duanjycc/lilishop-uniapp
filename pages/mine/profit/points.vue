@@ -154,7 +154,6 @@
 	.container {
 		width: 100%;
 		
-		
 		.screen {
 			background-color: #ffffff;
 			height: 80rpx;
