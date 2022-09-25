@@ -283,6 +283,32 @@ export function getUserInfo() {
 }
 
 /**
+ * 商铺会员管理
+ * @returns {AxiosPromise}
+ */
+export function getStoreMember(params) {
+  return http.request({
+    url: "/store/member",
+    method: Method.GET,
+		params,
+    needToken: true,
+  });
+}
+
+/**
+ * 商铺会员管理top
+ * @returns {AxiosPromise}
+ */
+export function getStoreMemberTop() {
+  return http.request({
+    url: "/store/member/getStoreMember/top",
+    method: Method.GET,
+    needToken: true,
+  });
+}
+
+
+/**
  * 检测是否区域推广员
  * @returns {AxiosPromise}
  */
