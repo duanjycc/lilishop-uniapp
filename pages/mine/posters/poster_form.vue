@@ -24,7 +24,7 @@
 			<view :class="outIshow">
 				<view class="item">
 					<view class="label-input">接收地址</view>
-					<input class="form-text" type="number" v-model="form.acceptAddress" placeholder="接收通证地址"/>
+					<input class="form-text" type="text" v-model="form.acceptAddress" placeholder="接收通证地址"/>
 				</view>
 			</view>
 			<view class="split-line-1"></view>

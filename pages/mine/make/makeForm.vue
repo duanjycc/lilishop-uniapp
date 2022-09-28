@@ -210,10 +210,18 @@
 				}
 			},
 			checkStatus() {
-				var self = this;
+				let self = this;
+				let reg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
 				if (!self.form.monetary) {
 					uni.showToast({
 						title: '消费金额不能为空',
+						icon: 'none',
+						duration: 2000
+					});
+					return false
+				}else if(!reg.test(self.form.vipPhone)){
+					uni.showToast({
+						title: '手机号码不正确',
 						icon: 'none',
 						duration: 2000
 					});
