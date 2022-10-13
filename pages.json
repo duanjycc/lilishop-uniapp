@@ -248,10 +248,17 @@
 						// "navigationStyle": "custom"
 					}
 				},
+				// {
+				// 	"path": "address/addressManage",
+				// 	"style": {
+				// 		"navigationBarTitleText": "地址管理"
+				// 		// "navigationStyle": "custom"
+				// 	}
+				// }
 				{
-					"path": "address/addressManage",
+					"path": "member/storeMember",
 					"style": {
-						"navigationBarTitleText": "地址管理"
+						"navigationBarTitleText": "商铺会员"
 						// "navigationStyle": "custom"
 					}
 				},
