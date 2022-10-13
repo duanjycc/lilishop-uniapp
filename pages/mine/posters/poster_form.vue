@@ -19,7 +19,7 @@
 			<view class="split-line-1"></view>
 			<view class="item">
 				<view class="label-input">买卖数量</view>
-				<input class="form-text" type="number" v-model="form.salesVolume" placeholder="请输入SSD数量"/>
+				<input class="form-text" type="digit" v-model="form.salesVolume" placeholder="请输入SSD数量"/>
 			</view>
 			<view :class="outIshow">
 				<view class="item">
@@ -30,7 +30,7 @@
 			<view class="split-line-1"></view>
 			<view class="item">
 				<view class="label-input">价格</view>
-				<input class="form-text" type="number" v-model="form.price" placeholder="请输入价格"/>
+				<input class="form-text" type="digit" v-model="form.price" placeholder="请输入价格"/>
 			</view>
 
 			

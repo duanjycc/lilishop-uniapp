@@ -15,9 +15,9 @@
         @click="handleClick(item)" class="goods-item" v-for="(item, item_index) in res.list[0].listWay"
         :key="item_index">
         <div class="goods-img">
-          <u-image :src="item.img" height="350rpx" mode="aspectFit" width="100%">
+          <u-image :src="item.img" height="350rpx" mode="aspectFill" width="100%">
             <u-loading slot="loading"></u-loading>
-          </u-image>
+          </u-image><!--  -->
         </div>
         <div class="goods-desc">
           <div class="goods-title">
@@ -35,7 +35,7 @@
 		    @click="handleClick(item)" class="goods-item" v-for="(item, item_index) in storeList"
 		    :key="item_index">
 		    <div class="goods-img">
-		      <u-image :src="item.img" height="350rpx" mode="aspectFit" width="100%">
+		      <u-image :src="item.img" height="350rpx" mode="aspectFill" width="100%">
 		        <u-loading slot="loading"></u-loading>
 		      </u-image>
 		    </div>
@@ -43,11 +43,9 @@
 		      <div class="store-goods-title">
 		        {{ item.title }}
 		      </div>
-			  <div class="store-goods-bottom">
 			    <div class="store-goods-price">
 					{{ item.distance.toFixed(2)   || 0  }} km
 				</div>
-			  </div>
 		    </div>
 		  </div>
 		</div>
@@ -227,10 +225,12 @@ $w_94: 94%;
   background: #fff;
   padding: 8rpx 0 8rpx 8rpx;
   margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 	
   > .store-goods-title {
     font-size: 24rpx;
-    height: 70rpx;
     display: -webkit-box;
     font-weight: 500;
     -webkit-box-orient: vertical;
@@ -238,14 +238,10 @@ $w_94: 94%;
     overflow: hidden;
   }
 
-	> .store-goods-bottom {
-	  display: flex;
-	  font-weight: bold;
-	  > .store-goods-price {
-	    line-height: 2;
-	    color: $main-color;
-	  }
-	}
+  > .store-goods-price {
+	line-height: 2;
+	color: $main-color;
+  }
 }
 
 .goods-icon {
