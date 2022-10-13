@@ -3,7 +3,7 @@
 		<div class="wrapper">
 			<!-- 店铺信息模块 -->
 			<div class="store flex">
-				<u-image border-radius="10" width="150" height="150" :src="storeInfo.storeLogo" mode="aspectFit">
+				<u-image border-radius="10" width="150" height="150" :src="storeInfo.storeLogo" mode="aspectFill">
 				</u-image>
 				<div class="box">
 					<div class="store-name" >
