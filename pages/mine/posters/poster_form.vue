@@ -283,7 +283,7 @@
 					this.showMsg('卖单数量不能大于拥有的SSD数量');
 					return false
 				}else if(!this.form.price || this.form.price <= 0 || ((this.form.price > (this.unitPrice * 1.1) || this.form.price < (this.unitPrice * 0.9) ))){
-					this.showMsg('价格范围不能超过当日推荐价格上下的 20%');
+					this.showMsg('价格范围不能超过当日推荐价格上下的 10%');
 					return false
 				}else if(this.form.business==1 && (!this.form.bankNo)){
 					this.showMsg('卖单-银行卡号不能为空');

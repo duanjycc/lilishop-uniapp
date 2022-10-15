@@ -6,16 +6,16 @@
 				<view class="uni-top-2">{{ sumProfit || 0 }}</view>
 			</view>
 			<view>
-				<view>商铺总做单数量</view>
-				<view class="uni-top-2">{{ makeCount || 0 }}</view>
+				<view>总会员数</view>
+				<view class="uni-top-2">{{ memberCount || 0 }}</view>
 			</view>
 		</view>
 
 		<view class="items">
-			<u-search placeholder="清输入手机号" shape="square" style="margin-left: 10px;" @change="searchMobile()" v-model="params.mobile"></u-search>
+			<u-search placeholder="请输入手机号" shape="square" :showAction="false" @change="searchMobile()" v-model="params.mobile" />
 			
 			<view class="card">
-				<text>会员列表</text>
+				 <text class="iconfont icon-jingyanzhi"></text>会员列表
 			</view>
 			
 			<view class="card-area" v-for="(item, index) in list" :key="index">
@@ -23,15 +23,16 @@
 					<view class="fs-24">
 						<text >{{ item.username }}</text> 
 					</view>
+					<view class="btn-wrap">
+						<button type="primary" size="mini"  @click="handleTel(item.username)" class="btnTap">通知他</button>
+					</view>
 				</view>
 				
 				<view class="card-body break-all">
-					
 					<view>
 						<text class="label-title">积分：</text>
 						<text>{{ item.point }}</text>
 					</view>
-					
 					<view>
 						<text class="label-title">ssd：</text>
 						<text>{{ item.ssd }}</text>
@@ -43,8 +44,7 @@
 		</view>
 		
 		<view class="text-center loadStatus font-color-disabled">{{ loadStatus }}</view>
-		
-
+	
 	</view>
 </template>
 
@@ -65,7 +65,7 @@
 				pages: 1,
 				total: 0,
 				sumProfit: 0,
-				makeCount: 0,
+				memberCount: 0,
 			};
 		},
 		onShow() {
@@ -90,11 +90,20 @@
 				this.getStoreMemberTop();
 		
 			},
+			handleTel(tel) {
+				uni.makePhoneCall({
+					phoneNumber: tel, //电话号码
+					success: function(e) {
+					},
+					fail: function(e) {
+					}
+				})
+			},
 			getStoreMemberTop(){
 				getStoreMemberTop().then((res) =>{
 					if (res.data.success) {
 						this.sumProfit = res.data.result.sumProfit;
-						this.makeCount = res.data.result.makeCount;
+						this.memberCount = res.data.result.memberCount;
 					}
 				})
 			},
@@ -157,10 +166,30 @@
 			
 			.card{
 				margin: 10px 13px;
+				.iconfont {
+				  width: 32rpx;
+				  color: #bbbbbb;
+				  margin-right: 10rpx;
+				}
 			}		
 
 			.card-area {
 				margin-left: 20rpx;
+				.card-title{
+					color: #ece5e5;
+					line-height: 80rpx;
+					background-color: #eb5659;
+					border-top-left-radius: 8px;
+					border-top-right-radius: 8px;
+					
+					.btn-wrap {
+					  display: flex;
+					  align-items: center;
+					  .btnTap {
+					    background-color: #ffcb00;
+					  }
+					}
+				}
 			}
 
 		}
