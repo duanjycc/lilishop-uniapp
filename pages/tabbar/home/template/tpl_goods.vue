@@ -63,7 +63,7 @@
 				},
 				params: {
 					pageNumber: 1,
-					pageSize: 50,
+					pageSize: 5,
 					longitude: null,
 					latitude: null,
 				},
@@ -81,13 +81,13 @@
 				immediate: true,
 			},
 		},
-		onReachBottom() {
-			if (this.pages > this.params.pageNumber) {
-				this.params.pageNumber++;
-				this.getStoreList();
-			}
-		},
 		methods: {
+			getStorePage() {
+				if (this.pages > this.params.pageNumber) {
+					this.params.pageNumber++;
+					this.getStoreList();
+				}
+			},
 			getStoreList() {
 				let that = this;
 				uni.getLocation({
@@ -97,6 +97,8 @@
 							that.params.latitude = res1.latitude.toFixed(6),
 
 							getAppByPage(that.params).then((res2) => {
+								
+								that.pages = res2.data.result.pages;
 								res2.data.result.records.forEach((item) => {
 									that.storeList.push({
 										"id": item.id,

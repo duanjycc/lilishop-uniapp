@@ -20,6 +20,10 @@ export default {
 
     uni.stopPullDownRefresh();
   },
+  
+  onReachBottom() {
+  	this.$refs.tpl.getStoreList();
+  },
   components: {
     tpl,
   },

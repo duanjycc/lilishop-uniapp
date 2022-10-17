@@ -42,7 +42,7 @@
       <textPicture v-if="item.type == 'textPicture'" :res="item.options" />
       <menuLayout v-if="item.type == 'menu'" :res="item.options" />
       <!-- <flexOne v-if="item.type == 'flexOne'" :res="item.options" /> -->
-      <goods v-if="item.type == 'goods'" :res="item.options" />
+      <goods v-if="item.type == 'goods'" ref="tpl_goods" :res="item.options" />
       <group v-if="item.type == 'group'" :res="item.options" />
       <notice v-if="item.type == 'notice'" :res="item.options" />
       <promotions v-if="item.type == 'promotionDetail'" :res="item.options" />
@@ -115,8 +115,13 @@ export default {
     uni.showShareMenu({ withShareTicket: true });
     // #endif
   },
+  
 
   methods: {
+	  getStoreList() {
+		  this.$refs.tpl_goods[0].getStorePage();
+	  },
+	  	
     /**
      * 实例化首页数据楼层
      */
