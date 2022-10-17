@@ -3,32 +3,31 @@
 		<div class="wrapper">
 			<!-- 店铺信息模块 -->
 			<div class="store flex">
-				<u-image border-radius="10" width="150" height="150" :src="storeInfo.storeLogo" mode="aspectFill">
-				</u-image>
-				<div class="box">
-					<div class="store-name" >
-						{{ storeInfo.storeName || ''}}
-						<!-- <u-icon style="margin-left:10rpx;" name="arrow-right"></u-icon> -->
+				<image :src="storeInfo.storeLogo" style="width: 100%;height: 150px; border-radius: 10px;"></image>
+			<!-- 	<u-image border-radius="10" style="width: 100%;height: 150px;" :src="storeInfo.storeLogo" mode="aspectFill">
+				</u-image> -->
+			</div>
+			
+			<div class="box">
+				<div class="store-name" >
+					{{ storeInfo.storeName || ''}}
+					<div class="collection">
+						<div class="collection-btn" @click="whetherCollection"> {{ isCollection  ? '已关注' : '+ 关注' }}</div>
 					</div>
-					<div class="flex store-message">
-						<view class="fs-20" > {{ storeInfo.memberName  }} </view>
-						<!-- #ifdef H5 -->
-						<a :href="'tel:' + storeInfo.memberName" style="text-decoration:  none;">
-							<u-icon style="margin-left:10rpx;" name="phone"></u-icon>
-						</a>
-						<!-- #endif -->
-						<!-- #ifndef H5 -->
-						<u-icon style="margin-left:10rpx;" name="phone" @click="handleTel(storeInfo.memberName)"></u-icon>
-						<!-- #endif -->
-					</div>
-					<div class="flex store-message">
-						<view class="fs-20" > {{ storeInfo.storeAddressDetail  }} <u-icon @click="goMap()"  style="margin-left:10rpx;" name="address"></u-icon> </view>
-					</div>
-				</div>
-				<div class="collection">
-					<div class="collection-btn" @click="whetherCollection"> {{ isCollection  ? '已关注' : '+ 关注' }}</div>
 				</div>
 			</div>
+			
+			
+			<view class="addressWrap">
+				<view class="script">
+					<view class="address">{{storeInfo.storeAddressDetail}}</view>
+				</view>
+				<view class="btns">
+					<view class="btnBar" @click="goMap()"><image class="mapBtn" src="../../static/img/mapBtn.png"></image></view>
+					<view class="btnBar" @click="handleTel(storeInfo.memberName)"><image class="telBtn" src="../../static/img/telBtn.png"></image></view>
+				</view>
+			</view>
+			
 		</div>
 
 		<div>
@@ -280,11 +279,12 @@ export default {
 }
 .store {
 	align-items: center;
-	> .box {
+}
+.box {
+		padding-top: 32rpx;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		margin-left: 30rpx;
 		font-size: 24rpx;
 		color: #999;
 		flex: 2;
@@ -292,7 +292,10 @@ export default {
 			font-size: 34rpx;
 			color: #333;
 			letter-spacing: 1rpx;
-			font-weight: bold;
+			> .collection{
+				float: right;
+			}
+
 		}
 		> .store-message {
 			margin-top: 18rpx;
@@ -308,7 +311,54 @@ export default {
 			}
 		}
 	}
-}
+	
+	.addressWrap{
+		margin:20rpx;
+		padding-top: 30rpx;
+		background-color:#fff;
+		display:flex;
+		.script{
+			border-radius:30rpx;
+			font-size:24rpx;
+			width: 300rpx;
+			.address{
+				color:#2A2A2A;
+				margin-bottom:15rpx;
+			}
+			.distance{
+				color:#E26257;
+				
+			}
+		}
+		.btns{
+			margin-left:40rpx;
+			display:flex;
+			font-size:20rpx;
+			color:#B4B4B4;
+			padding-left: 153rpx;
+			.btnBar{
+				display:flex;
+				flex-direction:column;
+				align-items:center;
+				justify-content:center;
+				&:nth-child(2){
+					margin-left:30rpx;
+				}
+			}
+			.mapBtn{
+				width:73rpx;
+				height:73rpx;
+				border-radius:50%;
+				margin-bottom:10rpx;
+			}
+			.telBtn{
+				width:67rpx;
+				height:67rpx;
+				border-radius:50%;
+				margin-bottom:13rpx;
+			}
+		}
+	}
 .collection-btn {
 	background: $main-color;
 	padding: 6rpx 0;
@@ -318,209 +368,9 @@ export default {
 	border-radius: 100px;
 	text-align: center;
 }
-.store-desc {
-	margin: 40rpx 0 0 0;
-	color: #999;
-}
 
-.contant {
-	margin-top: 20rpx;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	> .empty {
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		margin-top: 40rpx;
-	}
-}
-.discount {
-	height: 154rpx;
-	border-top: 1px solid #f6f6f6;
-	border-bottom: 18rpx solid #f6f6f6;
-	background: #f6f6f6;
-	overflow: hidden;
-	white-space: nowrap;
-	.card-box {
-		display: inline-block;
-		padding-top: 25rpx;
-	}
-	.card {
-		width: 324rpx;
-		height: 116rpx;
-		background: #fff;
-		margin-left: 20rpx;
-		border-radius: 5px;
-		display: flex;
-		align-items: center;
-		.money {
-			width: 45%;
-			color: #fd6466;
-			font-weight: 500;
-			text-align: center;
-			text {
-				font-size: 50rpx;
-			}
-		}
-		.xian {
-			height: 66rpx;
-			border: 1px dashed #f6f6f6;
-			position: relative;
-			&:before,
-			&:after {
-				content: "";
-				width: 22rpx;
-				height: 12rpx;
-				position: absolute;
-				background: #f6f6f6;
-			}
-			&:before {
-				border-radius: 0 0 22rpx 22rpx;
-				top: -30rpx;
-				left: -10rpx;
-			}
-			&:after {
-				border-radius: 22rpx 22rpx 0 0;
-				bottom: -30rpx;
-				left: -10rpx;
-			}
-		}
-		.text {
-			flex: 1;
-			color: $aider-light-color;
-			font-size: 24rpx;
-			display: flex;
-			flex-direction: column;
-			margin-left: 14rpx;
-			text:nth-of-type(2) {
-				color: #ccc;
-			}
-			.cur:nth-of-type(1) {
-				color: #ccc;
-			}
-		}
-	}
-}
-.category-item {
-	background: #fff;
-	padding: 22rpx;
-	margin: 20rpx 10rpx;
-	> .flex {
-		color: #666;
-		justify-content: space-between;
-	}
-	> .child-list {
-		display: flex;
-		margin: 20rpx 0;
-		flex-wrap: wrap;
-		> .child {
-			justify-content: center;
-			margin: 1% 0;
-			display: flex;
-			width: 48%;
-			font-size: 24rpx;
-			color: #999;
-			margin-right: 1%;
-			border: 1rpx solid #ededed;
-			box-sizing: border-box;
-			height: 70rpx;
-			text-align: center;
-			line-height: 70rpx;
-		}
-	}
-}
-.kefu {
-	background: #f7f7f7;
-	height: 70rpx;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-top: 32rpx;
-	border-radius: 10rpx;
-	font-size: 24rpx;
-	color: #999;
-}
 
-.param-list {
-	padding: 40rpx 0 80rpx 0;
-}
-.param-item {
-	display: flex;
-	justify-content: center;
-	border-bottom: none;
 
-	> .param-left,
-	> .param-right {
-		padding: 16rpx 0;
-		font-size: 24rpx;
-		color: #666;
-		border: 1px solid rgb(220, 223, 230);
-		border-bottom: none;
-	}
-	> .param-left {
-		text-align: center;
-		border-right: none;
-		flex: 3;
-	}
 
-	> .param-right {
-		padding: 0 10rpx;
-		align-items: center;
-		display: flex;
-		flex: 7;
-	}
-}
-.param-item:nth-last-of-type(1) {
-	> .param-left,
-	> .param-right {
-		border-bottom: 1px solid rgb(220, 223, 230);
-	}
-}
-.empty {
-	margin: 40rpx 0;
-}
-.goods-detail /deep/ .vhtml {
-	overflow: hidden;
 
-	width: 100%;
-}
-.vhtml {
-	/deep/ img {
-		display: block !important;
-	}
-}
-
-/deep/ img {
-	width: 100%;
-}
-.goods-detail-box {
-	display: flex;
-	justify-content: space-between;
-	// padding: 0 80rpx;
-	height: 120rpx;
-	line-height: 120rpx;
-	> .goods-active {
-		font-weight: 700;
-		&::before {
-			position: absolute;
-			left: 47%;
-			bottom: 15px;
-			-webkit-transform: translateX(-50%);
-			transform: translateX(-50%);
-			content: "";
-			display: block;
-			width: 100rpx;
-			height: 6rpx;
-
-			background-image: linear-gradient(90deg, $price-color, $price-light-color);
-		}
-	}
-	> .goods-detail-item {
-		color: #262626;
-		position: relative;
-	}
-}
-.detail_padding {
-}
 </style>
