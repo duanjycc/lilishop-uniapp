@@ -89,7 +89,7 @@
         </div>
       </div>
 
-      <div class="flex align-items-center" v-show="current != 1">
+      <div class="flex align-items-center" v-show="false && current != 1">
         <u-checkbox-group :icon-size="24" width="45rpx">
           <u-checkbox
             shape="circle"
@@ -115,6 +115,13 @@
 		@click="enableUserPwdBox = !enableUserPwdBox">
 		{{ !enableUserPwdBox ? "帐号密码" : "手机短信验证码" }}登录
 	</div>
+  
+<!--  <div
+  	v-if="current != 1 && enableUserPwdBox"
+  	class="user-password-tips"
+  	@click="enableUserPwdBox = !enableUserPwdBox">
+  	忘记密码
+  </div> -->
 
       <!-- 循环出当前可使用的第三方登录模式 -->
      <!-- <div class="flex login-list">
@@ -205,7 +212,7 @@ export default {
       showBack: false,
       enableFetchCode: false,
       enableUserBtnColor:false,
-      enablePrivacy: false, //隐私政策
+      enablePrivacy: true, //隐私政策
       mobile: "", //手机号
       code: "", //验证码
       inputStyle: {
