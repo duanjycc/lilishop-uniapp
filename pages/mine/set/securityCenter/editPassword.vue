@@ -25,16 +25,9 @@
 						business="FIND_USER" />
 				</view>
 				<view v-if="validateFlage">
-					<u-form-item label-width="120" label="旧密码">
-						<u-input type="password" v-model="password" placeholder="请输入您的旧密码" />
-					</u-form-item>
-
 					<u-form-item label-width="120" label="新密码">
-
 						<u-input type="password" v-model="newPassword" placeholder="请输入您的新密码" />
-
 					</u-form-item>
-
 					<view class="submit" @click="updatePassword">修改密码</view>
 				</view>
 			</u-form>
@@ -79,7 +72,7 @@
 					code: "", //验证码
 				},
 				newPassword: "", //新密码
-				password: "", //密码
+				newPassword2: "", //密码
 				tips: "", //提示
 				seconds: 69, // 60s等待时间
 
@@ -141,7 +134,6 @@
 			updatePassword() {
 				modifyPass({
 					newPassword: md5(this.newPassword),
-					password: md5(this.password),
 				}).then((res) => {
 					if (res.data.success) {
 						uni.showToast({
