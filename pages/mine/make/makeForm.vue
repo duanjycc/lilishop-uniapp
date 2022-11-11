@@ -39,7 +39,7 @@
 					active-color="#FF5E00"
 				></u-checkbox>
 		<!-- 	</u-checkbox-group> -->
-			<text >本单属额外赠送，绝无虚假消费或加价消费行为，如有以上行为，本人愿意承担一切后果！ </text>
+			<text style="color: red;">本单属额外赠送，绝无虚假消费或加价消费行为，如有以上行为，本人愿意承担一切后果！ </text>
 		</view>
 		
 		

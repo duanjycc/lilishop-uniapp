@@ -294,6 +294,18 @@ export function getStoreMember(params) {
     needToken: true,
   });
 }
+/**
+ * 我邀请的商铺
+ * @returns {AxiosPromise}
+ */
+export function getAppInvitationStore(params) {
+  return http.request({
+    url: "/store/member/getAppInvitationStore",
+    method: Method.GET,
+		params,
+    needToken: true,
+  });
+}
 
 /**
  * 商铺会员管理top

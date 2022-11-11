@@ -12,7 +12,7 @@ export default {
   props: ["res"],
   methods: {
     handleSearch() {
-      uni.navigateTo({
+        uni.navigateTo({
         url: "/pages/navigation/search/searchPage",
       });
     },

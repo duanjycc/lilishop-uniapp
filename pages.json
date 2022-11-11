@@ -458,14 +458,14 @@
 						"enablePullDownRefresh": false
 					}
 				},
-				// {
-				// 	"path": "transfer/scan",
-				// 	"style": {
-				// 		"navigationBarTitleText": "扫描二维码",
-				// 		"navigationStyle": "custom",
-				// 		"enablePullDownRefresh": false
-				// 	}
-				// },
+				{
+					"path": "invitations/InvitationStoreList",
+					"style": {
+						"navigationBarTitleText": "我邀请的商铺",
+						//"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+				},
 				{
 					"path": "profit/area",
 					"style": {

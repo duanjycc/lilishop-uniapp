@@ -36,7 +36,7 @@
 		<view class="text-center loadStatus font-color-disabled">{{ loadStatus }}</view>
 		
 		<view class="btn-bottom"  @click="handleAdd">
-			做单
+			去打赏
 		</view>
 	</view>
 </template>
