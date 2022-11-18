@@ -139,6 +139,17 @@ export function getAppByPage(params) {
   });
 }
 
+/**
+ * 商家前十的
+ */
+ export function getStoreStatisticsTop(params) {
+  return http.request({
+    url: `/store/store/getStoreStatisticsTop`,
+    method: Method.GET,
+    params,
+  });
+}
+
 
 
 

@@ -50,6 +50,9 @@
       <!-- <integral v-if="item.type == 'integral'" :res="item.options" /> -->
       <!-- <spike v-if="item.type == 'spike'" :res="item.options" /> -->
     </div>
+		<div>
+      <tplArticle />
+		</div>
     <u-no-network @retry='init' @isConnected='isConnected'></u-no-network>
   </div>
 </template>
@@ -72,6 +75,7 @@ import tpl_menu from "@/pages/tabbar/home/template/tpl_menu"; //五列菜单模�
 import tpl_search from "@/pages/tabbar/home/template/tpl_search"; //搜索栏
 import tpl_group from "@/pages/tabbar/home/template/tpl_group"; //
 import tpl_goods from "@/pages/tabbar/home/template/tpl_goods"; //商品分类以及分类中的商品
+import tpl_article from "@/pages/tabbar/home/template/tpl_article"; //文章
 // 结束引用组件
 import { getFloorData } from "@/api/home"; //获取楼层装修接口
 import permision from "@/js_sdk/wa-permission/permission.js"; //权限工具类
@@ -103,6 +107,7 @@ export default {
     search: tpl_search,
     flexOne: tpl_flex_one,
     goods: tpl_goods,
+    tplArticle: tpl_article,
     group: tpl_group,
     notice: tpl_notice,
     promotions: tpl_promotions,

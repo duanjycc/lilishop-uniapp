@@ -99,6 +99,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/tabbar/home/template/tpl_article",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"subPackages": [
 		{
@@ -927,6 +936,12 @@
 					"style": {
 						"navigationBarTitleText": "填写订单"
 						// "navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "storeTop",
+					"style": {
+
 					}
 				}
 			]

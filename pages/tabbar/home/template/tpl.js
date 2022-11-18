@@ -1,7 +1,7 @@
 /** 配置楼层模块的跳转 */
 export function modelNavigateTo(item) {
   let val = item.url;
-
+console.log(item)
   switch (val.___type) {
     case "goods":
       uni.navigateTo({
@@ -38,6 +38,11 @@ export function modelNavigateTo(item) {
     case "price":
       uni.navigateTo({
         url: "/pages/tabbar/home/price-view",
+      });
+      break;
+    case "storeTop":
+      uni.navigateTo({
+        url: "/pages/order/storeTop",
       });
       break;
     case "other":
