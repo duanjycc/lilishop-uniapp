@@ -2,7 +2,7 @@
   <div class="layout">
     <div class="search" @click="handleSearch">
       <u-icon name="search"></u-icon>
-      {{ res.list[0].title }}
+     {{ res.list[0].title }}
     </div>
   </div>
 </template>
@@ -12,9 +12,12 @@ export default {
   props: ["res"],
   methods: {
     handleSearch() {
-        uni.navigateTo({
-        url: "/pages/navigation/search/searchPage",
-      });
+      // uni.navigateTo({
+      //   url: "/pages/navigation/search/searchPage",
+      // });
+			uni.switchTab({
+			  url: "/pages/tabbar/store/storeLategory",
+			});
     },
   },
 };

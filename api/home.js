@@ -71,3 +71,13 @@ export function homeSSD() {
     method: "get",
   });
 }
+
+/**
+ * 行情走势
+ */
+export function getSsdPriceTopData() {
+  return http.request({
+    url: `/home/ssd/getSsdPriceTopData`,
+    method: "get",
+  });
+}

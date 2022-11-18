@@ -35,6 +35,11 @@ export function modelNavigateTo(item) {
         url: val.___path + "?id=" + val.id + "&title=" + val.title,
       });
       break;
+    case "price":
+      uni.navigateTo({
+        url: "/pages/tabbar/home/price-view",
+      });
+      break;
     case "other":
       switch (val.title) {
         case "首页":
@@ -109,6 +114,11 @@ export function modelNavigateTo(item) {
           // #ifdef APP-PLUS
           plus.runtime.openURL(val.url) //不需要拼接\
           // #endif
+          break;
+        case "视频播放":
+          uni.navigateTo({
+            url: `/pages/tabbar/screen/tpl_video?src=${val.url}`,
+          });
           break;
       }
 

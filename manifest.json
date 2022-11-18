@@ -1,6 +1,6 @@
 {
     "name" : "惠乐猫",
-    "appid" : "__UNI__6CD4639",
+    "appid" : "__UNI__DA19547",
     "description" : "",
     "versionName" : "4.3.1",
     "versionCode" : 4000271,
@@ -188,7 +188,7 @@
             "subPackages" : true
         },
         "setting" : {
-            "urlCheck" : false,
+            "urlCheck" : true,
             "minified" : true,
             "postcss" : false,
             "es6" : true
@@ -230,7 +230,9 @@
         },
         "title" : "lilishop",
         "template" : ""
-    }
+    },
+    "locale" : "zh-Hans",
+    "fallbackLocale" : "zh-Hans"
 }
 /* SDK配置 */
 

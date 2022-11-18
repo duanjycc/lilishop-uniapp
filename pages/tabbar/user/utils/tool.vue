@@ -7,7 +7,7 @@
 				<view class="interact-container">
 					<view v-if="storeId != null" class="interact-item" @click="navigateTo('/pages/mine/make/myMake')">
 						<image src="/static/mine/couponcenter.png" mode=""></image>
-						<view>商户做单</view>
+						<view>商户打赏</view>
 					</view>
 					<view class="interact-item" @click="navigateTo('/pages/mine/transfer/transferInto')">
 						<image src="/static/mine/mypoint.png" mode=""></image>

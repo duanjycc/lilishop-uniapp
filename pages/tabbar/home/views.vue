@@ -19,6 +19,7 @@
       </u-navbar>
       <carousel v-if="item.type == 'carousel'" :res="item.options" />
       <titleLayout v-if="item.type == 'title'" :res="item.options" />
+			<flexFive v-if="item.type == 'flexFive'" :res="item.options" />
       <leftOneRightTwo
         v-if="item.type == 'leftOneRightTwo'"
         :res="item.options"
@@ -36,7 +37,6 @@
         :res="item.options"
       />
       <flexThree v-if="item.type == 'flexThree'" :res="item.options" />
-      <flexFive v-if="item.type == 'flexFive'" :res="item.options" />
       <flexFour v-if="item.type == 'flexFour'" :res="item.options" />
       <flexTwo v-if="item.type == 'flexTwo'" :res="item.options" />
       <textPicture v-if="item.type == 'textPicture'" :res="item.options" />

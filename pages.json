@@ -75,15 +75,31 @@
 				"bounce": "none",
 				"scrollIndicator": "none"
 			}
-		},
+		}
+		,
 
 		{
 			"path": "pages/tabbar/home/web-view",
 			"style": {
+		
+			}
+		},
+		{
+			"path": "pages/tabbar/screen/tpl_video",
+			"style": {
 
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/tabbar/home/price-view",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"subPackages": [
 		{
 			"root": "pages/mine",
@@ -950,12 +966,12 @@
 				"text": "商铺分类"
 			},
 
-			{
-				"pagePath": "pages/tabbar/category/category",
-				"iconPath": "static/tabbar/category.png",
-				"selectedIconPath": "static/tabbar/category-s.png",
-				"text": "分类"
-			},
+			// {
+			// 	"pagePath": "pages/tabbar/category/category",
+			// 	"iconPath": "static/tabbar/category.png",
+			// 	"selectedIconPath": "static/tabbar/category-s.png",
+			// 	"text": "分类"
+			// },
 			{
 				"pagePath": "pages/tabbar/user/my",
 				"iconPath": "static/tabbar/mine.png",

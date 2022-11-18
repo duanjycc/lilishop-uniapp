@@ -4,13 +4,14 @@
  */
 // 开发环境
 const dev = {
-	common: "https://wang.wantbibi.com/common-api",
-  buyer: "https://wang.wantbibi.com/buyer-api",
+	common: "https://wangzix.com/common-api",
+  buyer: "http://localhost:8888",
+  // buyer: "https://wangzix.com/buyer-api",
 };
 // 生产环境
 const prod = {
-  common: "https://wang.wantbibi.com/common-api",
-  buyer: "https://wang.wantbibi.com/buyer-api",
+  common: "https://wangzix.com/common-api",
+  buyer: "https://wangzix.com/buyer-api",
 };
 
 //默认生产环境
