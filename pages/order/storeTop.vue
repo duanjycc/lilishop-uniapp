@@ -41,24 +41,19 @@
 				getStoreStatisticsTop(that.params).then((res) => {
 	
 					const dataList = res.data.result;
-					let arr = [], arr1=[], arr2=[];
+					let arr = [], arr1=[];
 					
 					dataList.forEach((value, _index) => {
 						arr.push(value.storeName);
-					  arr1.push(parseFloat(value.num));
-					  arr2.push(value.price);
+					  arr1.push(value.nickNum);
 					});
 					
 					let data1 = {
 						categories: arr,
 						series: [
 							{
-								name: "销售金额",
+								name: "会员数量",
 								data: arr1,
-							},
-							{
-								name: "让利金额",
-								data: arr2,
 							}
 						]
 					};

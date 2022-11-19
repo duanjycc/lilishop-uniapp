@@ -1,9 +1,9 @@
 <template>
 	<div class="layout">
-		<u-sticky>
+		<u-sticky style="margin-left: 5px;margin-top: 5px">
 			<div class="title">
 				<image class="ico-article" src="../../../../static/icons/ico_article.png"></image>
-				<view class="article-title fs-28 ml-10" style="">联德头条</view>
+				<view class="article-title fs-28 ml-10" style="font-size: 20px">联德头条</view>
 				
 				<div
 				  @click="moreClick"
@@ -15,7 +15,7 @@
 		</u-sticky>
 		<div class="article-list">
 			
-			<swiper :current="tabCurrentIndex" class="swiper-box" duration="300" @change="changeTab" :indicator-dots="true" indicator-color="#ae8d8d96">				
+			<swiper :current="tabCurrentIndex" class="swiper-box" duration="300" @change="changeTab" :indicator-dots="true" indicator-color="#ae8d8d96">
 				<swiper-item @click="handleClick(item)" v-for="(item, item_index) in articleList"
 					:key="item_index" class="swiperItem">
 					<div class="article-item" >
@@ -24,7 +24,7 @@
 								{{ item.title }}
 							</div>
 							<div class="store-goods-price">
-								{{ item.articleCategoryName }}
+								{{ item.createTime }}
 							</div>
 						</div>
 						<div class="goods-img">
@@ -71,6 +71,7 @@ import { getNewList } from "@/api/article.js";
 							"id": item.id,
 							"title": item.title,
 							"articleCategoryName": item.articleCategoryName,
+              "createTime": item.createTime,
 							"url": item.url,
 						})
 					})
@@ -110,7 +111,7 @@ import { getNewList } from "@/api/article.js";
 .title{
 	display: inline-block;
 	vertical-align: middle;
-	height: 50rpx;
+	height: 80rpx;
 	width: 100%;
 }
 
@@ -127,7 +128,7 @@ import { getNewList } from "@/api/article.js";
 		line-height: 40rpx;
 		text-align: center;
 		margin-top: 5px;
-		margin-right: 30px;
+		margin-right: 20px;
 	display: inline-block;
 }
 
@@ -148,14 +149,14 @@ import { getNewList } from "@/api/article.js";
 	overflow: hidden;
 	display: flex;
 	flex-wrap: wrap;
-	height: 120rpx;
+	height: 150rpx;
 	background-color: white;
 	position: relative;
 	// border-bottom: 1rpx $border-color-base solid;
 }
 
 	.store-goods-desc {
-		width: calc(100% - 180rpx);
+		width: calc(90% - 180rpx);
 		height: 100%;
 		background: #fff;
 		padding: 8rpx 0 8rpx 8rpx;
@@ -183,10 +184,10 @@ import { getNewList } from "@/api/article.js";
 	}
 	
 	.goods-img {
-		left: calc(100% - 140rpx);
+		left: calc(90% - 140rpx);
 		position: absolute;
-		width: 110rpx;
-	  height: 110rpx;
+		width: 180rpx;
+	  height: 140rpx;
 		top: 5rpx;
 		border-radius: 10rpx;
 		overflow: hidden;

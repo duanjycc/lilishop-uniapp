@@ -145,7 +145,7 @@
 	.selected-title {
 		>h4 {
 			font-size: 30rpx;
-			color: #000 !important;
+			color: #666 !important;
 		}
 
 		>div {

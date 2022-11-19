@@ -1,6 +1,6 @@
 <template>
-	<view>
-		<view class="container ">
+	<view style="background-color: #e4e7ed">
+		<view class="container " >
 			<!-- 顶部栏 -->
 			<u-navbar back-text="" title="联德头条"></u-navbar>
 		  <div class="article-list">
@@ -11,7 +11,7 @@
 		  				{{ item.title }}
 		  			</div>
 		  			<div class="store-goods-price">
-		  				{{ item.articleCategoryName }}
+		  				{{ item.createTime }}
 		  			</div>
 		  		</div>
 		  		<div class="goods-img">
@@ -38,7 +38,7 @@ import { getNewList } from "@/api/article.js";
 				},
 				pages: 1,
 				articleList: [],
-				loadStatus: "加载更多",
+				loadStatus: "",
 			}
 		},
 		mounted() {
@@ -69,6 +69,7 @@ import { getNewList } from "@/api/article.js";
 							"id": item.id,
 							"title": item.title,
 							"articleCategoryName": item.articleCategoryName,
+              "createTime": item.createTime,
 							"url": item.url,
 						})
 					})
