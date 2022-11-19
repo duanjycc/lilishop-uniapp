@@ -63,8 +63,8 @@
 
 <style>
 .charts {
-	margin-top: 20rpx;
+  margin-top: 120rpx;
 	width: 100%;
-	height: 460rpx;
+  height: 1060rpx;
 }
 </style>

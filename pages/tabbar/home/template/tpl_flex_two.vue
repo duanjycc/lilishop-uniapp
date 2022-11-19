@@ -1,30 +1,30 @@
 <template>
-	<div class="layout">
+	<div class="layout" style="">
 		<div class="flex-two">
 			<div class="title">
-				<image class="plate-image" src="../../../../static/img/plate.png"></image>
-				<view class="plate-title fs-28 ml-10" style="">我的联德之旅</view>
+				<!--<image class="plate-image" src="../../../../static/img/plate.png"></image>-->
+				<view class="plate-title fs-28 ml-10" style="font-size: 20px;color:bisque;margin-left: 16px">我的联德之旅</view>
 			</div>
 			<div class="content">
 				<div class="flex-content">
 					<div class="item item-1">
 						<view>
-							<view class="fs-48 font-weight-600">{{ todayCount }}</view>
-							<view class="fs-28 mb-10 font-color-disabled">SSD销毁总量</view>
+							<view class="fs-52 font-weight-600" style="color:#d41a1a">{{ todayCount }}</view>
+							<view class="fs-28 mb-10 font-color-disabled" style="margin-top: 3px">SSD销毁总量</view>
 						</view>
 					</div>
-					<span class="line-span"></span>
+					<span class="line-span" style=""></span>
 					<div class="item item-2">
 						<view>
-							<view class="fs-48 font-weight-600">{{ yesterdayCount }}</view>
-							<view class="fs-28 mb-10 font-color-disabled">今日销毁量</view>
+							<view class="fs-52 font-weight-600" style="color:#72c5b3">{{ yesterdayCount }}</view>
+							<view class="fs-28 mb-10 font-color-disabled" style="margin-top: 3px">今日销毁量</view>
 						</view>
 					</div>
 				</div>
 				<hr style="height:1px;border:none;border-top:1px dashed darkgray;margin-left: 10rpx;margin-right: 10rpx;" />
 				<view class="fs-28 mb-10" style="text-align: center;margin-top: 10px;">不要等待机会，而要创造机会</view>
 			</div>
-			<view class="fs-28 mb-10" style="margin-left: 30rpx;display: inline-block;">百川汇，纳八方</view>
+			<view class="fs-28 mb-10" style="margin-left: 30rpx;font-size: 20px;display: inline-block;color:bisque">百川汇，纳八方</view>
 			<div
 			  @click="liangdeClick"
 			  class="btn"
@@ -82,15 +82,16 @@
 @import "./tpl.scss";
 .flex-two {
 	width: 100%;
-	height: 315rpx;
-	background-color: #EDE943;
+	height: 345rpx;
+	background-color: red;
+  background-image: -webkit-gradient(linear, left bottom, right top, color-stop(0.32, #ae8d8d96), color-stop(0.83, #ffff00));
 	border-radius: 10rpx;
 }
 
 .content {
 	height: 196rpx;
 	background-color: white;
-	margin: 10rpx 30rpx 10rpx 30rpx ;
+	margin: 20rpx 30rpx 20rpx 30rpx ;
 	border-radius: 10rpx;
 	
 }
@@ -152,15 +153,15 @@ font-size: 0;
 
 .btn {
 	float: right;
-	width: 150rpx;
-	height: 40rpx;
-	font-size: 20rpx;
-	line-height: 40rpx;
+	width: 160rpx;
+	height: 50rpx;
+	font-size: 25rpx;
+	line-height: 50rpx;
 	text-align: center;
 	color: #ffffff;
-	margin-right: 30px;
+	margin-right: 20px;
 	border-radius: 5rpx;
-	background-color: #3B3838;
+	background-color: firebrick;
 }
 
 </style>
