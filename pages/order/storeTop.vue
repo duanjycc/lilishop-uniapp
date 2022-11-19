@@ -6,7 +6,7 @@
 		
 		<qiun-data-charts class="charts" type="column"
 		 background="none"
-		 :chartData="chartData"
+		 :chartData="chartData" :style="{height:screenHeight+'px'}"
 		 :opts="{enableScroll: true, xAxis: { scrollShow: true, itemCount: 8, disableGrid: true }}"
 		 :ontouch="true"></qiun-data-charts>
 
@@ -26,7 +26,11 @@
 				pages: 1,
 				storeList: [],
 				chartData:{},
+				screenHeight:"460",
 			};
+		},
+		onLoad(params) {
+			this.screenHeight = uni.getSystemInfoSync().windowHeight - 130;
 		},
 		mounted() {
 			this.getStoreList();
@@ -77,8 +81,7 @@
 </script>
 <style lang="scss" scoped>
 	.charts {
-		margin-top: 20rpx;
+		margin-top: 50rpx;
 		width: 100%;
-		height: 460rpx;
 	}
 </style>
