@@ -14,22 +14,28 @@
 			</div>
 		</u-sticky>
 		<div class="article-list">
-			<div @click="handleClick(item)" class="article-item" v-for="(item, item_index) in articleList"
-				:key="item_index">
-				<div class="store-goods-desc">
-					<div class="store-goods-title">
-						{{ item.title }}
+			
+			<swiper :current="tabCurrentIndex" class="swiper-box" duration="300" @change="changeTab" :indicator-dots="true" indicator-color="#ae8d8d96">				
+				<swiper-item @click="handleClick(item)" v-for="(item, item_index) in articleList"
+					:key="item_index" class="swiperItem">
+					<div class="article-item" >
+						<div class="store-goods-desc">
+							<div class="store-goods-title">
+								{{ item.title }}
+							</div>
+							<div class="store-goods-price">
+								{{ item.articleCategoryName }}
+							</div>
+						</div>
+						<div class="goods-img">
+							<u-image :src="item.url" class="img" height="100%" mode="aspectFill" width="100%">
+								<u-loading slot="loading"></u-loading>
+							</u-image>
+						</div>
 					</div>
-					<div class="store-goods-price">
-						{{ item.articleCategoryName }}
-					</div>
-				</div>
-				<div class="goods-img">
-					<u-image :src="item.url" class="img" height="100%" mode="aspectFill" width="100%">
-						<u-loading slot="loading"></u-loading>
-					</u-image>
-				</div>
-			</div>
+				</swiper-item>
+			</swiper>
+			
 		</div>
 	</div>
 </template>
@@ -130,6 +136,11 @@ import { getNewList } from "@/api/article.js";
 		height: 100%;
 }
 
+.swiperItem {
+	height: 180px;
+	background-color: white;
+}
+
 .article-item {
 	width: 100%;
 	margin-bottom: 10px;
@@ -140,7 +151,7 @@ import { getNewList } from "@/api/article.js";
 	height: 120rpx;
 	background-color: white;
 	position: relative;
-	border-bottom: 1rpx $border-color-base solid;
+	// border-bottom: 1rpx $border-color-base solid;
 }
 
 	.store-goods-desc {
