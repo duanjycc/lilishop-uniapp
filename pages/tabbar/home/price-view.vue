@@ -5,8 +5,8 @@
 	  <u-navbar back-text="" title="行情走势"></u-navbar>
 
 		<qiun-data-charts class="charts" type="demotype"
-		 background="none"
-		 :chartData="chartData"
+		 background="none" 
+		 :chartData="chartData" :style="{height:screenHeight+'px'}"
 		 :opts="{enableScroll: true, xAxis: { scrollShow: true, itemCount: 6, disableGrid: true }}"
 		 :ontouch="true"></qiun-data-charts>
 	</view>
@@ -21,7 +21,11 @@
 				title:"行情走势",
 				wssdHisDataList:[],
 				chartData:{},
+				screenHeight:"200"
 			}
+		},
+		onLoad(params) {
+			this.screenHeight = uni.getSystemInfoSync().windowHeight - 130;
 		},
 		mounted() {
 			this.getData();
@@ -63,8 +67,7 @@
 
 <style>
 .charts {
-  margin-top: 120rpx;
+  margin-top: 50rpx;
 	width: 100%;
-  height: 1060rpx;
 }
 </style>
