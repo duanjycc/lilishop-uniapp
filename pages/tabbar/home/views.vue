@@ -42,6 +42,7 @@
       <textPicture v-if="item.type == 'textPicture'" :res="item.options" />
       <menuLayout v-if="item.type == 'menu'" :res="item.options" />
       <!-- <flexOne v-if="item.type == 'flexOne'" :res="item.options" /> -->
+      <tplArticle v-if="item.type == 'article'" />
       <goods v-if="item.type == 'goods'" ref="tpl_goods" :res="item.options" />
       <group v-if="item.type == 'group'" :res="item.options" />
       <notice v-if="item.type == 'notice'" :res="item.options" />
@@ -50,9 +51,6 @@
       <!-- <integral v-if="item.type == 'integral'" :res="item.options" /> -->
       <!-- <spike v-if="item.type == 'spike'" :res="item.options" /> -->
     </div>
-		<div>
-      <tplArticle />
-		</div>
     <u-no-network @retry='init' @isConnected='isConnected'></u-no-network>
   </div>
 </template>
