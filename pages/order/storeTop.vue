@@ -7,7 +7,7 @@
 		<qiun-data-charts class="charts" type="column"
 		 background="none"
 		 :chartData="chartData" :style="{height:screenHeight+'px'}"
-		 :opts="{enableScroll: true, xAxis: { scrollShow: true, itemCount: 8, disableGrid: true }}"
+		 :opts="{enableScroll: true, xAxis: { scrollShow: true, itemCount: 6, disableGrid: true }}"
 		 :ontouch="true"></qiun-data-charts>
 
 	</div>
@@ -40,7 +40,6 @@
 				let that = this;
 				getStoreStatisticsTop(that.params).then((res) => {
 	
-	
 					const dataList = res.data.result;
 					let arr = [], arr1=[], arr2=[];
 					
@@ -54,11 +53,11 @@
 						categories: arr,
 						series: [
 							{
-								name: "让利金额",
+								name: "销售金额",
 								data: arr1,
 							},
 							{
-								name: "销售金额",
+								name: "让利金额",
 								data: arr2,
 							}
 						]
