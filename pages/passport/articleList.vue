@@ -1,6 +1,8 @@
 <template>
 	<view>
 		<view class="container ">
+			<!-- 顶部栏 -->
+			<u-navbar back-text="" title="联德头条"></u-navbar>
 		  <div class="article-list">
 		  	<div @click="handleClick(item)" class="article-item" v-for="(item, item_index) in articleList"
 		  		:key="item_index">

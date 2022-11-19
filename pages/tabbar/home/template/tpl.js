@@ -45,6 +45,11 @@ console.log(item)
         url: "/pages/order/storeTop",
       });
       break;
+    case "serviceCenter":
+      uni.navigateTo({
+        url: "/pages/mine/help/serviceCenter",
+      });
+      break;
     case "other":
       switch (val.title) {
         case "首页":

@@ -549,7 +549,16 @@
 					}
 
 				}
-			]
+			    ,{
+                    "path" : "help/serviceCenter",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "客户中心",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 
 		},
 
