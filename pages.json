@@ -660,6 +660,12 @@
 					}
 				},
 				{
+					"path": "articleList",
+					"style": {
+						"navigationBarTitleText": "联德头条"
+					}
+				},
+				{
 					"path": "wechatMPLogin",
 					"style": {
 						"navigationBarTitleText": "小程序登录",
@@ -667,7 +673,16 @@
 						"navigationBarTextStyle": "black"
 					}
 				}
-			]
+			    ,{
+                    "path" : "articleList",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 
 		},
 

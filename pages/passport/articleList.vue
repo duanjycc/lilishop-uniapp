@@ -1,37 +1,28 @@
 <template>
-	<div class="layout">
-		<u-sticky>
-			<div class="title">
-				<image class="ico-article" src="../../../../static/icons/ico_article.png"></image>
-				<view class="article-title fs-28 ml-10" style="">联德头条</view>
-				
-				<div
-				  @click="moreClick"
-				  class="more-btn"
-				>
-				  更多资讯 >
-				</div>
-			</div>
-		</u-sticky>
-		<div class="article-list">
-			<div @click="handleClick(item)" class="article-item" v-for="(item, item_index) in articleList"
-				:key="item_index">
-				<div class="store-goods-desc">
-					<div class="store-goods-title">
-						{{ item.title }}
-					</div>
-					<div class="store-goods-price">
-						{{ item.articleCategoryName }}
-					</div>
-				</div>
-				<div class="goods-img">
-					<u-image :src="item.url" class="img" height="100%" mode="aspectFill" width="100%">
-						<u-loading slot="loading"></u-loading>
-					</u-image>
-				</div>
-			</div>
-		</div>
-	</div>
+	<view>
+		<view class="container ">
+		  <div class="article-list">
+		  	<div @click="handleClick(item)" class="article-item" v-for="(item, item_index) in articleList"
+		  		:key="item_index">
+		  		<div class="store-goods-desc">
+		  			<div class="store-goods-title">
+		  				{{ item.title }}
+		  			</div>
+		  			<div class="store-goods-price">
+		  				{{ item.articleCategoryName }}
+		  			</div>
+		  		</div>
+		  		<div class="goods-img">
+		  			<u-image :src="item.url" class="img" height="100%" mode="aspectFill" width="100%">
+		  				<u-loading slot="loading"></u-loading>
+		  			</u-image>
+		  		</div>
+		  	</div>
+		  </div>
+			
+			<view class="text-center loadStatus font-color-disabled">{{ loadStatus }}</view>
+		</view>
+	</view>
 </template>
 
 <script>
@@ -41,16 +32,27 @@ import { getNewList } from "@/api/article.js";
 			return {
 				params:{
 					pageNumber: 1,
-					pageSize: 5,
+					pageSize: 10,
 				},
 				pages: 1,
 				articleList: [],
+				loadStatus: "加载更多",
 			}
 		},
 		mounted() {
-			this.getData()
+			this.getData();
 		},
 		methods: {
+			onReachBottom() {
+			
+				this.getData()
+			},
+			onPullDownRefresh() {
+				//下拉刷新
+				this.params.pageNumber = 1;
+				this.articleList = [];
+				this.getData();
+			},
 			getData() {
 				if (this.pages > this.params.pageNumber) {
 					this.params.pageNumber++;
@@ -76,17 +78,16 @@ import { getNewList } from "@/api/article.js";
 					url: `/pages/passport/article?id=${item.id}&title=联德头条`,
 				});
 			},
-			moreClick() {
-				uni.navigateTo({
-					url: `/pages/passport/articleList`,
-				});
-			}
-		}
-	}
+	  },
+  }
 </script>
 
 <style lang="scss" scoped>
-	@import "./tpl.scss";
+page {
+  background: #fff;
+}
+
+@import "../tabbar/home/template/tpl.scss";
 	$w_94: 94%;
 
 	.layout {
@@ -184,5 +185,14 @@ import { getNewList } from "@/api/article.js";
 			height: 100%;
 		}
 	}
-
+	
+.container {
+  padding: 32rpx;
+  > p {
+    margin: 20rpx;
+  }
+}
+	.loadStatus {
+		padding-bottom: 180rpx;
+	}
 </style>
