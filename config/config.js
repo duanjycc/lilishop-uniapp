@@ -9,8 +9,8 @@ export default {
   aMapKey: "2d82ebc16574c2e26484643dabb57386", //在高德中申请Web服务key
   scanAuthNavigation:['https://m-b2b2c.pickmall.cn/'], //扫码认证跳转域名配置 会根据此处配置的路由进行跳转
   iosAppId:"id1564638363", //AppStore的应用地址id 具体在分享->拷贝链接中查看
-  logo:"https://lilishop-oss.oss-cn-beijing.aliyuncs.com/4c864e133c2944efad1f7282ac8a3b9e.png", //logo地址
-  customerServiceMobile:"13161366885", //客服电话
+  logo:"http://wangzix.com:9000/hlm/logo.png", //logo地址
+  customerServiceMobile:"13116752139", //客服电话
   customerServiceEmail:"lili@lili.com", //客服邮箱 
   imWebSrc:"https://im.pickmall.cn" //IM地址 
 }; 

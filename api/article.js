@@ -18,13 +18,37 @@ export function getArticleCategory(category_type) {
 }
 
 /**
- * 获取文章详情
- * @param type
+ * 获取联德新闻获取
+ * @param params
  */
-export function getArticleDetail(type) {
+export function getNewList(params) {
   return http.request({
-    url: `/other/article/get/${type}`,
+    url: `/other/article/getNewList`,
+    method: Method.GET,
+		params
+  });
+}
+
+/**
+ * 获取文章详情
+ * @param id
+ */
+export function getArticleDetail(id) {
+  return http.request({
+    url: `/other/article/get/${id}`,
     method: Method.GET,
   });
 }
+
+/**
+ * 获取协议
+ * @param type
+ */
+export function getArticleXie(type) {
+  return http.request({
+    url: `/other/article/type/${type}`,
+    method: Method.GET,
+  });
+}
+
 

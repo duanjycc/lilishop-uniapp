@@ -13,21 +13,64 @@
 				</div>
 			</div>
 		</u-sticky>
-		<div>
-			2342342
+		<div class="article-list">
+			<div @click="handleClick(item)" class="article-item" v-for="(item, item_index) in articleList"
+				:key="item_index">
+				<div class="store-goods-desc">
+					<div class="store-goods-title">
+						{{ item.title }}
+					</div>
+					<div class="store-goods-price">
+						{{ item.articleCategoryName }}
+					</div>
+				</div>
+				<div class="goods-img">
+					<u-image :src="item.url" class="img" height="100%" mode="aspectFill" width="100%">
+						<u-loading slot="loading"></u-loading>
+					</u-image>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import { getNewList } from "@/api/article.js";
 	export default {
 		data() {
 			return {
-				
+				params:{
+					pageNumber: 1,
+					pageSize: 10,
+				},
+				pages: 1,
+				articleList: [],
 			}
 		},
+		mounted() {
+			this.getData()
+		},
 		methods: {
-			
+			getData() {
+				if (this.pages > this.params.pageNumber) {
+					this.params.pageNumber++;
+				}
+				
+				let that = this;
+				getNewList(this.params).then((res) => {
+					console.log(res)
+					that.pages = res.data.result.pages;
+					res.data.result.records.forEach((item) => {
+						that.articleList.push({
+							"id": item.id,
+							"title": item.title,
+							"articleCategoryName": item.articleCategoryName,
+							"url": item.url,
+						})
+					})
+				});
+				
+			},
 		}
 	}
 </script>
@@ -71,5 +114,66 @@
 		margin-right: 30px;
 	display: inline-block;
 }
+
+.article-list {
+		width: 100%;
+		height: 100%;
+}
+
+.article-item {
+	width: 100%;
+	margin-bottom: 10px;
+	border-radius: 0.4em;
+	overflow: hidden;
+	display: flex;
+	flex-wrap: wrap;
+	height: 120rpx;
+	background-color: white;
+	position: relative;
+}
+
+	.store-goods-desc {
+		border-bottom-left-radius: 20rpx;
+		border-bottom-right-radius: 20rpx;
+		width: calc(100% - 180rpx);
+		height: 100%;
+		background: #fff;
+		padding: 8rpx 0 8rpx 8rpx;
+		margin: 0 auto;
+		justify-content: space-between;
+		align-items: center;
+		position: absolute;
+		left: 10rpx;
+
+		>.store-goods-title {
+			font-size: 24rpx;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+		}
+
+		>.store-goods-price {
+			line-height: 2;
+			font-size: 20rpx;
+			color: $font-color-light;
+			bottom: 15rpx;
+			position: absolute;
+		}
+	}
+	
+	.goods-img {
+		left: calc(100% - 140rpx);
+		position: absolute;
+		width: 110rpx;
+	  height: 110rpx;
+		top: 5rpx;
+		border-radius: 10rpx;
+		overflow: hidden;
+		>img {
+			width: 100%;
+			height: 100%;
+		}
+	}
 
 </style>

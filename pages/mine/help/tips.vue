@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import { getArticleDetail } from "@/api/article";
+import { getArticleXie } from "@/api/article";
 export default {
   data() {
     return {
@@ -40,7 +40,7 @@ export default {
 
   methods: {
     init(option) {
-      getArticleDetail(this.way[option.type].type).then((res) => {
+      getArticleXie(this.way[option.type].type).then((res) => {
         if (res.data.success) {
           this.res = res.data.result;
         }

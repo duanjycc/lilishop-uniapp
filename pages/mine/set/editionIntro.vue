@@ -16,7 +16,7 @@
       <u-cell-item title="功能介绍" @click="navigateTo('/pages/mine/set/versionFunctionList')"></u-cell-item>
       <u-cell-item title="检查更新" @click="checkUpdate"></u-cell-item>
       <!--  #endif -->
-      <u-cell-item title="证照信息" @click="navigateTo('/pages/mine/help/tips?type=message')"></u-cell-item>
+      <!--<u-cell-item title="证照信息" @click="navigateTo('/pages/mine/help/tips?type=message')"></u-cell-item>-->
       <u-cell-item title="服务协议" @click="navigateTo('/pages/mine/help/tips?type=user')"></u-cell-item>
       <u-cell-item title="隐私协议" @click="navigateTo('/pages/mine/help/tips?type=privacy')"></u-cell-item>
       <u-cell-item title="关于我们" :border-bottom="false" @click="navigateTo('/pages/mine/help/tips?type=about')"></u-cell-item>
