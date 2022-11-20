@@ -3,7 +3,7 @@
 		<u-sticky style="margin-left: 5px;margin-top: 5px">
 			<div class="title">
 				<image class="ico-article" src="../../../../static/icons/ico_article.png"></image>
-				<view class="article-title fs-28 ml-10" style="font-size: 20px">联德头条</view>
+				<view class="article-title fs-28 ml-10" style="font-size:30rpx">联德头条</view>
 				
 				<div
 				  @click="moreClick"

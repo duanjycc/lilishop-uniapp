@@ -160,9 +160,9 @@
 
 		},
 		onShow() {
+      this.getCategoryList();
 			this.userInfo = this.$options.filters.isLogin();
 			this.loadData();
-			this.getCategoryList();
 		},
 		methods: {
 			loadData() {
@@ -175,7 +175,7 @@
 					}
 				});
 			},
-			getCategoryList(){
+			async getCategoryList(){
 				let self = this;
 				getCategoryList().then((res) =>{
 						if (res.data.success) {

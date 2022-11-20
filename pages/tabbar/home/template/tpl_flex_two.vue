@@ -3,20 +3,20 @@
 		<div class="flex-two">
 			<div class="title">
 				<!--<image class="plate-image" src="../../../../static/img/plate.png"></image>-->
-				<view class="plate-title fs-28 ml-10" style="font-size: 20px;color:bisque;margin-left: 16px">我的联德之旅</view>
+				<view class="plate-title fs-28 ml-10" style="font-size: 30rpx;color:bisque;margin-left: 16px">我的联德之旅</view>
 			</div>
 			<div class="content">
 				<div class="flex-content">
 					<div class="item item-1">
 						<view>
-							<view class="fs-52 font-weight-600" style="color:#d41a1a">{{ todayCount }}</view>
+							<view class="fs-52 font-weight-500" style="color:#d41a1a">{{ todayCount }}</view>
 							<view class="fs-28 mb-10 font-color-disabled" style="margin-top: 3px">SSD销毁总量</view>
 						</view>
 					</div>
 					<span class="line-span" style=""></span>
 					<div class="item item-2">
 						<view>
-							<view class="fs-52 font-weight-600" style="color:#72c5b3">{{ yesterdayCount }}</view>
+							<view class="fs-52 font-weight-500" style="color:#72c5b3">{{ yesterdayCount }}</view>
 							<view class="fs-28 mb-10 font-color-disabled" style="margin-top: 3px">今日销毁量</view>
 						</view>
 					</div>
@@ -24,7 +24,7 @@
 				<hr style="height:1px;border:none;border-top:1px dashed darkgray;margin-left: 10rpx;margin-right: 10rpx;" />
 				<view class="fs-28 mb-10" style="text-align: center;margin-top: 10px;">不要等待机会，而要创造机会</view>
 			</div>
-			<view class="fs-28 mb-10" style="margin-left: 30rpx;font-size: 20px;display: inline-block;color:bisque">百川汇，纳八方</view>
+			<view class="fs-28 mb-10" style="margin-left: 30rpx;font-size: 30rpx;display: inline-block;color:bisque">百川汇，纳八方</view>
 			<div
 			  @click="liangdeClick"
 			  class="btn"
