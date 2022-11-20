@@ -1,8 +1,5 @@
 <template>
 	<view class="wrapper">
-	
-		<!-- 顶部栏 -->
-	  <u-navbar back-text="" title="行情走势"></u-navbar>
 
 		<qiun-data-charts class="charts" type="demotype"
 		 background="none" 

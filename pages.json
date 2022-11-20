@@ -94,7 +94,7 @@
             "path" : "pages/tabbar/home/price-view",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "行情走势",
                 "enablePullDownRefresh": false
             }
             
@@ -958,7 +958,7 @@
 				{
 					"path": "storeTop",
 					"style": {
-
+						"navigationBarTitleText": "TOP商家"
 					}
 				}
 			]

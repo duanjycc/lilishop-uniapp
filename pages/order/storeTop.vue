@@ -1,9 +1,6 @@
 <template>
 	<div class="layout">
-		
-		<!-- 顶部栏 -->
-		<u-navbar back-text="" title="TOP商家"></u-navbar>
-		
+
 		<qiun-data-charts class="charts" type="column"
 		 background="none"
 		 :chartData="chartData" :style="{height:screenHeight+'px'}"
