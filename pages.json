@@ -671,7 +671,8 @@
 				{
 					"path": "articleList",
 					"style": {
-						"navigationBarTitleText": "联德头条"
+						"navigationBarTitleText": "联德头条",
+            "enablePullDownRefresh": false
 					}
 				},
 				{
@@ -682,16 +683,8 @@
 						"navigationBarTextStyle": "black"
 					}
 				}
-			    ,{
-                    "path" : "articleList",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+			    
+        ]
 
 		},
 
