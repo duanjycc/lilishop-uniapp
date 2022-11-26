@@ -56,6 +56,7 @@
 		methods: {
 			submitSearchRegionList(){
 				this.params.pageNumber = 1;
+				this.pages = 1;
 				this.serviceProviderList = [];
 				this.getData();
 			},
@@ -65,6 +66,7 @@
 			onPullDownRefresh() {
 				//下拉刷新
 				this.params.pageNumber = 1;
+				this.pages = 1;
 				this.serviceProviderList = [];
 				this.getData();
 			},
