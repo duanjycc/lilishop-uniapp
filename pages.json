@@ -961,7 +961,16 @@
 						"navigationBarTitleText": "TOP商家"
 					}
 				}
-			]
+			    ,{
+                    "path" : "RegionalAgent",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "区域代理",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 		}
 	],
 	"globalStyle": {

@@ -52,3 +52,15 @@ export function updateOfPromoters(params) {
   });
 }
 
+/**
+ * 区域代理
+ * @param params
+ */
+export function queryServiceProvider(params) {
+  return http.request({
+    url: '/regional/serviceProvider',
+    method: Method.GET,
+    params,
+  });
+}
+

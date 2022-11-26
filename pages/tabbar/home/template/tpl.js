@@ -50,6 +50,11 @@ console.log(item)
         url: "/pages/mine/help/serviceCenter",
       });
       break;
+    case "regionalAgent":
+      uni.navigateTo({
+        url: "/pages/order/RegionalAgent",
+      });
+      break;
     case "other":
       switch (val.title) {
         case "首页":
