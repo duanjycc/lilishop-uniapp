@@ -20,7 +20,7 @@
 		  				{{ item.parentName }} {{ item.areaName }}
 		  		</div>
 					<div class="signCreateTime">
-		  				签约日期: {{ item.signCreateTime.substring(0, 10) }}
+		  				签约日期: {{ item.signCreateTime==null?'':item.signCreateTime.substring(0, 10) }}
 					</div>
 					<div class="region-img">
 						<image class="no-icon" src="@/static/img/regionAgent.jpg"></image>
