@@ -52,6 +52,7 @@ import { getNewList } from "@/api/article.js";
 			onPullDownRefresh() {
 				//下拉刷新
 				this.params.pageNumber = 1;
+				this.pages = 1;
 				this.articleList = [];
 				this.getData();
 			},
